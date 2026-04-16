@@ -196,38 +196,33 @@
     .f-note{font-size:10px;letter-spacing:.1em;color:rgba(250,247,242,.2);}
 
     /* CHAT */
-    #cfab{position:fixed;bottom:30px;right:30px;z-index:500;width:54px;height:54px;border-radius:50%;background:var(--tc);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(196,112,95,.45);transition:all .3s;}
-    #cfab:hover{background:var(--tc2);transform:scale(1.06);}
-    #cfab svg{width:20px;height:20px;fill:#fff;}
-    #cpanel{position:fixed;bottom:96px;right:30px;z-index:500;width:355px;max-height:510px;background:var(--iv);border:1px solid var(--dust);box-shadow:0 20px 56px rgba(12,11,10,.2);display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateY(16px) scale(.96);transition:all .28s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom right;}
-    #cpanel.open{opacity:1;pointer-events:all;transform:none;}
-    .chat-hd{padding:18px 22px;background:var(--ink);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-    .chat-hd-l{display:flex;align-items:center;gap:10px;}
-    .chat-av{width:34px;height:34px;border-radius:50%;background:var(--tc);display:flex;align-items:center;justify-content:center;font-size:15px;}
-    .chat-hd-name{font-size:13px;font-weight:600;color:var(--iv);}
-    .chat-hd-status{font-size:10px;color:var(--ash);}
-    .chat-close{background:none;border:none;cursor:pointer;color:var(--ash);font-size:20px;line-height:1;transition:color .2s;}
-    .chat-close:hover{color:var(--iv);}
-    .chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;}
-    .chat-msgs::-webkit-scrollbar{width:3px;}
-    .chat-msgs::-webkit-scrollbar-thumb{background:var(--dust);border-radius:4px;}
-    .msg{max-width:86%;font-size:12.5px;line-height:1.65;padding:10px 14px;}
-    .msg.agent{background:var(--cr);color:var(--ink);align-self:flex-start;border-radius:0 12px 12px 12px;}
-    .msg.user{background:var(--tc);color:#fff;align-self:flex-end;border-radius:12px 12px 0 12px;}
-    .msg.typing{background:var(--cr);align-self:flex-start;border-radius:0 12px 12px 12px;padding:14px 18px;}
-    .tdots{display:flex;gap:4px;align-items:center;}
-    .tdots span{width:6px;height:6px;border-radius:50%;background:var(--ash);animation:td 1.4s ease infinite;}
-    .tdots span:nth-child(2){animation-delay:.2s;}
-    .tdots span:nth-child(3){animation-delay:.4s;}
-    @keyframes td{0%,80%,100%{transform:scale(.55);opacity:.4;}40%{transform:scale(1);opacity:1;}}
-    .chat-foot{padding:11px 14px;border-top:1px solid var(--dust);background:var(--cr);display:flex;align-items:center;gap:8px;flex-shrink:0;}
-    .chat-inp{flex:1;border:none;background:transparent;font-family:'Montserrat',sans-serif;font-size:12px;color:var(--ink);outline:none;}
-    .chat-inp::placeholder{color:var(--ash);}
-    .chat-send{background:var(--tc);border:none;cursor:pointer;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s;}
-    .chat-send:hover{background:var(--tc2);}
-    .chat-send svg{width:13px;height:13px;fill:#fff;}
-    .cal-link{display:inline-block;margin-top:8px;padding:8px 16px;background:var(--tc);color:#fff;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:4px;font-weight:700;}
-    .cal-link:hover{background:var(--tc2);}
+    /* WA button */
+    .wa-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px 28px;background:#25D366;color:#fff;text-decoration:none;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .3s;border:none;cursor:pointer;}
+    .wa-btn:hover{background:#1ebe5d;transform:translateY(-1px);}
+    .wa-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
+    /* Selection section */
+    #seleccion{padding:130px 0;background:var(--ink);}
+    .sel-top{text-align:center;margin-bottom:60px;}
+    .sel-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,4vw,58px);font-weight:300;color:var(--iv);line-height:1.1;margin-top:14px;}
+    .sel-h2 em{font-style:italic;color:var(--tc);}
+    .sel-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto;}
+    .sel-card{border:1px solid rgba(255,255,255,.1);padding:44px 40px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+    .sel-card::before{content:'';position:absolute;inset:0;background:var(--tc);opacity:0;transition:opacity .3s;}
+    .sel-card:hover::before{opacity:.04;}
+    .sel-card.chosen{border-color:var(--tc);}
+    .sel-card-badge{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--tc);margin-bottom:14px;}
+    .sel-card-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--iv);margin-bottom:16px;}
+    .sel-card-price{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--tc);line-height:1;}
+    .sel-card-per{font-size:12px;color:rgba(250,247,242,.4);}
+    .sel-card-btn{display:block;width:100%;text-align:center;padding:13px 24px;margin-top:28px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(250,247,242,.7);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;transition:all .3s;}
+    .sel-card-btn:hover,.sel-card.chosen .sel-card-btn{background:var(--tc);border-color:var(--tc);color:#fff;}
+    /* Confirm panel */
+    #sel-confirm{max-width:720px;margin:60px auto 0;display:none;background:rgba(196,112,95,.08);border:1px solid rgba(196,112,95,.25);padding:48px;text-align:center;}
+    .conf-icon{font-size:40px;margin-bottom:16px;}
+    .conf-h{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--iv);margin-bottom:14px;}
+    .conf-h em{font-style:italic;color:var(--tc);}
+    .conf-p{font-size:13px;line-height:1.85;color:rgba(250,247,242,.6);margin-bottom:32px;}
+    @media(max-width:768px){.sel-cards{grid-template-columns:1fr;}#sel-confirm{padding:32px 24px;}}
     .rv{opacity:0;transform:translateY(44px);}
 
     /* RESPONSIVE */
@@ -245,7 +240,7 @@
       .tiers-grid{grid-template-columns:1fr;}
       .phases{grid-template-columns:1fr;}
       footer{flex-direction:column;gap:14px;text-align:center;}
-      #cpanel{width:calc(100vw - 32px);right:16px;}
+
       .wrap{padding:0 24px;}
       #nav{padding:18px 24px;}
       footer{padding:32px 24px;}
@@ -352,8 +347,8 @@
           <div class="cx-item rv"><div class="cx-icon">🔄</div><div><div class="cx-title" data-t="cx1_t">Inventario Multi-Tienda en Tiempo Real</div><div class="cx-desc" data-t="cx1_d">3 tiendas físicas + e-commerce sincronizados. Si una pieza se vende en Plaza Coronado, <em>desaparece automáticamente</em> del sitio y del TikTok Shop. Sin errores, sin clientes frustrados.</div></div></div>
           <div class="cx-item rv"><div class="cx-icon">👗</div><div><div class="cx-title" data-t="cx2_t">Catálogo Estacional de Alta Complejidad</div><div class="cx-desc" data-t="cx2_d">Colecciones que rotan, tallas, variantes de color, temporadas. No es un catálogo de 10 productos — es <em>500+ SKUs</em> con lógica editorial constante.</div></div></div>
           <div class="cx-item rv"><div class="cx-icon">🛍️</div><div><div class="cx-title" data-t="cx3_t">TikTok Shop + UGC Integrado</div><div class="cx-desc" data-t="cx3_d">Integración nativa de TikTok Shop para vender desde videos. <em>Red de creadores</em> que mueven producto con comisiones automatizadas.</div></div></div>
-          <div class="cx-item rv"><div class="cx-icon">🚚</div><div><div class="cx-title" data-t="cx4_t">Logística y Post-Venta Automatizada</div><div class="cx-desc" data-t="cx4_d">Integración con paqueterías, rastreo, devoluciones, cambios de talla. <em>Todo automatizado</em> sin operación manual.</div></div></div>
-          <div class="cx-item rv"><div class="cx-icon">💳</div><div><div class="cx-title" data-t="cx5_t">Pagos, MSI y Financiamiento</div><div class="cx-desc" data-t="cx5_d">Múltiples pasarelas, meses sin intereses, BNPL. <em>Cada opción adicional</em> aumenta directamente la conversión.</div></div></div>
+          <div class="cx-item rv"><div class="cx-icon">📊</div><div><div class="cx-title" data-t="cx4_t">Mapeo y Analítica de Datos del Consumidor</div><div class="cx-desc" data-t="cx4_d">Dashboards en tiempo real que scrapean y mapean comportamiento de compra, productos más visitados, carritos abandonados y patrones de cliente. <em>Decisiones basadas en data real</em>, no en intuición.</div></div></div>
+          <div class="cx-item rv"><div class="cx-icon">💳</div><div><div class="cx-title" data-t="cx5_t">Pasarela de Pagos con Stripe</div><div class="cx-desc" data-t="cx5_d">Integración nativa de Stripe: pagos con tarjeta, links de cobro, webhooks automatizados y MSI disponible. <em>Infraestructura de pagos sólida</em> que escala con el negocio.</div></div></div>
         </div>
       </div>
     </div>
@@ -406,7 +401,7 @@
             <li class="tc-li" data-t="t1_i9">Humanización progresiva: la marca funciona sola paulatinamente</li>
           </ul>
           <div class="tc-divider"></div>
-          <button class="tc-cta" onclick="openChat()" data-t="t1_cta">Quiero saber más</button>
+          <a class="wa-btn" href="https://wa.me/526682343672?text=Hola%20Dante!%20Acabo%20de%20revisar%20la%20propuesta%20de%20Consultora%20DV%20y%20quiero%20proceder%20con%20el%20Tier%20I%20%E2%80%93%20Comunicaci%C3%B3n%20Completa%20%2825%2C000%20MXN%2Fmes%29.%20Me%20gustar%C3%ADa%20iniciar%20cuanto%20antes.%20%C2%BFCu%C3%A1ndo%20podemos%20hablar%3F" target="_blank" data-t="t1_cta"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.549 4.122 1.51 5.862L0 24l6.29-1.491A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.214-3.733.885.935-3.618-.234-.373A9.785 9.785 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg><span data-t="t1_cta">Iniciar con Tier I → WhatsApp</span></a>
           <p class="tc-note" data-t="t1_note">Servicios adicionales fuera del tier se cotizan por separado</p>
         </div>
       </div>
@@ -435,13 +430,13 @@
           <div class="tc-divider"></div>
           <div class="tc-sec" data-t="t2_s2">Infraestructura &amp; Automatización</div>
           <ul class="tc-list">
-            <li class="tc-li" data-t="t2_i6">Integración logística completa: paqueterías, rastreo, devoluciones y cambios</li>
-            <li class="tc-li" data-t="t2_i7">Múltiples métodos de pago: tarjeta, OXXO, MSI, BNPL</li>
+            <li class="tc-li" data-t="t2_i6">Dashboard de analítica: mapeo de comportamiento de compra, carritos abandonados y patrones de cliente en tiempo real</li>
+            <li class="tc-li" data-t="t2_i7">Integración Stripe: pagos con tarjeta, links de cobro, MSI y webhooks automatizados</li>
             <li class="tc-li" data-t="t2_i8">Reviews, listas de deseos y notificaciones de disponibilidad automatizadas</li>
             <li class="tc-li" data-t="t2_i9">Humanización de marca avanzada: Bianca Aldama Boutique opera sola</li>
           </ul>
           <div class="tc-divider"></div>
-          <button class="tc-cta" onclick="openChat()" data-t="t2_cta">Este es mi plan</button>
+          <a class="wa-btn" href="https://wa.me/526682343672?text=Hola%20Dante!%20Acabo%20de%20revisar%20la%20propuesta%20de%20Consultora%20DV%20y%20quiero%20proceder%20con%20el%20Tier%20II%20%E2%80%93%20Presencia%20%2B%20E-Commerce%20%2860%2C000%20MXN%2Fmes%29.%20Me%20gustar%C3%ADa%20iniciar%20cuanto%20antes.%20%C2%BFCu%C3%A1ndo%20podemos%20hablar%3F" target="_blank" data-t="t2_cta"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.549 4.122 1.51 5.862L0 24l6.29-1.491A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.214-3.733.885.935-3.618-.234-.373A9.785 9.785 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg><span data-t="t2_cta">Iniciar con Tier II → WhatsApp</span></a>
           <p class="tc-note" data-t="t2_note">Servicios adicionales fuera del tier se cotizan por separado</p>
         </div>
       </div>
@@ -501,15 +496,31 @@
 </section>
 
 <!-- CLOSING -->
-<section id="closing">
-  <div class="closing-bg"></div>
-  <div class="closing-inner">
-    <div class="sec-label rv" data-t="cl_ey">06 — Siguientes Pasos</div>
-    <h2 class="closing-h2 rv" data-t="cl_h2">Bianca Aldama.<br>La <em>era digital</em><br>empieza hoy.</h2>
-    <p class="closing-sub rv" data-t="cl_sub">Tenemos todo lo necesario para llevar tu boutique al siguiente nivel. La pregunta no es si lo vas a hacer — es cuándo empezamos.</p>
-    <div class="btns rv">
-      <a class="btn-p" href="https://calendar.app.google/XpXhKe2rSH7x7HUy7" target="_blank" data-t="cl_b1">Agendar Llamada Estratégica</a>
-      <button class="btn-o" onclick="openChat()" data-t="cl_b2">Hablar con el equipo</button>
+<section id="seleccion">
+  <div class="wrap">
+    <div class="sel-top">
+      <div class="sec-label rv" style="color:var(--tc);" data-t="cl_ey">06 — Tu Decisión</div>
+      <h2 class="sel-h2 rv" data-t="cl_h2">¿Con cuál<br>tier <em>empezamos?</em></h2>
+    </div>
+    <div class="sel-cards">
+      <div class="sel-card rv" id="sc1" onclick="chooseTier(1)">
+        <div class="sel-card-badge" data-t="t1_badge">Tier I — Presencia &amp; Autoridad</div>
+        <div class="sel-card-name" data-t="t1_name">Comunicación Completa</div>
+        <div class="sel-card-price">$25,000<span class="sel-card-per" data-t="per"> /mes</span></div>
+        <button class="sel-card-btn" data-t="sel_btn1">Seleccionar Tier I</button>
+      </div>
+      <div class="sel-card rv" id="sc2" onclick="chooseTier(2)">
+        <div class="sel-card-badge" data-t="t2_badge">Tier II — Motor Completo</div>
+        <div class="sel-card-name" data-t="t2_name">Presencia + E-Commerce</div>
+        <div class="sel-card-price">$60,000<span class="sel-card-per" data-t="per"> /mes</span></div>
+        <button class="sel-card-btn" data-t="sel_btn2">Seleccionar Tier II</button>
+      </div>
+    </div>
+    <div id="sel-confirm">
+      <div class="conf-icon">✅</div>
+      <h3 class="conf-h" id="conf-h"></h3>
+      <p class="conf-p" id="conf-p"></p>
+      <a class="wa-btn" id="conf-wa" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.549 4.122 1.51 5.862L0 24l6.29-1.491A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.214-3.733.885.935-3.618-.234-.373A9.785 9.785 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg><span id="conf-wa-txt">Confirmar por WhatsApp</span></a>
     </div>
   </div>
 </section>
@@ -520,29 +531,7 @@
   <div class="f-note" data-t="f_note">Documento confidencial — Uso exclusivo interno © 2026</div>
 </footer>
 
-<!-- CHAT -->
-<button id="cfab" onclick="toggleChat()">
-  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-</button>
-<div id="cpanel">
-  <div class="chat-hd">
-    <div class="chat-hd-l">
-      <div class="chat-av">👗</div>
-      <div>
-        <div class="chat-hd-name" id="ch-name">Sofía — Asistente DV</div>
-        <div class="chat-hd-status" id="ch-status">En línea ahora</div>
-      </div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">×</button>
-  </div>
-  <div class="chat-msgs" id="chat-msgs"></div>
-  <div class="chat-foot">
-    <input type="text" class="chat-inp" id="chat-inp" placeholder="Escribe tu respuesta..." onkeydown="if(event.key==='Enter')advChat()">
-    <button class="chat-send" onclick="advChat()">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
-  </div>
-</div>
+
 
 <script>
 const T={
@@ -573,8 +562,8 @@ const T={
     cx1_t:'Inventario Multi-Tienda en Tiempo Real',cx1_d:'3 tiendas físicas + e-commerce sincronizados. Si una pieza se vende en Plaza Coronado, <em>desaparece automáticamente</em> del sitio y del TikTok Shop.',
     cx2_t:'Catálogo Estacional de Alta Complejidad',cx2_d:'Colecciones que rotan, tallas, variantes de color, temporadas. No es un catálogo de 10 productos — es <em>500+ SKUs</em> con lógica editorial constante.',
     cx3_t:'TikTok Shop + UGC Integrado',cx3_d:'Integración nativa de TikTok Shop para vender desde videos. <em>Red de creadores</em> que mueven producto con comisiones automatizadas.',
-    cx4_t:'Logística y Post-Venta Automatizada',cx4_d:'Integración con paqueterías, rastreo, devoluciones, cambios de talla. <em>Todo automatizado</em> sin operación manual.',
-    cx5_t:'Pagos, MSI y Financiamiento',cx5_d:'Múltiples pasarelas, meses sin intereses, BNPL. <em>Cada opción adicional</em> aumenta directamente la conversión.',
+    cx4_t:'Mapeo y Analítica de Datos del Consumidor',cx4_d:'Dashboards en tiempo real que scrapean y mapean comportamiento de compra, productos más visitados, carritos abandonados y patrones de cliente. <em>Decisiones basadas en data real</em>, no en intuición.',
+    cx5_t:'Pasarela de Pagos con Stripe',cx5_d:'Integración nativa de Stripe: pagos con tarjeta, links de cobro, webhooks automatizados y MSI disponible. <em>Infraestructura de pagos sólida</em> que escala con el negocio.',
     ti_ey:'04 — Inversión Estratégica',ti_h2:'Dos caminos.<br><em>Una dirección.</em>',
     t1_badge:'Tier I — Presencia & Autoridad',t1_name:'Comunicación Completa',per:'/mes',
     t1_tag:'Tu boutique presente, activa y convirtiendo en todas las plataformas — sin depender de que estés en cada publicación.',
@@ -594,8 +583,8 @@ const T={
     t2_i4:'TikTok Shop integrado: venta directa desde videos con checkout nativo',
     t2_i5:'UGC TikTok: red de creadores que mueven producto con comisiones automáticas',
     t2_s2:'Infraestructura & Automatización',
-    t2_i6:'Integración logística completa: paqueterías, rastreo, devoluciones y cambios',
-    t2_i7:'Múltiples métodos de pago: tarjeta, OXXO, MSI, BNPL',
+    t2_i6:'Dashboard de analítica: mapeo de comportamiento de compra, carritos abandonados y patrones de cliente en tiempo real',
+    t2_i7:'Integración Stripe: pagos con tarjeta, links de cobro, MSI y webhooks automatizados',
     t2_i8:'Reviews, listas de deseos y notificaciones de disponibilidad',
     t2_i9:'Humanización de marca avanzada: Bianca Aldama Boutique opera sola',
     t2_cta:'Este es mi plan',t2_note:'Servicios adicionales fuera del tier se cotizan por separado',
@@ -609,11 +598,11 @@ const T={
     r3_l:'Mes 5–6',r3_t:'Escala',r3_s:'Motor completo operando',
     r3_i1:'E-commerce full con inventario sincronizado',r3_i2:'UGC TikTok generando ventas automatizadas',
     r3_i3:'Marca humanizada, funciona sin Bianca presente',r3_i4:'Análisis de expansión y siguientes metas',
-    cl_ey:'06 — Siguientes Pasos',cl_h2:'Bianca Aldama.<br>La <em>era digital</em><br>empieza hoy.',
-    cl_sub:'Tenemos todo lo necesario para llevar tu boutique al siguiente nivel. La pregunta no es si lo vas a hacer — es cuándo empezamos.',
-    cl_b1:'Agendar Llamada Estratégica',cl_b2:'Hablar con el equipo',
+    cl_ey:'06 — Tu Decisión',cl_h2:'¿Con cuál<br>tier <em>empezamos?</em>',
+    cl_sub:'',
+    sel_btn1:'Seleccionar Tier I',sel_btn2:'Seleccionar Tier II',
     f_note:'Documento confidencial — Uso exclusivo interno © 2026',
-    ch_name:'Sofía — Asistente DV',ch_status:'En línea ahora',ch_ph:'Escribe tu respuesta...'
+
   },
   en:{
     nav_logo:'BA × DV',nav_conf:'Confidential Document',
@@ -642,8 +631,8 @@ const T={
     cx1_t:'Real-Time Multi-Store Inventory',cx1_d:'3 physical stores + e-commerce synced instantly. If a piece sells at Plaza Coronado, it <em>automatically disappears</em> from the site and TikTok Shop.',
     cx2_t:'Complex Seasonal Catalog',cx2_d:"Rotating collections, sizes, color variants, seasons. This isn't a 10-product catalog — it's <em>500+ SKUs</em> with constant editorial logic.",
     cx3_t:'TikTok Shop + Integrated UGC',cx3_d:'Native TikTok Shop integration to sell from videos. <em>Creator network</em> moving product with automated commissions.',
-    cx4_t:'Automated Logistics & Post-Sale',cx4_d:'Carrier integration, real-time tracking, returns, size exchanges. <em>All automated</em> without manual operation.',
-    cx5_t:'Payments, Installments & Financing',cx5_d:'Multiple gateways, installments, BNPL. <em>Every additional payment option</em> directly increases conversion.',
+    cx4_t:'Consumer Data Mapping & Analytics',cx4_d:'Real-time dashboards that scrape and map purchase behavior, most-visited products, abandoned carts and customer patterns. <em>Decisions based on real data</em>, not intuition.',
+    cx5_t:'Stripe Payment Gateway',cx5_d:'Native Stripe integration: card payments, payment links, automated webhooks and installments available. <em>Solid payment infrastructure</em> that scales with the business.',
     ti_ey:'04 — Strategic Investment',ti_h2:'Two paths.<br><em>One direction.</em>',
     t1_badge:'Tier I — Presence & Authority',t1_name:'Full Communication',per:'/month',
     t1_tag:"Your boutique present, active and converting across all platforms — without depending on you in every post.",
@@ -663,8 +652,8 @@ const T={
     t2_i4:'TikTok Shop integrated: direct selling from videos with native checkout',
     t2_i5:'TikTok UGC: creator network moving product with automatic commissions',
     t2_s2:'Infrastructure & Automation',
-    t2_i6:'Full logistics integration: carriers, tracking, returns and exchanges',
-    t2_i7:'Multiple payment methods: card, OXXO, installments, BNPL',
+    t2_i6:'Analytics dashboard: purchase behavior mapping, abandoned carts and real-time customer patterns',
+    t2_i7:'Stripe integration: card payments, payment links, installments and automated webhooks',
     t2_i8:'Reviews, wishlists and availability notifications',
     t2_i9:'Advanced humanization: Bianca Aldama Boutique runs on its own',
     t2_cta:'This is my plan',t2_note:'Additional services outside the tier are quoted separately',
@@ -678,11 +667,11 @@ const T={
     r3_l:'Month 5–6',r3_t:'Scale',r3_s:'Full engine operating',
     r3_i1:'Full e-commerce with synced inventory',r3_i2:'TikTok UGC generating automated sales',
     r3_i3:'Humanized brand running without Bianca',r3_i4:'Expansion analysis and next targets',
-    cl_ey:'06 — Next Steps',cl_h2:'Bianca Aldama.<br>The <em>digital era</em><br>starts today.',
-    cl_sub:"We have everything needed to take your boutique to the next level. The question isn't whether you're going to do it — it's when we start.",
-    cl_b1:'Schedule Strategy Call',cl_b2:'Talk to the team',
+    cl_ey:'06 — Your Decision',cl_h2:'Which tier<br>do we <em>start with?</em>',
+    cl_sub:'',
+    sel_btn1:'Select Tier I',sel_btn2:'Select Tier II',
     f_note:'Confidential document — Internal use only © 2026',
-    ch_name:'Sofia — DV Assistant',ch_status:'Online now',ch_ph:'Type your response...'
+
   }
 };
 
@@ -694,62 +683,57 @@ function setLang(l){
     const k=el.getAttribute('data-t');
     if(T[l][k]!==undefined) el.innerHTML=T[l][k];
   });
-  document.getElementById('ch-name').textContent=T[l].ch_name;
-  document.getElementById('ch-status').textContent=T[l].ch_status;
-  document.getElementById('chat-inp').placeholder=T[l].ch_ph;
-  resetChat(l);
+
 }
 
 // CHAT SCRIPTS
-const CS_ES=[
-  {f:'agent',t:'¡Hola! Soy Sofía del equipo de Consultora DV 🌹 ¿Ya estás revisando la propuesta?',d:1000},
-  {f:'user', t:'Sí, la estoy viendo ahora.',d:3500},
-  {f:'agent',t:'Excelente. ¿Tienes alguna pregunta sobre los tiers o sobre cómo funcionaría el proceso?',d:3500},
-  {f:'user', t:'¿Por qué hay tanta diferencia entre el Tier I y el Tier II?',d:3500},
-  {f:'agent',t:'Muy buena pregunta. El Tier I es comunicación digital — contenido, estrategia, activación de plataformas. Eso es manejable con un equipo bien coordinado.',d:4000},
-  {f:'agent',t:'El Tier II es otra dimensión completamente. Construir un e-commerce de moda con 3 tiendas físicas sincronizadas, 500+ productos que rotan por temporada, TikTok Shop, logística de envíos y múltiples pasarelas de pago... es básicamente levantar una tienda departamental en digital. La complejidad técnica es completamente distinta.',d:5500},
-  {f:'user', t:'Entiendo. Pero yo ya pagué mucho por una página que no me funcionó bien antes.',d:3500},
-  {f:'agent',t:'Lo que viviste es desafortunadamente muy común. Muchas agencias prometen sin tener la arquitectura para entregar. Por eso nosotros definimos métricas de éxito desde el día uno, trabajamos por fases documentadas y no hay sorpresas. Lo que construimos tiene que funcionar — no puede ser de otra manera.',d:5000},
-  {f:'agent',t:'¿Cuál de los dos tiers se acerca más a lo que necesitas ahora mismo?',d:3500},
-  {f:'user', t:'El Tier II me interesa. Pero quiero platicar con Dante antes de decidir.',d:3500},
-  {f:'agent',t:'Perfecto, eso tiene mucho sentido. La agenda de Dante está bastante comprometida este mes, pero todavía hay lugar en estos horarios:',d:3500},
-  {f:'agent',t:'📅 <strong>Martes 22 de Abril — 11:00 AM</strong><br>📅 <strong>Jueves 24 de Abril — 3:00 PM</strong><br>📅 <strong>Lunes 28 de Abril — 10:00 AM</strong><br><br>Mayo y junio ya tienen semanas comprometidas — te recomiendo reservar ahora.<br><br><a class="cal-link" href="https://calendar.app.google/XpXhKe2rSH7x7HUy7" target="_blank">📆 Agendar mi lugar</a>',d:4500},
-  {f:'user', t:'Me quedo con el jueves 24 a las 3 PM.',d:3500},
-  {f:'agent',t:'¡Listo! Jueves 24 de Abril, 3:00 PM — apartado para ti 🎉 Dante te va a contactar para confirmar los detalles. ¿Tienes alguna pregunta más antes de la reunión?',d:4000},
-];
-const CS_EN=[
-  {f:'agent',t:"Hi! I'm Sofia from the Consultora DV team 🌹 Are you reviewing the proposal?",d:1000},
-  {f:'user', t:"Yes, I'm looking at it now.",d:3500},
-  {f:'agent',t:'Great. Do you have any questions about the tiers or how the process would work?',d:3500},
-  {f:'user', t:'Why is there such a big difference between Tier I and Tier II?',d:3500},
-  {f:'agent',t:"Great question. Tier I is digital communication — content, strategy, platform activation. That's manageable with a well-coordinated team.",d:4000},
-  {f:'agent',t:"Tier II is a completely different dimension. Building a fashion e-commerce with 3 synced physical stores, 500+ seasonal SKUs, TikTok Shop, shipping logistics and multiple payment gateways... is basically building a department store digitally. The technical complexity is completely different.",d:5500},
-  {f:'user', t:"I understand. But I already paid a lot for a website that didn't work well before.",d:3500},
-  {f:'agent',t:"What you experienced is unfortunately very common. Many agencies promise without having the architecture to deliver. That's why we define success metrics from day one, work in documented phases and there are no surprises. What we build has to work — there's no other option.",d:5000},
-  {f:'agent',t:'Which of the two tiers is closest to what you need right now?',d:3500},
-  {f:'user', t:"Tier II interests me. But I want to talk to Dante before deciding.",d:3500},
-  {f:'agent',t:"Perfect, that makes a lot of sense. Dante's schedule is quite committed this month, but there are still spots at these times:",d:3500},
-  {f:'agent',t:'📅 <strong>Tuesday April 22 — 11:00 AM</strong><br>📅 <strong>Thursday April 24 — 3:00 PM</strong><br>📅 <strong>Monday April 28 — 10:00 AM</strong><br><br>May and June weeks are already committed — I recommend booking now.<br><br><a class="cal-link" href="https://calendar.app.google/XpXhKe2rSH7x7HUy7" target="_blank">📆 Book my spot</a>',d:4500},
-  {f:'user', t:"I'll take Thursday the 24th at 3 PM.",d:3500},
-  {f:'agent',t:"Done! Thursday April 24th, 3:00 PM — reserved for you 🎉 Dante will contact you to confirm the details. Any more questions before the meeting?",d:4000},
-];
+// TIER SELECTION
+const WA = '526682343672';
+const CONF = {
+  es: {
+    1: {
+      h: 'Excelente decisión. <em>Tier I seleccionado.</em>',
+      p: 'Has elegido Comunicación Completa por $25,000 MXN/mes. El equipo de Consultora DV estará listo para arrancar. Da clic en el botón y escríbenos por WhatsApp para confirmar y coordinar el inicio.',
+      wa: 'Hola Dante! Acabo de revisar la propuesta de Consultora DV y quiero proceder con el Tier I – Comunicación Completa (25,000 MXN/mes). Me gustaría iniciar cuanto antes. ¿Cuándo podemos hablar?',
+      btn: 'Confirmar Tier I por WhatsApp'
+    },
+    2: {
+      h: 'Decisión tomada. <em>Tier II seleccionado.</em>',
+      p: 'Has elegido Presencia + E-Commerce por $60,000 MXN/mes. Este es el plan completo para convertir Bianca Aldama Boutique en un motor de ventas digital. Da clic y escríbenos por WhatsApp para coordinar el arranque.',
+      wa: 'Hola Dante! Acabo de revisar la propuesta de Consultora DV y quiero proceder con el Tier II – Presencia + E-Commerce (60,000 MXN/mes). Me gustaría iniciar cuanto antes. ¿Cuándo podemos hablar?',
+      btn: 'Confirmar Tier II por WhatsApp'
+    }
+  },
+  en: {
+    1: {
+      h: 'Excellent decision. <em>Tier I selected.</em>',
+      p: 'You have chosen Full Communication for $25,000 MXN/month. The Consultora DV team will be ready to start. Click the button and write to us on WhatsApp to confirm and coordinate the launch.',
+      wa: 'Hi Dante! I just reviewed the Consultora DV proposal and want to proceed with Tier I – Full Communication (25,000 MXN/month). I would like to start as soon as possible. When can we talk?',
+      btn: 'Confirm Tier I on WhatsApp'
+    },
+    2: {
+      h: 'Decision made. <em>Tier II selected.</em>',
+      p: 'You have chosen Presence + E-Commerce for $60,000 MXN/month. This is the full plan to turn Bianca Aldama Boutique into a digital sales engine. Click and write to us on WhatsApp to coordinate the launch.',
+      wa: 'Hi Dante! I just reviewed the Consultora DV proposal and want to proceed with Tier II – Presence + E-Commerce (60,000 MXN/month). I would like to start as soon as possible. When can we talk?',
+      btn: 'Confirm Tier II on WhatsApp'
+    }
+  }
+};
 
-let script=[],step=0,chatOpen=false,busy=false;
-function resetChat(l){script=l==='es'?CS_ES:CS_EN;step=0;busy=false;const m=document.getElementById('chat-msgs');if(m)m.innerHTML='';}
-resetChat('es');
-
-function toggleChat(){chatOpen=!chatOpen;document.getElementById('cpanel').classList.toggle('open',chatOpen);if(chatOpen&&step===0&&!busy)runScript();}
-function openChat(){chatOpen=true;document.getElementById('cpanel').classList.add('open');if(step===0&&!busy)runScript();}
-function addMsg(f,h){const b=document.getElementById('chat-msgs');const d=document.createElement('div');d.className='msg '+f;d.innerHTML=h;b.appendChild(d);b.scrollTop=b.scrollHeight;}
-function addTyping(){const b=document.getElementById('chat-msgs');const d=document.createElement('div');d.className='msg typing';d.id='tind';d.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';b.appendChild(d);b.scrollTop=b.scrollHeight;}
-function rmTyping(){const t=document.getElementById('tind');if(t)t.remove();}
-function runScript(){
-  if(step>=script.length){busy=false;return;}
-  busy=true;const s=script[step++];
-  if(s.f==='agent'){addTyping();setTimeout(()=>{rmTyping();addMsg('agent',s.t);busy=false;runScript();},s.d);}
-  else{setTimeout(()=>{addMsg('user',s.t);busy=false;runScript();},s.d);}
+function chooseTier(t) {
+  document.querySelectorAll('.sel-card').forEach(c => c.classList.remove('chosen'));
+  document.getElementById('sc'+t).classList.add('chosen');
+  const c = CONF[lang][t];
+  document.getElementById('conf-h').innerHTML = c.h;
+  document.getElementById('conf-p').textContent = c.p;
+  const waUrl = 'https://wa.me/'+WA+'?text='+encodeURIComponent(c.wa);
+  const waEl = document.getElementById('conf-wa');
+  waEl.href = waUrl;
+  document.getElementById('conf-wa-txt').textContent = c.btn;
+  const box = document.getElementById('sel-confirm');
+  box.style.display = 'block';
+  setTimeout(() => box.scrollIntoView({behavior:'smooth', block:'center'}), 100);
 }
-function advChat(){if(!busy&&step<script.length)runScript();}
 
 // CURSOR
 const cd=document.getElementById('cd'),cr=document.getElementById('cr');
