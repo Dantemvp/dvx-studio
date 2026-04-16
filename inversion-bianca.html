@@ -1,1191 +1,787 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Inversión Estratégica — Bianca Aldama Boutique × Consultora DV</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propuesta Estratégica — Bianca Aldama Boutique × Consultora DV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root{
+      --tc:#C4705F; --tc2:#A85A4A;
+      --iv:#FAF7F2; --cr:#F0E8DF; --dust:#E2D0C5;
+      --ink:#0C0B0A; --ash:#7A7572; --rose:#D4A8A8;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Montserrat',sans-serif;background:var(--iv);color:var(--ink);overflow-x:hidden;cursor:none;}
+    @media(max-width:768px){body{cursor:auto;}}
 
-/* ─── RESET ─────────────────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:'Inter',sans-serif;
-  background:#0C0A0B;color:#FFF;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-img{max-width:100%;display:block}
-a{text-decoration:none;color:inherit}
+    /* CURSOR */
+    #cd,#cr{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);}
+    #cd{width:5px;height:5px;background:var(--tc);}
+    #cr{width:26px;height:26px;border:1px solid var(--tc);opacity:.5;transition:all .18s ease;}
 
-/* ─── TOKENS ─────────────────────────────────────────── */
-:root{
-  --rose:#C9848A;
-  --rose-l:#E8BAC0;
-  --rose-d:#8B3A42;
-  --ivory:#FAF5F2;
-  --charcoal:#1A1118;
-  --red:#E8453C;
-  --green:#2CC56F;
-  --ease:cubic-bezier(.4,0,.2,1);
-}
+    /* NAV */
+    #nav{position:fixed;inset:0 0 auto 0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 52px;transition:background .4s,backdrop-filter .4s;}
+    #nav.scrolled{background:rgba(250,247,242,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--dust);}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.2em;color:#fff;text-decoration:none;transition:color .4s;}
+    #nav.scrolled .nav-logo{color:var(--ink);}
+    .nav-right{display:flex;align-items:center;gap:28px;}
+    .nav-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45);transition:color .4s;}
+    #nav.scrolled .nav-label{color:var(--ash);}
+    .lang-wrap{display:flex;gap:3px;background:rgba(255,255,255,.12);border-radius:20px;padding:3px;}
+    #nav.scrolled .lang-wrap{background:var(--cr);}
+    .lang-btn{padding:4px 13px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;cursor:pointer;background:transparent;color:rgba(255,255,255,.55);transition:all .2s;}
+    #nav.scrolled .lang-btn{color:var(--ash);}
+    .lang-btn.active{background:var(--tc);color:#fff;}
 
-/* ─── PROGRESS BAR ───────────────────────────────────── */
-#bar{
-  position:fixed;top:0;left:0;width:0%;height:2px;z-index:9999;
-  background:linear-gradient(90deg,var(--rose-d),var(--rose),var(--rose-l));
-  box-shadow:0 0 10px rgba(201,132,138,.5);pointer-events:none;
-}
+    /* HERO */
+    #hero{height:100vh;min-height:600px;display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden;}
+    .hero-photo{position:relative;overflow:hidden;}
+    .hero-photo img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 9s ease;}
+    .hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(12,11,10,.25) 0%,transparent 70%);}
+    .hero-copy{background:var(--ink);display:flex;flex-direction:column;justify-content:center;padding:90px 60px 60px;position:relative;overflow:hidden;}
+    .hero-copy::before{content:'';position:absolute;top:-120px;right:-120px;width:360px;height:360px;background:var(--tc);border-radius:50%;opacity:.06;filter:blur(90px);}
+    .hero-copy::after{content:'BIANCA';position:absolute;bottom:-30px;right:-10px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:600;letter-spacing:-.02em;color:rgba(196,112,95,.06);line-height:1;white-space:nowrap;pointer-events:none;}
+    #h-ey{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--tc);margin-bottom:28px;opacity:0;transform:translateY(18px);}
+    #h-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,4.5vw,72px);font-weight:300;line-height:1.04;color:var(--iv);margin-bottom:32px;opacity:0;transform:translateY(28px);}
+    #h-h1 em{font-style:italic;color:var(--tc);}
+    .h-rule{width:36px;height:1px;background:var(--tc);margin-bottom:32px;opacity:0;transform:scaleX(0);transform-origin:left;}
+    #h-sub{font-size:13px;line-height:1.85;color:rgba(250,247,242,.58);max-width:340px;margin-bottom:48px;opacity:0;transform:translateY(18px);}
+    .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px;opacity:0;transform:translateY(18px);}
+    .hs-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--iv);line-height:1;}
+    .hs-num span{color:var(--tc);font-size:24px;}
+    .hs-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(250,247,242,.38);margin-top:3px;}
+    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(250,247,242,.3);font-size:9px;letter-spacing:.2em;text-transform:uppercase;}
+    .scroll-bar{width:1px;height:38px;background:rgba(250,247,242,.15);overflow:hidden;position:relative;}
+    .scroll-bar::after{content:'';position:absolute;top:-100%;left:0;right:0;bottom:0;background:var(--tc);animation:sbar 2s ease infinite;}
+    @keyframes sbar{to{top:200%;}}
 
-/* ─── CURSOR (desktop) ───────────────────────────────── */
-#cdot,#cring{
-  position:fixed;top:0;left:0;z-index:9998;
-  pointer-events:none;transform:translate(-50%,-50%);
-}
-#cdot{width:6px;height:6px;border-radius:50%;background:var(--rose)}
-#cring{
-  width:34px;height:34px;border-radius:50%;
-  border:1px solid rgba(201,132,138,.5);
-}
-@media(max-width:1023px){#cdot,#cring{display:none}body{cursor:auto}}
-@media(min-width:1024px){body{cursor:none}}
+    /* PARTICLES */
+    #pcv{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;}
 
-/* ─── LANG BTN ───────────────────────────────────────── */
-#lang-btn{
-  font-family:'Inter',sans-serif;
-  font-size:.48rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--rose);background:transparent;
-  border:1px solid rgba(201,132,138,.35);
-  padding:7px 16px;cursor:pointer;
-  transition:background .3s,border-color .3s;flex-shrink:0;
-}
-#lang-btn:hover{background:rgba(201,132,138,.1);border-color:rgba(201,132,138,.6)}
+    /* WRAP */
+    .wrap{max-width:1280px;margin:0 auto;padding:0 52px;}
 
-/* ─── NAV ────────────────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:20px 28px;
-  display:flex;justify-content:space-between;align-items:center;
-  transition:all .45s var(--ease);
-}
-nav.scrolled{
-  background:rgba(12,10,11,.95);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  padding:13px 28px;border-bottom:1px solid rgba(201,132,138,.08);
-}
-.nav-logo{
-  font-family:'Playfair Display',serif;
-  font-size:.8rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--rose);
-}
-.nav-sub{font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
-.nav-right{text-align:right;font-size:.46rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);line-height:1.7}
+    /* QUIEN */
+    #quien{padding:130px 0 100px;background:var(--iv);}
+    .quien-grid{display:grid;grid-template-columns:200px 1fr;gap:80px;align-items:start;}
+    .sec-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--tc);padding-top:10px;}
+    .sec-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,3.8vw,60px);font-weight:300;line-height:1.08;margin-bottom:28px;}
+    .sec-h2 em{font-style:italic;color:var(--tc);}
+    .sec-body{font-size:14px;line-height:1.95;color:#4A4644;max-width:660px;}
+    .quien-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;}
+    .qn-card{border-top:1px solid var(--dust);padding-top:18px;}
+    .qn-num{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;color:var(--tc);line-height:1;}
+    .qn-lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ash);margin-top:5px;line-height:1.4;}
 
-/* ─── HERO KEYFRAMES ─────────────────────────────────── */
-@keyframes heroUp{
-  from{opacity:0;transform:translateY(28px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes heroFade{from{opacity:0}to{opacity:1}}
-@keyframes scrollDrop{
-  0%,100%{transform:scaleY(.5);opacity:.3;transform-origin:top}
-  50%{transform:scaleY(1);opacity:1;transform-origin:top}
-}
+    /* DIAGNÓSTICO */
+    #diag{padding:110px 0;background:var(--ink);}
+    .diag-top{text-align:center;margin-bottom:70px;}
+    .diag-top .sec-label{color:var(--tc);}
+    .diag-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,3.8vw,56px);font-weight:300;line-height:1.1;color:var(--iv);}
+    .diag-h2 em{font-style:italic;color:var(--tc);}
+    .diag-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;}
+    .dc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);padding:36px 24px;text-align:center;transition:background .3s;}
+    .dc:hover{background:rgba(255,255,255,.065);}
+    .dc-icon{font-size:26px;margin-bottom:14px;}
+    .dc-platform{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ash);margin-bottom:10px;}
+    .dc-num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--iv);line-height:1;margin-bottom:10px;}
+    .dc-badge{font-size:10px;letter-spacing:.04em;padding:3px 12px;border-radius:10px;display:inline-block;margin-bottom:12px;}
+    .ok{background:rgba(80,180,100,.14);color:#6DC87A;}
+    .warn{background:rgba(196,112,95,.18);color:var(--tc);}
+    .bad{background:rgba(200,70,70,.14);color:#E07070;}
+    .dc-desc{font-size:11px;color:rgba(255,255,255,.32);line-height:1.65;}
+    .diag-insight{margin-top:3px;background:rgba(196,112,95,.07);border:1px solid rgba(196,112,95,.2);padding:28px 44px;display:flex;align-items:center;gap:20px;}
+    .di-icon{font-size:28px;flex-shrink:0;}
+    .di-txt{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;font-style:italic;color:var(--iv);line-height:1.55;}
+    .di-txt strong{color:var(--tc);font-style:normal;font-weight:400;}
 
-/* ─── HERO ───────────────────────────────────────────── */
-.hero{
-  position:relative;height:100vh;min-height:620px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-#hero-canvas{position:absolute;inset:0;z-index:1;pointer-events:none}
-.hero-bg{
-  position:absolute;inset:0;z-index:0;
-  background-image:url('img/bianca-hero.jpg');
-  background-size:cover;background-position:center top;
-  transform:scale(1.08);will-change:transform;
-}
-.hero-overlay{
-  position:absolute;inset:0;z-index:2;
-  background:linear-gradient(
-    180deg,
-    rgba(12,10,11,.85) 0%,
-    rgba(12,10,11,.55) 35%,
-    rgba(12,10,11,.60) 65%,
-    rgba(12,10,11,.97) 100%
-  );
-}
-.hero::before{
-  content:'';position:absolute;inset:0;z-index:2;
-  background:radial-gradient(ellipse 90% 60% at 50% 55%,rgba(0,0,0,.3) 0%,transparent 80%);
-  pointer-events:none;
-}
-.hero-content{
-  position:relative;z-index:3;
-  text-align:center;padding:0 28px;max-width:720px;
-}
-.hero-eyebrow{
-  font-size:.52rem;font-weight:700;letter-spacing:.5em;text-transform:uppercase;
-  color:var(--rose-l);margin-bottom:28px;
-  text-shadow:0 1px 8px rgba(0,0,0,.95);
-  animation:heroUp .9s var(--ease) .3s both;
-}
-.hero-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(2.8rem,9vw,5.8rem);
-  font-weight:400;line-height:1.04;
-  color:#FFF;margin-bottom:18px;
-  text-shadow:0 2px 6px rgba(0,0,0,.9),0 8px 48px rgba(0,0,0,.7);
-  animation:heroUp 1.1s cubic-bezier(.2,0,0,1) .5s both;
-}
-.hero-title em{font-style:italic;color:var(--rose-l)}
-.hero-sub{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(.95rem,2.5vw,1.3rem);font-style:italic;
-  color:rgba(255,255,255,.9);margin-bottom:44px;
-  text-shadow:0 2px 16px rgba(0,0,0,.95);
-  animation:heroUp .9s var(--ease) .85s both;
-}
-.hero-pills{
-  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
-  animation:heroFade .8s ease 1.1s both;
-}
-.hero-pill{
-  font-size:.5rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  padding:9px 20px;
-  border:1px solid rgba(201,132,138,.4);
-  color:var(--rose-l);background:rgba(201,132,138,.08);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-}
-.scroll-cue{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;
-  text-align:center;animation:heroFade .8s ease 1.5s both;
-}
-.scroll-label{font-size:.44rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
-.scroll-line{
-  width:1px;height:48px;margin:0 auto;
-  background:linear-gradient(to bottom,var(--rose),transparent);
-  animation:scrollDrop 2s ease-in-out infinite;
-}
+    /* ANATOMÍA */
+    #anat{padding:130px 0;background:var(--cr);overflow:hidden;}
+    .anat-inner{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:start;}
+    .anat-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,3.6vw,54px);font-weight:300;line-height:1.1;margin-bottom:26px;}
+    .anat-h2 em{font-style:italic;color:var(--tc);}
+    .anat-body{font-size:14px;line-height:1.95;color:#524F4C;margin-bottom:36px;}
+    .anat-quote{border-left:2px solid var(--tc);padding:18px 22px;background:rgba(196,112,95,.07);font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--ink);line-height:1.55;margin-bottom:36px;}
+    .inv-past{background:var(--ink);padding:32px 36px;}
+    .inv-past-ey{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--tc);margin-bottom:10px;}
+    .inv-past-h{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--iv);margin-bottom:10px;}
+    .inv-past-p{font-size:13px;line-height:1.8;color:rgba(250,247,242,.6);}
+    .inv-past-p strong{color:var(--tc);font-weight:500;}
+    .cx-items{display:flex;flex-direction:column;gap:14px;}
+    .cx-item{display:flex;align-items:flex-start;gap:14px;background:var(--iv);border:1px solid rgba(196,112,95,.15);padding:20px 22px;}
+    .cx-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+    .cx-title{font-size:13px;font-weight:600;letter-spacing:.04em;margin-bottom:5px;}
+    .cx-desc{font-size:12px;color:var(--ash);line-height:1.65;}
+    .cx-desc em{color:var(--tc);font-style:normal;font-weight:500;}
 
-/* ─── MARQUEE ─────────────────────────────────────────── */
-.marquee-wrap{overflow:hidden;background:var(--rose);padding:12px 0}
-.marquee-track{display:flex;width:max-content;animation:marquee 28s linear infinite}
-.m-item{
-  font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
-  color:#0C0A0B;padding:0 52px;white-space:nowrap;
-}
-.m-sep{opacity:.35;margin:0 6px}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    /* PHOTO STRIP */
+    #strip{display:grid;grid-template-columns:2fr 1fr 1.2fr;height:46vh;min-height:280px;gap:3px;}
+    .si{overflow:hidden;}
+    .si img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease;}
+    .si:hover img{transform:scale(1.05);}
 
-/* ─── GALLERY ─────────────────────────────────────────── */
-.gallery-strip{background:#111;padding:4px 0;overflow:hidden}
-.gallery-track{
-  display:flex;gap:4px;overflow-x:auto;
-  scrollbar-width:none;-ms-overflow-style:none;
-  scroll-snap-type:x mandatory;cursor:grab;-webkit-overflow-scrolling:touch;
-}
-.gallery-track::-webkit-scrollbar{display:none}
-.gallery-track.grabbing{cursor:grabbing}
-.gal-item{
-  flex:0 0 auto;scroll-snap-align:start;
-  position:relative;overflow:hidden;
-  width:72vw;max-width:440px;height:52vw;max-height:320px;
-}
-.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
-.gal-item:hover img{transform:scale(1.06)}
-.gal-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:30px 16px 14px;
-  background:linear-gradient(transparent,rgba(0,0,0,.82));
-  font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.65);
-}
-@media(min-width:768px){.gal-item{width:32vw;max-width:380px;height:26vw;max-height:280px}}
+    /* TIERS */
+    #tiers{padding:130px 0;background:var(--iv);}
+    .tiers-top{text-align:center;margin-bottom:72px;}
+    .tiers-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,3.8vw,56px);font-weight:300;line-height:1.1;}
+    .tiers-h2 em{font-style:italic;color:var(--tc);}
+    .tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+    .tc-card{border:1px solid var(--dust);position:relative;}
+    .tc-card.feat{border-color:var(--tc);}
+    .tc-head{padding:44px 44px 32px;border-bottom:1px solid var(--dust);position:relative;overflow:hidden;}
+    .tc-card.feat .tc-head{background:var(--ink);border-bottom-color:rgba(196,112,95,.25);}
+    .tc-head::after{content:'';position:absolute;bottom:-60px;right:-60px;width:180px;height:180px;background:var(--tc);border-radius:50%;opacity:.05;filter:blur(40px);pointer-events:none;}
+    .tc-badge{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ash);margin-bottom:14px;}
+    .tc-card.feat .tc-badge{color:var(--tc);}
+    .tc-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:20px;}
+    .tc-card.feat .tc-name{color:var(--iv);}
+    .tc-price{display:flex;align-items:baseline;gap:6px;}
+    .tc-cur{font-size:15px;color:var(--ash);}
+    .tc-card.feat .tc-cur{color:rgba(250,247,242,.45);}
+    .tc-amt{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;line-height:1;color:var(--tc);}
+    .tc-per{font-size:12px;color:var(--ash);}
+    .tc-card.feat .tc-per{color:rgba(250,247,242,.38);}
+    .tc-tag{font-size:12px;color:#777;margin-top:12px;line-height:1.6;}
+    .tc-card.feat .tc-tag{color:rgba(250,247,242,.5);}
+    .tc-body{padding:36px 44px;}
+    .tc-sec{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--tc);margin-bottom:18px;}
+    .tc-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+    .tc-li{display:flex;align-items:flex-start;gap:11px;font-size:13px;line-height:1.55;color:#484440;}
+    .tc-li::before{content:'—';color:var(--tc);flex-shrink:0;}
+    .tc-divider{height:1px;background:var(--dust);margin:20px 0;}
+    .tc-cta{display:block;width:100%;text-align:center;padding:15px 28px;border:1px solid var(--tc);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;font-family:'Montserrat',sans-serif;color:var(--tc);background:transparent;cursor:pointer;transition:all .3s;text-decoration:none;}
+    .tc-cta:hover{background:var(--tc);color:#fff;}
+    .tc-card.feat .tc-cta{background:var(--tc);color:#fff;}
+    .tc-card.feat .tc-cta:hover{background:var(--tc2);}
+    .tc-note{font-size:11px;text-align:center;color:var(--ash);margin-top:10px;line-height:1.55;}
 
-/* ─── SECTION COMMONS ─────────────────────────────────── */
-.sec{padding:80px 24px}
-.eyebrow{
-  font-size:.5rem;font-weight:700;letter-spacing:.42em;text-transform:uppercase;
-  color:var(--rose);margin-bottom:14px;
-}
-.sec-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(1.9rem,5vw,3.1rem);
-  font-weight:400;line-height:1.1;margin-bottom:20px;
-}
-.sec-lead{font-size:.9rem;line-height:1.78;max-width:580px;color:rgba(255,255,255,.5)}
-.wrap{max-width:760px;margin:0 auto}
-@media(min-width:768px){.sec{padding:100px 60px}}
-@media(min-width:1024px){.sec{padding:120px 80px}}
+    /* ROADMAP */
+    #road{padding:130px 0;background:var(--ink);}
+    .road-top{text-align:center;margin-bottom:70px;}
+    .road-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,3.6vw,54px);font-weight:300;color:var(--iv);line-height:1.1;}
+    .road-h2 em{font-style:italic;color:var(--tc);}
+    .phases{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+    .ph{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);padding:44px 32px;position:relative;overflow:hidden;}
+    .ph-bg{position:absolute;top:-10px;right:20px;font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:600;color:rgba(196,112,95,.1);line-height:1;pointer-events:none;}
+    .ph-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--tc);margin-bottom:14px;}
+    .ph-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--iv);margin-bottom:6px;}
+    .ph-sub{font-size:11px;color:var(--ash);margin-bottom:26px;letter-spacing:.04em;}
+    .ph-items{list-style:none;display:flex;flex-direction:column;gap:10px;}
+    .ph-item{display:flex;gap:10px;font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;}
+    .ph-item::before{content:'·';color:var(--tc);font-size:22px;line-height:.9;flex-shrink:0;}
 
-/* ─── REALITY ─────────────────────────────────────────── */
-.reality-section{background:#111;position:relative;overflow:hidden}
-.reality-section::after{
-  content:'';position:absolute;top:-80px;right:-80px;
-  width:500px;height:500px;
-  background:radial-gradient(circle,rgba(201,132,138,.05) 0%,transparent 65%);
-  pointer-events:none;
-}
-.r-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:44px}
-.r-card{
-  padding:28px 24px;
-  border:1px solid rgba(255,255,255,.05);
-  background:rgba(255,255,255,.016);
-  position:relative;overflow:hidden;
-}
-.r-card::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(232,69,60,.07),transparent);
-  opacity:0;transition:opacity .5s;pointer-events:none;
-}
-.r-card:hover::after{opacity:1}
-.r-line{
-  position:absolute;top:0;left:0;width:3px;height:0;
-  background:linear-gradient(to bottom,var(--red),rgba(232,69,60,.3));
-  transition:height .75s var(--ease) .15s;
-}
-.r-card.animate-in .r-line{height:100%}
-.r-num{
-  font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;
-  color:rgba(255,255,255,.025);position:absolute;right:14px;top:6px;line-height:1;
-  user-select:none;
-}
-.r-tag{font-size:.48rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
-.r-title{font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:600;margin-bottom:10px;color:#FFF;line-height:1.2}
-.r-desc{font-size:.8rem;line-height:1.72;color:rgba(255,255,255,.45)}
-@media(min-width:768px){.r-grid{grid-template-columns:1fr 1fr;gap:18px}}
+    /* CLOSING */
+    #closing{padding:160px 0;position:relative;overflow:hidden;}
+    .closing-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&q=80') center/cover no-repeat;}
+    .closing-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(12,11,10,.88),rgba(12,11,10,.72));}
+    .closing-inner{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 52px;text-align:center;}
+    .closing-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5vw,68px);font-weight:300;color:var(--iv);line-height:1.08;margin:20px 0 22px;}
+    .closing-h2 em{font-style:italic;color:var(--tc);}
+    .closing-sub{font-size:14px;color:rgba(250,247,242,.58);line-height:1.85;margin-bottom:48px;}
+    .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+    .btn-p{padding:16px 40px;background:var(--tc);color:#fff;border:none;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;}
+    .btn-p:hover{background:var(--tc2);transform:translateY(-2px);}
+    .btn-o{padding:16px 40px;background:transparent;border:1px solid rgba(250,247,242,.35);color:var(--iv);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;font-family:'Montserrat',sans-serif;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;}
+    .btn-o:hover{border-color:var(--iv);}
 
-/* ─── IMAGE BREAKS ────────────────────────────────────── */
-.img-break{position:relative;height:62vh;min-height:340px;overflow:hidden}
-.ib-bg{
-  position:absolute;inset:0;background-size:cover;background-position:center;
-  transform:scale(1.1);will-change:transform;
-}
-.ib-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(
-    180deg,
-    rgba(12,10,11,.98) 0%,
-    rgba(12,10,11,.42) 22%,
-    rgba(12,10,11,.42) 72%,
-    rgba(12,10,11,.98) 100%
-  );
-}
-.ib-text{position:absolute;bottom:52px;left:28px;right:28px;z-index:2}
-.ib-text p{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(1.1rem,3.5vw,1.9rem);font-style:italic;
-  color:#FFF;line-height:1.3;
-  text-shadow:0 2px 24px rgba(0,0,0,.9),0 1px 4px rgba(0,0,0,.8);
-}
-.ib-text span{color:var(--rose-l)}
+    /* FOOTER */
+    footer{background:var(--ink);padding:40px 52px;display:flex;align-items:center;justify-content:space-between;}
+    .f-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:.15em;color:rgba(250,247,242,.35);}
+    .f-note{font-size:10px;letter-spacing:.1em;color:rgba(250,247,242,.2);}
 
-/* ─── OPPORTUNITY ─────────────────────────────────────── */
-.opp-section{background:#0C0A0B;position:relative;overflow:hidden}
-.opp-glow{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:700px;height:700px;
-  background:radial-gradient(circle,rgba(201,132,138,.06) 0%,transparent 65%);
-  pointer-events:none;animation:glow 5s ease-in-out infinite;
-}
-@keyframes glow{
-  0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}
-}
-.opp-big{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(3.5rem,14vw,7.5rem);
-  font-weight:700;color:var(--rose);
-  line-height:.9;letter-spacing:-.02em;margin-bottom:10px;
-}
-.opp-lbl{font-size:.55rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.28)}
-.opp-ctx{
-  font-size:.88rem;line-height:1.82;
-  color:rgba(255,255,255,.48);margin-top:28px;max-width:540px;
-}
-.opp-hl{color:var(--rose-l);font-weight:600}
-.opp-stats{display:grid;grid-template-columns:1fr;gap:3px;margin-top:52px}
-.opp-stat{
-  display:flex;align-items:center;gap:24px;padding:22px 20px;
-  background:rgba(201,132,138,.03);border:1px solid rgba(201,132,138,.07);
-  position:relative;overflow:hidden;
-}
-.opp-stat::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:rgba(201,132,138,.35)}
-.opp-val{
-  font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;
-  color:var(--rose);min-width:90px;line-height:1;
-}
-.opp-txt{font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.4)}
-@media(min-width:768px){.opp-stats{grid-template-columns:repeat(3,1fr);gap:4px}}
+    /* CHAT */
+    #cfab{position:fixed;bottom:30px;right:30px;z-index:500;width:54px;height:54px;border-radius:50%;background:var(--tc);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(196,112,95,.45);transition:all .3s;}
+    #cfab:hover{background:var(--tc2);transform:scale(1.06);}
+    #cfab svg{width:20px;height:20px;fill:#fff;}
+    #cpanel{position:fixed;bottom:96px;right:30px;z-index:500;width:355px;max-height:510px;background:var(--iv);border:1px solid var(--dust);box-shadow:0 20px 56px rgba(12,11,10,.2);display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateY(16px) scale(.96);transition:all .28s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom right;}
+    #cpanel.open{opacity:1;pointer-events:all;transform:none;}
+    .chat-hd{padding:18px 22px;background:var(--ink);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+    .chat-hd-l{display:flex;align-items:center;gap:10px;}
+    .chat-av{width:34px;height:34px;border-radius:50%;background:var(--tc);display:flex;align-items:center;justify-content:center;font-size:15px;}
+    .chat-hd-name{font-size:13px;font-weight:600;color:var(--iv);}
+    .chat-hd-status{font-size:10px;color:var(--ash);}
+    .chat-close{background:none;border:none;cursor:pointer;color:var(--ash);font-size:20px;line-height:1;transition:color .2s;}
+    .chat-close:hover{color:var(--iv);}
+    .chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;}
+    .chat-msgs::-webkit-scrollbar{width:3px;}
+    .chat-msgs::-webkit-scrollbar-thumb{background:var(--dust);border-radius:4px;}
+    .msg{max-width:86%;font-size:12.5px;line-height:1.65;padding:10px 14px;}
+    .msg.agent{background:var(--cr);color:var(--ink);align-self:flex-start;border-radius:0 12px 12px 12px;}
+    .msg.user{background:var(--tc);color:#fff;align-self:flex-end;border-radius:12px 12px 0 12px;}
+    .msg.typing{background:var(--cr);align-self:flex-start;border-radius:0 12px 12px 12px;padding:14px 18px;}
+    .tdots{display:flex;gap:4px;align-items:center;}
+    .tdots span{width:6px;height:6px;border-radius:50%;background:var(--ash);animation:td 1.4s ease infinite;}
+    .tdots span:nth-child(2){animation-delay:.2s;}
+    .tdots span:nth-child(3){animation-delay:.4s;}
+    @keyframes td{0%,80%,100%{transform:scale(.55);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+    .chat-foot{padding:11px 14px;border-top:1px solid var(--dust);background:var(--cr);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+    .chat-inp{flex:1;border:none;background:transparent;font-family:'Montserrat',sans-serif;font-size:12px;color:var(--ink);outline:none;}
+    .chat-inp::placeholder{color:var(--ash);}
+    .chat-send{background:var(--tc);border:none;cursor:pointer;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+    .chat-send:hover{background:var(--tc2);}
+    .chat-send svg{width:13px;height:13px;fill:#fff;}
+    .cal-link{display:inline-block;margin-top:8px;padding:8px 16px;background:var(--tc);color:#fff;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:4px;font-weight:700;}
+    .cal-link:hover{background:var(--tc2);}
+    .rv{opacity:0;transform:translateY(44px);}
 
-/* ─── TIERS ───────────────────────────────────────────── */
-.tiers-section{background:#111;position:relative;overflow:hidden}
-.tiers-section::before{
-  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
-  width:1000px;height:600px;
-  background:radial-gradient(ellipse,rgba(201,132,138,.04) 0%,transparent 65%);
-  pointer-events:none;
-}
-.tiers-grid{max-width:980px;margin:0 auto}
-.tier{
-  border:1px solid rgba(255,255,255,.06);margin-bottom:10px;overflow:hidden;
-  background:rgba(255,255,255,.015);position:relative;cursor:pointer;
-  transition:border-color .4s,box-shadow .4s;
-}
-.tier::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(135deg,rgba(201,132,138,.05) 0%,transparent 55%);
-  opacity:0;transition:opacity .35s;
-}
-.tier:hover,.tier.open{
-  border-color:rgba(201,132,138,.28);
-  box-shadow:0 0 50px rgba(201,132,138,.07),inset 0 0 0 1px rgba(201,132,138,.04);
-}
-.tier:hover::after,.tier.open::after{opacity:1}
-.tier.rec{border-color:rgba(201,132,138,.22)}
-.tier-badge{
-  position:absolute;top:0;right:0;
-  background:var(--rose);color:#0C0A0B;
-  font-size:.46rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
-  padding:6px 16px;z-index:2;
-}
-.tier-head{padding:28px 24px;position:relative}
-.tier-row{display:flex;justify-content:space-between;align-items:flex-start}
-.tier-left .tier-num{font-size:.48rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--rose);margin-bottom:7px}
-.tier-left .tier-name{
-  font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;
-  color:#FFF;line-height:1.15;
-}
-.tier-right{text-align:right}
-.tier-price{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--rose)}
-.tier-unit{display:block;font-size:.58rem;color:rgba(255,255,255,.28);margin-top:3px}
-.tier-equiv{font-size:.67rem;font-style:italic;color:rgba(255,255,255,.28);margin-top:10px}
-.tier-toggle{
-  display:flex;align-items:center;gap:8px;margin-top:16px;
-  font-size:.5rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
-  color:rgba(201,132,138,.55);
-}
-.t-icon{
-  width:22px;height:22px;border:1px solid rgba(201,132,138,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;color:var(--rose);
-  transition:transform .4s var(--ease);
-}
-.tier.open .t-icon{transform:rotate(45deg)}
-.tier-body{max-height:0;overflow:hidden;transition:max-height .75s var(--ease)}
-.tier-inner{padding:0 24px 32px}
-.t-divider{height:1px;background:linear-gradient(90deg,rgba(201,132,138,.25),transparent);margin-bottom:24px}
-.t-sub{font-size:.5rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--rose);margin-bottom:16px}
-.t-list{list-style:none}
-.t-list li{
-  font-size:.8rem;line-height:1.55;color:rgba(255,255,255,.58);
-  padding:7px 0 7px 22px;position:relative;
-  border-bottom:1px solid rgba(255,255,255,.03);
-}
-.t-list li:last-child{border-bottom:none}
-.t-list li::before{content:'';position:absolute;left:0;top:16px;width:10px;height:1px;background:var(--rose)}
-.t-pain{margin-top:24px}
-.t-pain-title{font-size:.5rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
-.t-pain-list{list-style:none}
-.t-pain-list li{font-size:.78rem;color:rgba(255,255,255,.38);padding:4px 0 4px 18px;position:relative}
-.t-pain-list li::before{content:'×';position:absolute;left:0;color:var(--red);font-weight:700}
-.t-roi{margin-top:24px;padding:18px 20px;background:rgba(201,132,138,.04);border-left:2px solid rgba(201,132,138,.4)}
-.t-roi p{font-size:.8rem;line-height:1.7;color:rgba(255,255,255,.5)}
-.t-roi strong{color:var(--rose-l);font-weight:600}
-.t-roadmap{margin-top:24px}
-.t-rm-title{font-size:.5rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--rose);margin-bottom:18px}
-.rm-line{position:relative;padding-left:22px;border-left:1px solid rgba(201,132,138,.15)}
-.rm-node{position:relative;padding-bottom:22px}
-.rm-node:last-child{padding-bottom:0}
-.rm-dot{
-  position:absolute;left:-26px;top:5px;width:8px;height:8px;border-radius:50%;
-  background:var(--rose);box-shadow:0 0 8px rgba(201,132,138,.55);
-}
-.rm-week{font-size:.5rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);margin-bottom:5px}
-.rm-act{font-size:.78rem;line-height:1.58;color:rgba(255,255,255,.42)}
-
-@media(min-width:768px){
-  .tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start}
-  .tier{margin-bottom:0}
-  .tier-body{max-height:none!important;overflow:visible!important}
-  .tier-toggle{display:none}
-  .tier-inner{padding:0 24px 28px}
-}
-
-/* ─── BEFORE / AFTER ──────────────────────────────────── */
-.ba-section{background:#0C0A0B}
-.ba-header{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:3px}
-.ba-hcell{padding:14px 18px;text-align:center;font-size:.5rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase}
-.hbef{background:rgba(232,69,60,.12);color:var(--red)}
-.haft{background:rgba(201,132,138,.12);color:var(--rose-l)}
-.ba-row{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:3px}
-.ba-cell{padding:18px;font-size:.78rem;line-height:1.62}
-.bef{background:rgba(232,69,60,.04);color:rgba(232,69,60,.7);border-left:2px solid var(--red)}
-.aft{background:rgba(201,132,138,.04);color:rgba(201,132,138,.85);border-left:2px solid var(--rose)}
-
-/* ─── AI CHAT WIDGET ──────────────────────────────────── */
-#ai-chat-btn{
-  position:fixed;bottom:28px;right:28px;z-index:9990;
-  width:58px;height:58px;border-radius:50%;
-  background:linear-gradient(135deg,var(--rose-d),var(--rose));
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;box-shadow:0 4px 24px rgba(201,132,138,.4);
-  transition:transform .3s var(--ease),box-shadow .3s;border:none;
-}
-#ai-chat-btn:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(201,132,138,.55)}
-#ai-chat-btn svg{width:26px;height:26px;fill:#0C0A0B}
-.chat-ping{
-  position:absolute;top:2px;right:2px;width:14px;height:14px;
-  border-radius:50%;background:var(--green);border:2px solid #0C0A0B;
-}
-.chat-ping::after{
-  content:'';position:absolute;inset:0;border-radius:50%;
-  background:var(--green);animation:ping 1.8s ease-in-out infinite;
-}
-@keyframes ping{0%{transform:scale(1);opacity:.8}80%,100%{transform:scale(2.2);opacity:0}}
-#ai-chat-window{
-  position:fixed;bottom:100px;right:28px;z-index:9989;
-  width:340px;max-width:calc(100vw - 48px);
-  background:#111;border:1px solid rgba(201,132,138,.18);
-  box-shadow:0 16px 64px rgba(0,0,0,.7);
-  display:flex;flex-direction:column;
-  transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
-  transition:transform .35s var(--ease),opacity .3s ease;
-  max-height:520px;
-}
-#ai-chat-window.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
-.chat-header{
-  padding:14px 16px;
-  background:linear-gradient(90deg,rgba(12,10,11,.9),rgba(26,17,24,.9));
-  border-bottom:1px solid rgba(201,132,138,.12);
-  display:flex;align-items:center;gap:12px;flex-shrink:0;
-}
-.chat-avatar{
-  width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  border:1.5px solid rgba(201,132,138,.4);
-}
-.chat-avatar img{width:100%;height:100%;object-fit:cover}
-.chat-hinfo{flex:1}
-.chat-hname{font-size:.72rem;font-weight:600;color:#FFF;letter-spacing:.03em}
-.chat-hstatus{font-size:.52rem;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:2px}
-.chat-hstatus::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
-.chat-hpowered{font-size:.44rem;color:rgba(255,255,255,.2);margin-top:1px}
-.chat-close{
-  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
-  color:rgba(255,255,255,.3);cursor:pointer;font-size:1.1rem;
-  transition:color .2s;flex-shrink:0;border:none;background:transparent;
-}
-.chat-close:hover{color:rgba(255,255,255,.7)}
-.chat-messages{
-  flex:1;overflow-y:auto;padding:16px 14px;
-  display:flex;flex-direction:column;gap:10px;
-  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent;
-  min-height:260px;
-}
-.msg{display:flex;flex-direction:column;gap:2px;max-width:85%}
-.msg.agent{align-self:flex-start}
-.msg.user{align-self:flex-end}
-.msg-bubble{padding:9px 13px;font-size:.72rem;line-height:1.55;border-radius:2px}
-.msg.agent .msg-bubble{background:rgba(255,255,255,.055);color:rgba(255,255,255,.82);border-left:2px solid rgba(201,132,138,.35)}
-.msg.user .msg-bubble{background:rgba(201,132,138,.14);color:rgba(255,255,255,.85);border:1px solid rgba(201,132,138,.2)}
-.msg-time{font-size:.44rem;color:rgba(255,255,255,.22);padding:0 4px}
-.msg.user .msg-time{text-align:right}
-.typing-indicator{
-  display:flex;align-items:center;gap:4px;padding:10px 13px;
-  background:rgba(255,255,255,.055);border-left:2px solid rgba(201,132,138,.35);
-  align-self:flex-start;
-}
-.typing-indicator span{
-  width:6px;height:6px;border-radius:50%;background:rgba(201,132,138,.5);
-  animation:typingDot 1.2s ease-in-out infinite;
-}
-.typing-indicator span:nth-child(2){animation-delay:.2s}
-.typing-indicator span:nth-child(3){animation-delay:.4s}
-@keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
-.chat-footer{padding:10px 14px;border-top:1px solid rgba(255,255,255,.05);display:flex;gap:8px;align-items:center;flex-shrink:0}
-.chat-input-demo{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:9px 12px;font-size:.68rem;color:rgba(255,255,255,.25);font-family:'Inter',sans-serif;border-radius:2px;pointer-events:none}
-.chat-send-btn{width:34px;height:34px;background:linear-gradient(135deg,var(--rose-d),var(--rose));display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:none;border-radius:2px}
-.chat-send-btn svg{width:14px;height:14px;fill:#0C0A0B}
-.chat-disclaimer{font-size:.42rem;color:rgba(255,255,255,.15);text-align:center;padding:6px 14px 10px;flex-shrink:0}
-
-/* ─── CLOSING ─────────────────────────────────────────── */
-.closing{position:relative;min-height:85vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.cl-bg{
-  position:absolute;inset:0;background-size:cover;background-position:center;
-  filter:brightness(.15) saturate(1.3);
-  transform:scale(1.08);will-change:transform;
-}
-.cl-glow{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(201,132,138,.12) 0%,transparent 68%);
-  animation:glow 6s ease-in-out infinite;
-}
-.cl-content{position:relative;z-index:2;text-align:center;padding:60px 28px;max-width:660px}
-.cl-eyebrow{font-size:.52rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:32px}
-.cl-quote{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(1.3rem,4vw,2rem);font-style:italic;line-height:1.42;
-  color:#FFF;margin-bottom:40px;text-shadow:0 2px 24px rgba(0,0,0,.5);
-}
-.cl-quote span{color:var(--rose-l)}
-.cl-line{width:56px;height:1px;margin:0 auto 36px;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
-.cl-detail{font-size:.84rem;line-height:1.82;color:rgba(255,255,255,.5);margin-bottom:44px}
-.cta{
-  display:inline-block;padding:16px 52px;
-  border:1px solid var(--rose);color:var(--rose);
-  font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
-  position:relative;overflow:hidden;transition:color .4s;
-}
-.cta::before{
-  content:'';position:absolute;inset:0;background:var(--rose);
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .45s var(--ease);z-index:-1;
-}
-.cta:hover{color:#0C0A0B}
-.cta:hover::before{transform:scaleX(1)}
-
-/* ─── FOOTER ──────────────────────────────────────────── */
-footer{background:#111;padding:24px 28px;text-align:center;border-top:1px solid rgba(255,255,255,.04)}
-footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
-
-/* ─── SCROLL ANIMATIONS ───────────────────────────────── */
-.gsap-up{opacity:1}
-.gsap-card{opacity:1}
-.gsap-stat{opacity:1}
-.gsap-tier{opacity:1}
-.gsap-row{opacity:1}
-.gsap-close{opacity:1}
-
-</style>
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      #hero{grid-template-columns:1fr;}
+      .hero-photo{height:55vh;}
+      .hero-copy{padding:52px 32px;}
+      .hero-copy::after{display:none;}
+      .quien-grid{grid-template-columns:1fr;gap:32px;}
+      .quien-nums{grid-template-columns:1fr 1fr;}
+      .diag-cards{grid-template-columns:1fr 1fr;}
+      .anat-inner{grid-template-columns:1fr;gap:48px;}
+      #strip{grid-template-columns:1fr;height:auto;}
+      .si{height:220px;}
+      .tiers-grid{grid-template-columns:1fr;}
+      .phases{grid-template-columns:1fr;}
+      footer{flex-direction:column;gap:14px;text-align:center;}
+      #cpanel{width:calc(100vw - 32px);right:16px;}
+      .wrap{padding:0 24px;}
+      #nav{padding:18px 24px;}
+      footer{padding:32px 24px;}
+    }
+  </style>
 </head>
 <body>
 
-<div id="bar"></div>
-<div id="cdot"></div>
-<div id="cring"></div>
+<canvas id="pcv"></canvas>
+<div id="cd"></div>
+<div id="cr"></div>
 
 <!-- NAV -->
 <nav id="nav">
-  <div>
-    <div class="nav-logo">Consultora DV</div>
-    <div class="nav-sub">Dante Vega</div>
+  <a class="nav-logo" href="#" data-t="nav_logo">BA × DV</a>
+  <div class="nav-right">
+    <span class="nav-label" data-t="nav_conf">Documento Confidencial</span>
+    <div class="lang-wrap">
+      <button class="lang-btn active" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
   </div>
-  <button id="lang-btn" onclick="toggleLang()">EN</button>
-  <div class="nav-right" id="t-nav-right">Inversi&oacute;n<br/>Estrat&eacute;gica</div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-bg" id="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Estrategia de marca personal y crecimiento digital</p>
-    <h1 class="hero-title">Bianca <em>Aldama</em></h1>
-    <p class="hero-sub">73K seguidores que admiran tu estilo &mdash; es momento de que tambi&eacute;n compren tu visi&oacute;n.</p>
-    <div class="hero-pills">
-      <span class="hero-pill">73K Instagram</span>
-      <span class="hero-pill">167K Facebook</span>
-      <span class="hero-pill">3 Tiendas F&iacute;sicas</span>
+<section id="hero">
+  <div class="hero-photo">
+    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1400&q=80" alt="Fashion editorial">
+  </div>
+  <div class="hero-copy">
+    <p id="h-ey" data-t="h_ey">Propuesta Estratégica Exclusiva — 2026</p>
+    <h1 id="h-h1" data-t="h_h1">La boutique<br>que <em>México</em><br>merece ver.</h1>
+    <div class="h-rule"></div>
+    <p id="h-sub" data-t="h_sub">Bianca Aldama Boutique tiene todo lo que una marca necesita para dominar el mercado de moda en México. Solo falta la arquitectura correcta para activarlo.</p>
+    <div class="hero-stats">
+      <div><div class="hs-num">73<span>K</span></div><div class="hs-label" data-t="hs1">Seguidores IG</div></div>
+      <div><div class="hs-num">167<span>K</span></div><div class="hs-label" data-t="hs2">Comunidad FB dormida</div></div>
+      <div><div class="hs-num">3</div><div class="hs-label" data-t="hs3">Tiendas Físicas</div></div>
+      <div><div class="hs-num">12<span>+</span></div><div class="hs-label" data-t="hs4">Años en el mercado</div></div>
     </div>
   </div>
-  <div class="scroll-cue">
-    <div class="scroll-label">Scroll</div>
-    <div class="scroll-line"></div>
+  <div class="hero-scroll">
+    <div class="scroll-bar"></div>
+    <span data-t="scroll">Scroll</span>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="m-item">Confidencial <span class="m-sep">&mdash;</span> Consultora DV &times; Bianca Aldama</span>
-    <span class="m-item">Abril 2026 <span class="m-sep">&mdash;</span> Estrategia de Marca Personal</span>
-    <span class="m-item">Moda &amp; Estilo de Vida <span class="m-sep">&mdash;</span> Sistema Digital Integral</span>
-    <span class="m-item">Documento Privado <span class="m-sep">&mdash;</span> Uso Exclusivo del Cliente</span>
-    <span class="m-item">Confidencial <span class="m-sep">&mdash;</span> Consultora DV &times; Bianca Aldama</span>
-    <span class="m-item">Abril 2026 <span class="m-sep">&mdash;</span> Estrategia de Marca Personal</span>
-    <span class="m-item">Moda &amp; Estilo de Vida <span class="m-sep">&mdash;</span> Sistema Digital Integral</span>
-    <span class="m-item">Documento Privado <span class="m-sep">&mdash;</span> Uso Exclusivo del Cliente</span>
-  </div>
-</div>
-
-<!-- GALLERY — placeholder images, styled with fashion/boutique feel -->
-<div class="gallery-strip">
-  <div class="gallery-track" id="gal">
-    <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85&auto=format&fit=crop" alt="Boutique" loading="eager"/>
-      <div class="gal-label">Boutique Zapopan &mdash; Plaza Coronado</div>
-    </div>
-    <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=85&auto=format&fit=crop" alt="Fashion" loading="lazy"/>
-      <div class="gal-label">Colecci&oacute;n Primavera 2026</div>
-    </div>
-    <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1483181994823-d605e8f2e1ce?w=800&q=85&auto=format&fit=crop" alt="Style" loading="lazy"/>
-      <div class="gal-label">Estilo editorial &mdash; Marca Personal</div>
-    </div>
-    <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=800&q=85&auto=format&fit=crop" alt="Calzado" loading="lazy"/>
-      <div class="gal-label">Zapatera &mdash; Av. Venustiano Carranza</div>
-    </div>
-    <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=85&auto=format&fit=crop" alt="Outfit" loading="lazy"/>
-      <div class="gal-label">Contenido de marca &mdash; Outfits del d&iacute;a</div>
-    </div>
-  </div>
-</div>
-
-<!-- REALITY -->
-<section class="reality-section sec">
+<!-- QUIEN -->
+<section id="quien">
   <div class="wrap">
-    <p class="eyebrow gsap-up">La realidad</p>
-    <h2 class="sec-title gsap-up">Lo que tienes vs.<br/>lo que el mundo ve</h2>
-    <p class="sec-lead gsap-up">Bianca Aldama tiene una marca con historia, tres tiendas y 240K seguidores combinados. Pero digitalmente, est&aacute; dejando millones sobre la mesa.</p>
-  </div>
-  <div class="r-grid wrap">
-    <div class="r-card gsap-card" data-d="left">
-      <div class="r-line"></div><span class="r-num">01</span>
-      <p class="r-tag">Cr&iacute;tico</p>
-      <h3 class="r-title">167K seguidores en Facebook que no compran</h3>
-      <p class="r-desc">Una audiencia del tama&ntilde;o de una ciudad mediana con 20 reacciones promedio por post. Sin reels, sin video, sin estrategia. Facebook tiene el mayor poder de compra de tu p&uacute;blico y hoy est&aacute; completamente dormida.</p>
-    </div>
-    <div class="r-card gsap-card" data-d="right">
-      <div class="r-line"></div><span class="r-num">02</span>
-      <p class="r-tag">Urgente</p>
-      <h3 class="r-title">Invisible en Google Maps</h3>
-      <p class="r-desc">Tu zapatera en Av. Venustiano Carranza 936 no existe en Google Maps. Tu boutique tiene 3.8 estrellas con solo 5 rese&ntilde;as. Cada d&iacute;a que pasa, hay mujeres en Zapopan buscando &ldquo;boutique cerca de m&iacute;&rdquo; que nunca te encuentran.</p>
-    </div>
-    <div class="r-card gsap-card" data-d="left">
-      <div class="r-line"></div><span class="r-num">03</span>
-      <p class="r-tag">Oportunidad perdida</p>
-      <h3 class="r-title">TikTok abandonada con potencial viral</h3>
-      <p class="r-desc">3K seguidores, sin bio, sin links, sin publicaciones recientes. El algoritmo de TikTok es el m&aacute;s democratizador del mundo &mdash; una cuenta nueva con el contenido correcto puede llegar a 500K sin un solo seguidor previo. T&uacute; ya tienes 3K esperando.</p>
-    </div>
-    <div class="r-card gsap-card" data-d="right">
-      <div class="r-line"></div><span class="r-num">04</span>
-      <p class="r-tag">Brecha de marca</p>
-      <h3 class="r-title">Cat&aacute;logo de productos, no marca personal</h3>
-      <p class="r-desc">En Instagram modelas tus propios outfits &mdash; eso ya es marca personal. Pero sin estrategia, sin narrativa, sin CTA y sin un sistema de contenido, esa autenticidad no se convierte en ventas, en colaboraciones ni en autoridad de industria.</p>
+    <div class="quien-grid">
+      <div class="sec-label rv" data-t="q_label">01 — La Marca</div>
+      <div>
+        <h2 class="sec-h2 rv" data-t="q_h2">Una visión de moda<br>que <em>ya existe.</em></h2>
+        <p class="sec-body rv" data-t="q_body">Desde 2014, Bianca Aldama Boutique ha construido algo que el dinero no puede comprar de la noche a la mañana: una comunidad real, con clientes que regresan, que confían, y que las grandes marcas no pueden replicar. Tres tiendas físicas en Zapopan, presencia en línea activa y una figura que modela lo que vende. La base está. Lo que falta es el motor que la escale.</p>
+        <div class="quien-nums">
+          <div class="qn-card rv"><div class="qn-num">2014</div><div class="qn-lbl" data-t="q_c1">Año de fundación</div></div>
+          <div class="qn-card rv"><div class="qn-num">3</div><div class="qn-lbl" data-t="q_c2">Tiendas en Zapopan</div></div>
+          <div class="qn-card rv"><div class="qn-num">240K</div><div class="qn-lbl" data-t="q_c3">Comunidad total acumulada</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- IMAGE BREAK 1 -->
-<div class="img-break">
-  <div class="ib-bg" id="ib1" style="background-image:url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&q=80&auto=format&fit=crop')"></div>
-  <div class="ib-overlay"></div>
-  <div class="ib-text gsap-up">
-    <p><span>240K seguidores combinados. 3 tiendas f&iacute;sicas. 12 a&ntilde;os de marca.</span><br/>Una sola estrategia digital puede triplicar lo que ya tienes.</p>
+<!-- DIAGNÓSTICO -->
+<section id="diag">
+  <div class="wrap">
+    <div class="diag-top">
+      <div class="sec-label rv" data-t="d_ey">02 — Radiografía Digital</div>
+      <h2 class="diag-h2 rv" data-t="d_h2">Lo que el mundo ve.<br><em>Y lo que no está viendo.</em></h2>
+    </div>
+    <div class="diag-cards">
+      <div class="dc rv"><div class="dc-icon">📸</div><div class="dc-platform">Instagram</div><div class="dc-num">73K</div><div class="dc-badge ok" data-t="d_s1">Activa ✓</div><div class="dc-desc" data-t="d_d1">Bianca modela sus propios outfits. Comunidad real y orgánica. Potencial de monetización sin explotar.</div></div>
+      <div class="dc rv"><div class="dc-icon">👥</div><div class="dc-platform">Facebook</div><div class="dc-num">167K</div><div class="dc-badge warn" data-t="d_s2">Dormida ⚠</div><div class="dc-desc" data-t="d_d2">167K seguidores sin activar. Sin reels. 20 reacciones promedio. Una mina de oro sin tocar.</div></div>
+      <div class="dc rv"><div class="dc-icon">🎵</div><div class="dc-platform">TikTok</div><div class="dc-num">3K</div><div class="dc-badge bad" data-t="d_s3">Abandonada ✗</div><div class="dc-desc" data-t="d_d3">Sin bio, sin links, sin contenido activo. La plataforma de mayor alcance orgánico en moda desperdiciada.</div></div>
+      <div class="dc rv"><div class="dc-icon">📍</div><div class="dc-platform">Google Maps</div><div class="dc-num">3.8★</div><div class="dc-badge bad" data-t="d_s4">Incompleto ✗</div><div class="dc-desc" data-t="d_d4">Zapatería no aparece en Maps. Boutique con 5 opiniones. Clientes buscando y no encontrando.</div></div>
+      <div class="dc rv"><div class="dc-icon">🛒</div><div class="dc-platform">E-Commerce</div><div class="dc-num">—</div><div class="dc-badge warn" data-t="d_s5">Básico ⚠</div><div class="dc-desc" data-t="d_d5">biancaaldama.com activo pero sin infraestructura de escala. Sin sync multi-tienda ni TikTok Shop.</div></div>
+    </div>
+    <div class="diag-insight rv" style="margin-top:3px;">
+      <div class="di-icon">💡</div>
+      <div class="di-txt" data-t="d_ins">Tienes <strong>240,000 personas</strong> que ya te conocen. El trabajo no es construir audiencia desde cero — es <strong>activar lo que ya existe</strong> y convertirlo en ventas reales.</div>
+    </div>
   </div>
+</section>
+
+<!-- ANATOMÍA DEL PROYECTO -->
+<section id="anat">
+  <div class="wrap">
+    <div class="anat-inner">
+      <div>
+        <div class="sec-label rv" data-t="a_ey">03 — Complejidad Real</div>
+        <h2 class="anat-h2 rv" data-t="a_h2">No todas las<br>páginas web son<br><em>iguales.</em></h2>
+        <p class="anat-body rv" data-t="a_body">Construir el e-commerce de Bianca Aldama Boutique no es lo mismo que construir cualquier sitio web. Es una operación comercial digital completa: tres puntos de venta físicos que deben sincronizarse en tiempo real, cientos de SKUs con colecciones estacionales, integración con TikTok Shop, múltiples pasarelas de pago, logística de envíos, guías de tallas, gestión de devoluciones... y todo debe funcionar perfectamente desde el día uno. Esa complejidad es precisamente lo que refleja la inversión.</p>
+        <div class="anat-quote rv" data-t="a_quote">"No vendemos páginas web. Construimos motores de venta que trabajan para ti 24/7, incluso cuando la tienda está cerrada."</div>
+        <div class="inv-past rv">
+          <div class="inv-past-ey" data-t="a_rec_ey">Sobre la inversión anterior</div>
+          <div class="inv-past-h" data-t="a_rec_h">Tu experiencia previa no fue un error tuyo.</div>
+          <p class="inv-past-p" data-t="a_rec_p">Muchas agencias venden promesas sin la estructura para cumplirlas. <strong>Lo que te entregaron no estaba a la altura de tu negocio.</strong> Nosotros trabajamos diferente: métricas claras desde el día uno, fases documentadas y cero sorpresas.</p>
+        </div>
+      </div>
+      <div>
+        <div class="cx-items">
+          <div class="cx-item rv"><div class="cx-icon">🔄</div><div><div class="cx-title" data-t="cx1_t">Inventario Multi-Tienda en Tiempo Real</div><div class="cx-desc" data-t="cx1_d">3 tiendas físicas + e-commerce sincronizados. Si una pieza se vende en Plaza Coronado, <em>desaparece automáticamente</em> del sitio y del TikTok Shop. Sin errores, sin clientes frustrados.</div></div></div>
+          <div class="cx-item rv"><div class="cx-icon">👗</div><div><div class="cx-title" data-t="cx2_t">Catálogo Estacional de Alta Complejidad</div><div class="cx-desc" data-t="cx2_d">Colecciones que rotan, tallas, variantes de color, temporadas. No es un catálogo de 10 productos — es <em>500+ SKUs</em> con lógica editorial constante.</div></div></div>
+          <div class="cx-item rv"><div class="cx-icon">🛍️</div><div><div class="cx-title" data-t="cx3_t">TikTok Shop + UGC Integrado</div><div class="cx-desc" data-t="cx3_d">Integración nativa de TikTok Shop para vender desde videos. <em>Red de creadores</em> que mueven producto con comisiones automatizadas.</div></div></div>
+          <div class="cx-item rv"><div class="cx-icon">🚚</div><div><div class="cx-title" data-t="cx4_t">Logística y Post-Venta Automatizada</div><div class="cx-desc" data-t="cx4_d">Integración con paqueterías, rastreo, devoluciones, cambios de talla. <em>Todo automatizado</em> sin operación manual.</div></div></div>
+          <div class="cx-item rv"><div class="cx-icon">💳</div><div><div class="cx-title" data-t="cx5_t">Pagos, MSI y Financiamiento</div><div class="cx-desc" data-t="cx5_d">Múltiples pasarelas, meses sin intereses, BNPL. <em>Cada opción adicional</em> aumenta directamente la conversión.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO STRIP -->
+<div id="strip">
+  <div class="si"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1400&q=80" alt="Fashion editorial"></div>
+  <div class="si"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=900&q=80" alt="Fashion detail"></div>
+  <div class="si"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=900&q=80" alt="Fashion model"></div>
 </div>
-
-<!-- OPPORTUNITY -->
-<section class="opp-section sec">
-  <div class="opp-glow"></div>
-  <div class="wrap" style="position:relative;z-index:1">
-    <p class="eyebrow gsap-up">El costo de no actuar</p>
-    <div class="opp-big gsap-scale">$50K+</div>
-    <p class="opp-lbl gsap-up">MXN mensuales que tu audiencia dormida no genera</p>
-    <p class="opp-ctx gsap-up">Tienes la audiencia, tienes el producto, tienes la personalidad. Lo que te falta es el sistema que convierte seguidores en compradores y compradores en fans que regresan. <span class="opp-hl">Cada mes sin estrategia es un mes que tu competencia crece con las mismas herramientas que t&uacute; ya tienes.</span></p>
-    <div class="opp-stats">
-      <div class="opp-stat gsap-stat">
-        <div class="opp-val"><span class="counter" data-target="167" data-suffix="K">0K</span></div>
-        <div class="opp-txt">Seguidores Facebook sin activar con reels</div>
-      </div>
-      <div class="opp-stat gsap-stat">
-        <div class="opp-val"><span class="counter" data-target="0" data-suffix=" reseñas">0</span></div>
-        <div class="opp-txt">Zapatera sin existir en Google Maps</div>
-      </div>
-      <div class="opp-stat gsap-stat">
-        <div class="opp-val"><span class="counter" data-target="3" data-suffix="K">0K</span></div>
-        <div class="opp-txt">Seguidores TikTok sin bio ni estrategia</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- TIERS -->
-<section class="tiers-section sec" id="tiers">
-  <div class="wrap" style="margin-bottom:52px">
-    <p class="eyebrow gsap-up">Tu inversi&oacute;n</p>
-    <h2 class="sec-title gsap-up">3 niveles,<br/>una sola direcci&oacute;n</h2>
-    <p class="sec-lead gsap-up">Cada nivel construye sobre el anterior. T&uacute; decides desde d&oacute;nde empezar &mdash; el sistema completo es el objetivo.</p>
-  </div>
-  <div class="tiers-grid">
-
-    <!-- T1 -->
-    <div class="tier gsap-tier" onclick="openTier(this)">
-      <div class="tier-head">
-        <div class="tier-row">
-          <div class="tier-left"><p class="tier-num">Tier 1</p><h3 class="tier-name">Presencia &amp; Activaci&oacute;n</h3></div>
-          <div class="tier-right"><span class="tier-price">$18,000</span><span class="tier-unit">MXN / mes</span></div>
-        </div>
-        <p class="tier-equiv">El valor de 3-4 outfits de tu tienda</p>
-        <div class="tier-toggle"><div class="t-icon">+</div><span>Ver detalle</span></div>
-      </div>
-      <div class="tier-body">
-        <div class="tier-inner">
-          <div class="t-divider"></div>
-          <p class="t-sub">Entregables</p>
-          <ul class="t-list">
-            <li>Estrategia de posicionamiento &mdash; marca personal Bianca Aldama</li>
-            <li>Activaci&oacute;n Facebook con reels y video &mdash; despierta tus 167K</li>
-            <li>Sistema de contenido Instagram &mdash; outfits, lifestyle, autoridad</li>
-            <li>Optimizaci&oacute;n Google Maps &mdash; alta tu zapatera + mejora boutique</li>
-            <li>Generaci&oacute;n de rese&ntilde;as Google (protocolo de clientes actuales)</li>
-            <li>TikTok reactivada con bio, links y plan de contenido</li>
-            <li>Calendario editorial mensual</li>
-          </ul>
-          <div class="t-pain">
-            <p class="t-pain-title">Dolores que resuelve</p>
-            <ul class="t-pain-list">
-              <li>Facebook con 167K dormidos</li>
-              <li>Invisible en Google Maps</li>
-              <li>TikTok abandonada</li>
-              <li>Contenido sin estrategia ni narrativa</li>
-            </ul>
-          </div>
-          <div class="t-roi"><p>Activar Facebook con reels puede <strong>multiplicar x3 el alcance org&aacute;nico</strong> en las primeras 8 semanas. Una sola colaboraci&oacute;n pagada cubre este nivel.</p></div>
-          <div class="t-roadmap">
-            <p class="t-rm-title">Roadmap</p>
-            <div class="rm-line">
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;2</p><p class="rm-act">Auditor&iacute;a completa. Alta Google Maps zapatera. Protocolo de rese&ntilde;as. TikTok activada.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 3&ndash;4</p><p class="rm-act">Primeros reels Facebook. Sistema de contenido IG. Calendario editorial.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2&ndash;3</p><p class="rm-act">Optimizaci&oacute;n por datos. Contenido de autoridad. SEO local posicionado.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
+<section id="tiers">
+  <div class="wrap">
+    <div class="tiers-top">
+      <div class="sec-label rv" data-t="ti_ey">04 — Inversión Estratégica</div>
+      <h2 class="tiers-h2 rv" data-t="ti_h2">Dos caminos.<br><em>Una dirección.</em></h2>
     </div>
+    <div class="tiers-grid">
 
-    <!-- T2 -->
-    <div class="tier rec gsap-tier" onclick="openTier(this)">
-      <span class="tier-badge">Recomendado</span>
-      <div class="tier-head">
-        <div class="tier-row">
-          <div class="tier-left"><p class="tier-num">Tier 2</p><h3 class="tier-name">Marca Personal + Ventas</h3></div>
-          <div class="tier-right"><span class="tier-price">$35,000</span><span class="tier-unit">MXN / mes</span></div>
+      <!-- TIER 1 -->
+      <div class="tc-card rv">
+        <div class="tc-head">
+          <div class="tc-badge" data-t="t1_badge">Tier I — Presencia &amp; Autoridad</div>
+          <div class="tc-name" data-t="t1_name">Comunicación Completa</div>
+          <div class="tc-price">
+            <span class="tc-cur">MXN $</span>
+            <span class="tc-amt">25,000</span>
+            <span class="tc-per" data-t="per">/mes</span>
+          </div>
+          <p class="tc-tag" data-t="t1_tag">Tu boutique presente, activa y convirtiendo en todas las plataformas — sin depender de que estés en cada publicación.</p>
         </div>
-        <p class="tier-equiv">Menos del 1% de tu facturaci&oacute;n mensual estimada</p>
-        <div class="tier-toggle"><div class="t-icon">+</div><span>Ver detalle</span></div>
-      </div>
-      <div class="tier-body">
-        <div class="tier-inner">
-          <div class="t-divider"></div>
-          <p class="t-sub">Todo el Tier 1 m&aacute;s:</p>
-          <ul class="t-list">
-            <li>Desarrollo de marca personal Bianca Aldama &mdash; narrativa, voz y pilares</li>
-            <li>Contenido aspiracional &mdash; lifestyle, viajes, inspiraci&oacute;n, behind the scenes</li>
-            <li>Estrategia de UGC &mdash; tus clientas como embajadoras</li>
-            <li>Guiones para reels y TikToks semanales</li>
-            <li>Optimizaci&oacute;n de biancaaldama.com &mdash; SEO, velocidad, conversi&oacute;n</li>
-            <li>Email marketing mensual a base de clientes</li>
-            <li>Estrategia de colaboraciones con marcas afines</li>
+        <div class="tc-body">
+          <div class="tc-sec" data-t="t1_s1">Estrategia &amp; Contenido</div>
+          <ul class="tc-list">
+            <li class="tc-li" data-t="t1_i1">Estrategia de contenido mensual personalizada para la boutique</li>
+            <li class="tc-li" data-t="t1_i2">Creación de contenido para Instagram (feed + stories + reels)</li>
+            <li class="tc-li" data-t="t1_i3">Activación de los 167K en Facebook con reels y contenido orgánico</li>
+            <li class="tc-li" data-t="t1_i4">TikTok activada: bio, links, primeros videos virales de moda</li>
+            <li class="tc-li" data-t="t1_i5">Landing pages para lanzamientos de colecciones y temporadas</li>
           </ul>
-          <div class="t-pain">
-            <p class="t-pain-title">Dolores que resuelve</p>
-            <ul class="t-pain-list">
-              <li>Cat&aacute;logo sin narrativa &mdash; se ve producto, no marca</li>
-              <li>Clientas actuales no recomiendan ni publican</li>
-              <li>Sin ingresos adicionales m&aacute;s all&aacute; de la tienda</li>
-              <li>Web sin SEO ni optimizaci&oacute;n de conversi&oacute;n</li>
-            </ul>
-          </div>
-          <div class="t-roi"><p>Una sola colaboraci&oacute;n pagada con marca de moda o calzado puede generar <strong>$20K&ndash;$80K MXN</strong> adicionales. Una estrategia UGC bien ejecutada <strong>duplica la confianza</strong> en punto de venta online.</p></div>
-          <div class="t-roadmap">
-            <p class="t-rm-title">Roadmap</p>
-            <div class="rm-line">
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;2</p><p class="rm-act">Todo Tier 1 + sesi&oacute;n de narrativa de marca. Definici&oacute;n de voz y pilares de contenido.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 3&ndash;6</p><p class="rm-act">Guiones semanales. Estrategia UGC. Optimizaci&oacute;n web. Primer email a base de clientes.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2&ndash;3</p><p class="rm-act">Outreach a marcas para colaboraciones. Primeros UGC publicados. Reportes de conversi&oacute;n web.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 3&ndash;6</p><p class="rm-act">Primer programa de embajadoras. Posicionamiento como referente de moda en GDL.</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- T3 -->
-    <div class="tier gsap-tier" onclick="openTier(this)">
-      <div class="tier-head">
-        <div class="tier-row">
-          <div class="tier-left"><p class="tier-num">Tier 3</p><h3 class="tier-name">Sistema Integral</h3></div>
-          <div class="tier-right"><span class="tier-price">$60,000</span><span class="tier-unit">MXN / mes</span></div>
-        </div>
-        <p class="tier-equiv">Una fracci&oacute;n de lo que genera un mes con estrategia</p>
-        <div class="tier-toggle"><div class="t-icon">+</div><span>Ver detalle</span></div>
-      </div>
-      <div class="tier-body">
-        <div class="tier-inner">
-          <div class="t-divider"></div>
-          <p class="t-sub">Todo el Tier 1 + 2 m&aacute;s:</p>
-          <ul class="t-list">
-            <li>Agente de IA en WhatsApp &mdash; atenci&oacute;n, cat&aacute;logo y ventas 24/7</li>
-            <li>Agente de IA en Instagram DMs &mdash; responde y cualifica compradores</li>
-            <li>Creaci&oacute;n de curso o producto digital &mdash; nueva fuente de ingresos</li>
-            <li>Lanzamiento de programa de afiliados o embajadoras</li>
-            <li>CRM de clientes &mdash; historial, preferencias, seguimiento</li>
-            <li>Dashboard de m&eacute;tricas &mdash; ventas, alcance, conversi&oacute;n</li>
-            <li>Estrategia de expansi&oacute;n a CDMX o plataformas nacionales</li>
+          <div class="tc-divider"></div>
+          <div class="tc-sec" data-t="t1_s2">Conversión &amp; Presencia Local</div>
+          <ul class="tc-list">
+            <li class="tc-li" data-t="t1_i6">Formularios y filtros de leads para captura de clientes</li>
+            <li class="tc-li" data-t="t1_i7">Google Maps: alta y optimización de ambas tiendas</li>
+            <li class="tc-li" data-t="t1_i8">UGC Reps: micro-influencers locales que generan contenido en tu estilo</li>
+            <li class="tc-li" data-t="t1_i9">Humanización progresiva: la marca funciona sola paulatinamente</li>
           </ul>
-          <div class="t-pain">
-            <p class="t-pain-title">Dolores que resuelve</p>
-            <ul class="t-pain-list">
-              <li>DMs y WhatsApp sin respuesta autom&aacute;tica</li>
-              <li>Solo generas dinero cuando abres la tienda</li>
-              <li>Sin sistema para escalar m&aacute;s all&aacute; de Zapopan</li>
-              <li>Cero monetizaci&oacute;n de tu conocimiento y estilo</li>
-            </ul>
-          </div>
-          <div class="t-roi"><p>Un curso de estilo personal o una membership de contenido puede generar <strong>$30K&ndash;$150K MXN</strong> en el primer lanzamiento. La IA en WhatsApp cierra ventas mientras duermes.</p></div>
-          <div class="t-roadmap">
-            <p class="t-rm-title">Roadmap</p>
-            <div class="rm-line">
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;4</p><p class="rm-act">Todo Tier 1 + 2. Configuraci&oacute;n IA WhatsApp + Instagram. CRM inicial.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2</p><p class="rm-act">Dise&ntilde;o y pre-venta de curso o producto digital. Programa de embajadoras activo.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 3</p><p class="rm-act">Lanzamiento del producto digital. Dashboard activo. Primeros reportes integrales.</p></div>
-              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 4&ndash;6</p><p class="rm-act">Optimizaci&oacute;n. Expansi&oacute;n. Estrategia de siguiente nivel.</p></div>
-            </div>
-          </div>
+          <div class="tc-divider"></div>
+          <button class="tc-cta" onclick="openChat()" data-t="t1_cta">Quiero saber más</button>
+          <p class="tc-note" data-t="t1_note">Servicios adicionales fuera del tier se cotizan por separado</p>
         </div>
       </div>
-    </div>
 
+      <!-- TIER 2 -->
+      <div class="tc-card feat rv">
+        <div class="tc-head">
+          <div class="tc-badge" data-t="t2_badge">Tier II — Motor Completo</div>
+          <div class="tc-name" data-t="t2_name">Presencia + E-Commerce</div>
+          <div class="tc-price">
+            <span class="tc-cur">MXN $</span>
+            <span class="tc-amt">60,000</span>
+            <span class="tc-per" data-t="per">/mes</span>
+          </div>
+          <p class="tc-tag" data-t="t2_tag">Todo el Tier I más la construcción de tu infraestructura digital completa: un e-commerce robusto que vende mientras duermes.</p>
+        </div>
+        <div class="tc-body">
+          <div class="tc-sec" data-t="t2_s1">Todo el Tier I incluido, más:</div>
+          <ul class="tc-list">
+            <li class="tc-li" data-t="t2_i1">E-commerce web de alta performance: diseño editorial, UX de lujo, velocidad profesional</li>
+            <li class="tc-li" data-t="t2_i2">Sincronización en tiempo real entre las 3 tiendas físicas y el e-commerce</li>
+            <li class="tc-li" data-t="t2_i3">Catálogo digital completo: 500+ SKUs, tallas, variantes, colecciones estacionales</li>
+            <li class="tc-li" data-t="t2_i4">TikTok Shop integrado: venta directa desde videos con checkout nativo</li>
+            <li class="tc-li" data-t="t2_i5">UGC TikTok: red de creadores que mueven producto con comisiones automáticas</li>
+          </ul>
+          <div class="tc-divider"></div>
+          <div class="tc-sec" data-t="t2_s2">Infraestructura &amp; Automatización</div>
+          <ul class="tc-list">
+            <li class="tc-li" data-t="t2_i6">Integración logística completa: paqueterías, rastreo, devoluciones y cambios</li>
+            <li class="tc-li" data-t="t2_i7">Múltiples métodos de pago: tarjeta, OXXO, MSI, BNPL</li>
+            <li class="tc-li" data-t="t2_i8">Reviews, listas de deseos y notificaciones de disponibilidad automatizadas</li>
+            <li class="tc-li" data-t="t2_i9">Humanización de marca avanzada: Bianca Aldama Boutique opera sola</li>
+          </ul>
+          <div class="tc-divider"></div>
+          <button class="tc-cta" onclick="openChat()" data-t="t2_cta">Este es mi plan</button>
+          <p class="tc-note" data-t="t2_note">Servicios adicionales fuera del tier se cotizan por separado</p>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- IMAGE BREAK 2 -->
-<div class="img-break">
-  <div class="ib-bg" id="ib2" style="background-image:url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1920&q=80&auto=format&fit=crop')"></div>
-  <div class="ib-overlay"></div>
-  <div class="ib-text gsap-up">
-    <p><span>Tu audiencia ya existe. Tu producto ya existe.</span><br/>Lo que falta es el sistema que los conecta y los convierte.</p>
-  </div>
-</div>
-
-<!-- BEFORE / AFTER -->
-<section class="ba-section sec">
-  <div class="wrap" style="margin-bottom:36px">
-    <p class="eyebrow gsap-up">Transformaci&oacute;n</p>
-    <h2 class="sec-title gsap-up">De d&oacute;nde est&aacute;s<br/>a d&oacute;nde llegas</h2>
-  </div>
+<!-- ROADMAP -->
+<section id="road">
   <div class="wrap">
-    <div class="ba-header"><div class="ba-hcell hbef">Hoy</div><div class="ba-hcell haft">Con Consultora DV</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">Facebook con 167K seguidores y 20 reacciones promedio. Audiencia dormida.</div><div class="ba-cell aft">Reels activos, alcance org&aacute;nico x3 y una comunidad que compra y recomienda.</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">Zapatera sin existir en Google Maps. Boutique con 5 rese&ntilde;as.</div><div class="ba-cell aft">Ambas tiendas optimizadas, visibles y con flujo constante de rese&ntilde;as nuevas.</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">TikTok abandonada con 3K seguidores y sin bio ni links.</div><div class="ba-cell aft">TikTok activada con sistema de contenido y potencial viral desde cero.</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">Instagram con outfits sin narrativa. Cat&aacute;logo visual.</div><div class="ba-cell aft">Marca personal Bianca Aldama con voz, pilares y sistema que vende.</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">Clientas satisfechas que no publican ni recomiendan en digital.</div><div class="ba-cell aft">Programa UGC activo: tus clientas son tu mejor contenido y fuente de confianza.</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">Ingresos 100% dependientes de las tiendas f&iacute;sicas.</div><div class="ba-cell aft">Nuevas fuentes: colaboraciones pagadas, cursos, afiliados, ventas online.</div></div>
-    <div class="ba-row gsap-row"><div class="ba-cell bef">DMs de WhatsApp e Instagram sin protocolo ni seguimiento.</div><div class="ba-cell aft">IA 24/7 que responde, cualifica y cierra ventas mientras t&uacute; duermes.</div></div>
+    <div class="road-top">
+      <div class="sec-label rv" style="color:var(--tc);" data-t="ro_ey">05 — Fases de Implementación</div>
+      <h2 class="road-h2 rv" data-t="ro_h2">Del acuerdo<br>al <em>primer resultado.</em></h2>
+    </div>
+    <div class="phases">
+      <div class="ph rv">
+        <div class="ph-bg">01</div>
+        <div class="ph-label" data-t="r1_l">Mes 1–2</div>
+        <div class="ph-title" data-t="r1_t">Cimientos</div>
+        <div class="ph-sub" data-t="r1_s">Diagnóstico profundo + Arquitectura</div>
+        <ul class="ph-items">
+          <li class="ph-item" data-t="r1_i1">Auditoría completa de canales digitales</li>
+          <li class="ph-item" data-t="r1_i2">Alta y optimización Google Maps (ambas tiendas)</li>
+          <li class="ph-item" data-t="r1_i3">Activación Facebook + primer reel estacional</li>
+          <li class="ph-item" data-t="r1_i4">TikTok activada con primeros 4 videos</li>
+          <li class="ph-item" data-t="r1_i5">Arquitectura e-commerce (Tier II)</li>
+        </ul>
+      </div>
+      <div class="ph rv">
+        <div class="ph-bg">02</div>
+        <div class="ph-label" data-t="r2_l">Mes 3–4</div>
+        <div class="ph-title" data-t="r2_t">Tracción</div>
+        <div class="ph-sub" data-t="r2_s">Contenido en escala + E-commerce Beta</div>
+        <ul class="ph-items">
+          <li class="ph-item" data-t="r2_i1">Sistema UGC activado en TikTok e IG</li>
+          <li class="ph-item" data-t="r2_i2">Primera colección live en TikTok Shop</li>
+          <li class="ph-item" data-t="r2_i3">E-commerce beta con colección principal</li>
+          <li class="ph-item" data-t="r2_i4">Landings de temporada activas</li>
+          <li class="ph-item" data-t="r2_i5">Reportes semanales de métricas</li>
+        </ul>
+      </div>
+      <div class="ph rv">
+        <div class="ph-bg">03</div>
+        <div class="ph-label" data-t="r3_l">Mes 5–6</div>
+        <div class="ph-title" data-t="r3_t">Escala</div>
+        <div class="ph-sub" data-t="r3_s">Motor completo operando</div>
+        <ul class="ph-items">
+          <li class="ph-item" data-t="r3_i1">E-commerce full con inventario sincronizado</li>
+          <li class="ph-item" data-t="r3_i2">UGC TikTok generando ventas automatizadas</li>
+          <li class="ph-item" data-t="r3_i3">Marca humanizada, funciona sin Bianca presente</li>
+          <li class="ph-item" data-t="r3_i4">Análisis de expansión y siguientes metas</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- CLOSING -->
-<section class="closing">
-  <div class="cl-bg" id="cl-bg" style="background-image:url('https://images.unsplash.com/photo-1483181994823-d605e8f2e1ce?w=1920&q=70&auto=format&fit=crop')"></div>
-  <div class="cl-glow"></div>
-  <div class="cl-content gsap-close">
-    <p class="cl-eyebrow">El siguiente paso</p>
-    <p class="cl-quote">Llevas <span>12 a&ntilde;os construyendo una marca</span> que la gente ama. Lo &uacute;nico que falta es un <span>sistema digital</span> que lleve esa amor a donde est&aacute; tu pr&oacute;xima cliente &mdash; <span>en la pantalla.</span></p>
-    <div class="cl-line"></div>
-    <p class="cl-detail">Nos adaptamos a tu ritmo y a tu visi&oacute;n. T&uacute; decides desde d&oacute;nde empezar. Lo que no cambia es que cada d&iacute;a sin sistema, tu competencia crece con las mismas herramientas que t&uacute; ya tienes.</p>
-    <a href="#tiers" class="cta">Ver niveles de inversi&oacute;n</a>
+<section id="closing">
+  <div class="closing-bg"></div>
+  <div class="closing-inner">
+    <div class="sec-label rv" data-t="cl_ey">06 — Siguientes Pasos</div>
+    <h2 class="closing-h2 rv" data-t="cl_h2">Bianca Aldama.<br>La <em>era digital</em><br>empieza hoy.</h2>
+    <p class="closing-sub rv" data-t="cl_sub">Tenemos todo lo necesario para llevar tu boutique al siguiente nivel. La pregunta no es si lo vas a hacer — es cuándo empezamos.</p>
+    <div class="btns rv">
+      <a class="btn-p" href="https://calendar.app.google/XpXhKe2rSH7x7HUy7" target="_blank" data-t="cl_b1">Agendar Llamada Estratégica</a>
+      <button class="btn-o" onclick="openChat()" data-t="cl_b2">Hablar con el equipo</button>
+    </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <p>Consultora DV &mdash; Dante Vega &mdash; Documento confidencial &mdash; Abril 2026</p>
+  <div class="f-logo">Bianca Aldama × Consultora DV</div>
+  <div class="f-note" data-t="f_note">Documento confidencial — Uso exclusivo interno © 2026</div>
 </footer>
 
-<!-- AI CHAT WIDGET -->
-<button id="ai-chat-btn" onclick="toggleChat()" aria-label="Asistente Bianca Aldama">
-  <div class="chat-ping"></div>
-  <svg viewBox="0 0 24 24"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H6l-2 2V4h16v10z"/></svg>
+<!-- CHAT -->
+<button id="cfab" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
 </button>
-
-<div id="ai-chat-window">
-  <div class="chat-header">
-    <div class="chat-avatar">
-      <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=100&q=80&auto=format&fit=crop" alt="Bianca AI"/>
+<div id="cpanel">
+  <div class="chat-hd">
+    <div class="chat-hd-l">
+      <div class="chat-av">👗</div>
+      <div>
+        <div class="chat-hd-name" id="ch-name">Sofía — Asistente DV</div>
+        <div class="chat-hd-status" id="ch-status">En línea ahora</div>
+      </div>
     </div>
-    <div class="chat-hinfo">
-      <div class="chat-hname" id="chat-hname">Asistente Bianca Boutique</div>
-      <div class="chat-hstatus" id="chat-hstatus">Activo ahora</div>
-      <div class="chat-hpowered" id="chat-hpowered">Impulsado por IA &mdash; Tier 3 Consultora DV</div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">&#x2715;</button>
+    <button class="chat-close" onclick="toggleChat()">×</button>
   </div>
-  <div class="chat-messages" id="chat-msgs"></div>
-  <div class="chat-footer">
-    <div class="chat-input-demo" id="chat-placeholder">Escribe un mensaje&hellip;</div>
-    <div class="chat-send-btn"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="chat-foot">
+    <input type="text" class="chat-inp" id="chat-inp" placeholder="Escribe tu respuesta..." onkeydown="if(event.key==='Enter')advChat()">
+    <button class="chat-send" onclick="advChat()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
   </div>
-  <div class="chat-disclaimer" id="chat-disclaimer">IA demostrativa &mdash; as&iacute; trabaja tu agente 24/7</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-/* ── PROGRESS BAR ─────────────────────────────────────── */
-const bar = document.getElementById('bar');
-window.addEventListener('scroll',()=>{bar.style.width=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
-
-/* ── NAV ──────────────────────────────────────────────── */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60),{passive:true});
-
-/* ── CUSTOM CURSOR ────────────────────────────────────── */
-if(window.innerWidth>1023){
-  const dot=document.getElementById('cdot'),ring=document.getElementById('cring');
-  let mx=0,my=0,rx=0,ry=0;
-  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-  (function tick(){
-    dot.style.transform=`translate(calc(${mx}px - 50%),calc(${my}px - 50%))`;
-    rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
-    ring.style.transform=`translate(calc(${rx}px - 50%),calc(${ry}px - 50%))`;
-    requestAnimationFrame(tick);
-  })();
-  document.querySelectorAll('a,.tier,.gal-item,.r-card,.cta').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{ring.style.width=ring.style.height='52px';});
-    el.addEventListener('mouseleave',()=>{ring.style.width=ring.style.height='34px';});
-  });
-}
-
-/* ── HERO CANVAS PARTICLES ─────────────────────────────── */
-const cvs=document.getElementById('hero-canvas');
-const ctx=cvs.getContext('2d');
-const resize=()=>{cvs.width=cvs.offsetWidth;cvs.height=cvs.offsetHeight;};
-resize();window.addEventListener('resize',resize,{passive:true});
-class P{
-  constructor(init){this.x=Math.random()*cvs.width;this.y=init?Math.random()*cvs.height:cvs.height+5;this.r=Math.random()*1.6+.3;this.vy=-(Math.random()*.45+.15);this.vx=(Math.random()-.5)*.22;this.a=Math.random()*.3+.06;}
-}
-const pts=Array.from({length:65},()=>new P(true));
-(function anim(){
-  ctx.clearRect(0,0,cvs.width,cvs.height);
-  pts.forEach(p=>{p.y+=p.vy;p.x+=p.vx;if(p.y<-4){Object.assign(p,new P(false));}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,132,138,${p.a})`;ctx.fill();});
-  requestAnimationFrame(anim);
-})();
-
-/* ── GSAP SCROLL ANIMATIONS ──────────────────────────── */
-gsap.registerPlugin(ScrollTrigger);
-gsap.to('#hero-bg',{yPercent:25,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
-['#ib1','#ib2'].forEach(sel=>{gsap.to(sel,{yPercent:22,ease:'none',scrollTrigger:{trigger:document.querySelector(sel).closest('.img-break'),start:'top bottom',end:'bottom top',scrub:true}});});
-gsap.to('#cl-bg',{yPercent:18,ease:'none',scrollTrigger:{trigger:'.closing',start:'top bottom',end:'bottom top',scrub:true}});
-gsap.utils.toArray('.gsap-up').forEach(el=>{gsap.from(el,{y:34,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});});
-gsap.utils.toArray('.gsap-card').forEach(card=>{const x=card.dataset.d==='right'?48:-48;gsap.from(card,{x,opacity:0,duration:.85,ease:'power3.out',scrollTrigger:{trigger:card,start:'top 88%',onEnter:()=>card.classList.add('animate-in')}});});
-gsap.from('.opp-big',{scale:.8,opacity:0,duration:1.2,ease:'power4.out',scrollTrigger:{trigger:'.opp-big',start:'top 82%'}});
-document.querySelectorAll('.counter').forEach(el=>{
-  const target=+el.dataset.target,suffix=el.dataset.suffix||'';
-  ScrollTrigger.create({trigger:el,start:'top 82%',onEnter:()=>{
-    if(target===0){el.textContent='0'+suffix;return;}
-    gsap.to({v:0},{v:target,duration:2.2,ease:'power2.out',onUpdate:function(){el.textContent=(target>=1000?Math.round(this.targets()[0].v).toLocaleString():Math.round(this.targets()[0].v))+suffix;}});
-  }});
-});
-gsap.from('.gsap-stat',{y:28,opacity:0,stagger:.1,duration:.7,ease:'power2.out',scrollTrigger:{trigger:'.opp-stats',start:'top 82%'}});
-gsap.from('.gsap-tier',{y:55,opacity:0,stagger:.13,duration:.85,ease:'power3.out',scrollTrigger:{trigger:'.tiers-grid',start:'top 82%'}});
-gsap.utils.toArray('.gsap-row').forEach((row,i)=>{gsap.from(row,{x:i%2===0?-28:28,opacity:0,duration:.65,ease:'power2.out',scrollTrigger:{trigger:row,start:'top 90%'}});});
-gsap.from('.gsap-close',{y:48,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.closing',start:'top 72%'}});
-
-/* ── GALLERY DRAG ─────────────────────────────────────── */
-const gal=document.getElementById('gal');
-let down=false,sx,sl;
-gal.addEventListener('mousedown',e=>{down=true;gal.classList.add('grabbing');sx=e.pageX-gal.offsetLeft;sl=gal.scrollLeft;});
-['mouseleave','mouseup'].forEach(ev=>gal.addEventListener(ev,()=>{down=false;gal.classList.remove('grabbing');}));
-gal.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();gal.scrollLeft=sl-(e.pageX-gal.offsetLeft-sx)*1.5;});
-
-/* ── TIER TOGGLE (mobile) ────────────────────────────── */
-function openTier(card){
-  if(window.innerWidth>=768)return;
-  const isOpen=card.classList.contains('open');
-  document.querySelectorAll('.tier').forEach(t=>{t.classList.remove('open');t.querySelector('.tier-body').style.maxHeight='0';});
-  if(!isOpen){card.classList.add('open');const b=card.querySelector('.tier-body');b.style.maxHeight=b.scrollHeight+'px';}
-}
-
-/* ── LANGUAGE TOGGLE ──────────────────────────────────── */
-let currentLang='es';
-
 const T={
   es:{
-    nav_right:'Inversi\u00f3n<br/>Estrat\u00e9gica',
-    hero_eyebrow:'Estrategia de marca personal y crecimiento digital',
-    hero_title:'Bianca <em>Aldama</em>',
-    hero_sub:'73K seguidores que admiran tu estilo \u2014 es momento de que tambi\u00e9n compren tu visi\u00f3n.',
-    hero_pills:'<span class="hero-pill">73K Instagram</span><span class="hero-pill">167K Facebook</span><span class="hero-pill">3 Tiendas F\u00edsicas</span>',
-    marquee_items:'Confidencial — Consultora DV × Bianca Aldama|Abril 2026 — Estrategia de Marca Personal|Moda & Estilo de Vida — Sistema Digital Integral|Documento Privado — Uso Exclusivo del Cliente',
-    eyebrows:['La realidad','El costo de no actuar','Tu inversi\u00f3n','Transformaci\u00f3n'],
-    sec_titles:['Lo que tienes vs.<br/>lo que el mundo ve','3 niveles,<br/>una sola direcci\u00f3n','De d\u00f3nde est\u00e1s<br/>a d\u00f3nde llegas'],
-    sec_leads:['Bianca Aldama tiene una marca con historia, tres tiendas y 240K seguidores combinados. Pero digitalmente, est\u00e1 dejando millones sobre la mesa.','Cada nivel construye sobre el anterior. T\u00fa decides desde d\u00f3nde empezar \u2014 el sistema completo es el objetivo.'],
-    opp_big:'$50K+',opp_lbl:'MXN mensuales que tu audiencia dormida no genera',
-    opp_ctx:'Tienes la audiencia, tienes el producto, tienes la personalidad. Lo que te falta es el sistema que convierte seguidores en compradores y compradores en fans que regresan. <span class="opp-hl">Cada mes sin estrategia es un mes que tu competencia crece con las mismas herramientas que t\u00fa ya tienes.</span>',
-    opp_stat_txts:['Seguidores Facebook sin activar con reels','Zapatera sin existir en Google Maps','Seguidores TikTok sin bio ni estrategia'],
-    tier_names:['Presencia & Activaci\u00f3n','Marca Personal + Ventas','Sistema Integral'],
-    tier_units:['MXN / mes','MXN / mes','MXN / mes'],
-    tier_equivs:['El valor de 3-4 outfits de tu tienda','Menos del 1% de tu facturaci\u00f3n mensual estimada','Una fracci\u00f3n de lo que genera un mes con estrategia'],
-    tier_badge:'Recomendado',
-    tier_toggle_labels:['Ver detalle','Ver detalle','Ver detalle'],
-    ib1_text:'<span>240K seguidores combinados. 3 tiendas f\u00edsicas. 12 a\u00f1os de marca.</span><br/>Una sola estrategia digital puede triplicar lo que ya tienes.',
-    ib2_text:'<span>Tu audiencia ya existe. Tu producto ya existe.</span><br/>Lo que falta es el sistema que los conecta y los convierte.',
-    ba_hbef:'Hoy',ba_haft:'Con Consultora DV',
-    ba_cells:['Facebook con 167K seguidores y 20 reacciones promedio. Audiencia dormida.','Reels activos, alcance org\u00e1nico x3 y una comunidad que compra y recomienda.','Zapatera sin existir en Google Maps. Boutique con 5 rese\u00f1as.','Ambas tiendas optimizadas, visibles y con flujo constante de rese\u00f1as nuevas.','TikTok abandonada con 3K seguidores y sin bio ni links.','TikTok activada con sistema de contenido y potencial viral desde cero.','Instagram con outfits sin narrativa. Cat\u00e1logo visual.','Marca personal Bianca Aldama con voz, pilares y sistema que vende.','Clientas satisfechas que no publican ni recomiendan en digital.','Programa UGC activo: tus clientas son tu mejor contenido y fuente de confianza.','Ingresos 100% dependientes de las tiendas f\u00edsicas.','Nuevas fuentes: colaboraciones pagadas, cursos, afiliados, ventas online.','DMs de WhatsApp e Instagram sin protocolo ni seguimiento.','IA 24/7 que responde, cualifica y cierra ventas mientras t\u00fa duermes.'],
-    cl_eyebrow:'El siguiente paso',
-    cl_quote:'Llevas <span>12 a\u00f1os construyendo una marca</span> que la gente ama. Lo \u00fanico que falta es un <span>sistema digital</span> que lleve ese amor a donde est\u00e1 tu pr\u00f3xima cliente \u2014 <span>en la pantalla.</span>',
-    cl_detail:'Nos adaptamos a tu ritmo y a tu visi\u00f3n. T\u00fa decides desde d\u00f3nde empezar. Lo que no cambia es que cada d\u00eda sin sistema, tu competencia crece con las mismas herramientas que t\u00fa ya tienes.',
-    cta:'Ver niveles de inversi\u00f3n',
-    footer:'Consultora DV \u2014 Dante Vega \u2014 Documento confidencial \u2014 Abril 2026',
-    chat_hname:'Asistente Bianca Boutique',chat_hstatus:'Activo ahora',
-    chat_powered:'Impulsado por IA \u2014 Tier 3 Consultora DV',
-    chat_placeholder:'Escribe un mensaje\u2026',
-    chat_disclaimer:'IA demostrativa \u2014 as\u00ed trabaja tu agente 24/7',
+    nav_logo:'BA × DV',nav_conf:'Documento Confidencial',
+    h_ey:'Propuesta Estratégica Exclusiva — 2026',
+    h_h1:'La boutique<br>que <em>México</em><br>merece ver.',
+    h_sub:'Bianca Aldama Boutique tiene todo lo que una marca necesita para dominar el mercado de moda en México. Solo falta la arquitectura correcta para activarlo.',
+    hs1:'Seguidores IG',hs2:'Comunidad FB Dormida',hs3:'Tiendas Físicas',hs4:'Años en el Mercado',scroll:'Scroll',
+    q_label:'01 — La Marca',
+    q_h2:'Una visión de moda<br>que <em>ya existe.</em>',
+    q_body:'Desde 2014, Bianca Aldama Boutique ha construido algo que el dinero no puede comprar de la noche a la mañana: una comunidad real, con clientes que regresan, que confían, y que las grandes marcas no pueden replicar. Tres tiendas físicas en Zapopan, presencia en línea activa y una figura que modela lo que vende. La base está. Lo que falta es el motor que la escale.',
+    q_c1:'Año de fundación',q_c2:'Tiendas en Zapopan',q_c3:'Comunidad total acumulada',
+    d_ey:'02 — Radiografía Digital',
+    d_h2:'Lo que el mundo ve.<br><em>Y lo que no está viendo.</em>',
+    d_s1:'Activa ✓',d_d1:'Bianca modela sus propios outfits. Comunidad real y orgánica. Potencial de monetización sin explotar.',
+    d_s2:'Dormida ⚠',d_d2:'167K seguidores sin activar. Sin reels. 20 reacciones promedio. Una mina de oro sin tocar.',
+    d_s3:'Abandonada ✗',d_d3:'Sin bio, sin links, sin contenido activo. La plataforma de mayor alcance en moda desperdiciada.',
+    d_s4:'Incompleto ✗',d_d4:'Zapatería no aparece en Maps. Boutique con 5 opiniones. Clientes buscando y no encontrando.',
+    d_s5:'Básico ⚠',d_d5:'biancaaldama.com activo pero sin infraestructura de escala. Sin sync multi-tienda ni TikTok Shop.',
+    d_ins:'Tienes <strong>240,000 personas</strong> que ya te conocen. El trabajo no es construir audiencia desde cero — es <strong>activar lo que ya existe</strong> y convertirlo en ventas reales.',
+    a_ey:'03 — Complejidad Real',
+    a_h2:'No todas las<br>páginas web son<br><em>iguales.</em>',
+    a_body:'Construir el e-commerce de Bianca Aldama Boutique no es lo mismo que construir cualquier sitio web. Es una operación comercial digital completa: tres puntos de venta físicos que deben sincronizarse en tiempo real, cientos de SKUs con colecciones estacionales, integración con TikTok Shop, múltiples pasarelas de pago, logística de envíos, guías de tallas, gestión de devoluciones... y todo debe funcionar perfectamente desde el día uno. Esa complejidad es precisamente lo que refleja la inversión.',
+    a_quote:'"No vendemos páginas web. Construimos motores de venta que trabajan para ti 24/7, incluso cuando la tienda está cerrada."',
+    a_rec_ey:'Sobre la inversión anterior',a_rec_h:'Tu experiencia previa no fue un error tuyo.',
+    a_rec_p:'Muchas agencias venden promesas sin la estructura para cumplirlas. <strong>Lo que te entregaron no estaba a la altura de tu negocio.</strong> Nosotros trabajamos diferente: métricas claras desde el día uno, fases documentadas y cero sorpresas.',
+    cx1_t:'Inventario Multi-Tienda en Tiempo Real',cx1_d:'3 tiendas físicas + e-commerce sincronizados. Si una pieza se vende en Plaza Coronado, <em>desaparece automáticamente</em> del sitio y del TikTok Shop.',
+    cx2_t:'Catálogo Estacional de Alta Complejidad',cx2_d:'Colecciones que rotan, tallas, variantes de color, temporadas. No es un catálogo de 10 productos — es <em>500+ SKUs</em> con lógica editorial constante.',
+    cx3_t:'TikTok Shop + UGC Integrado',cx3_d:'Integración nativa de TikTok Shop para vender desde videos. <em>Red de creadores</em> que mueven producto con comisiones automatizadas.',
+    cx4_t:'Logística y Post-Venta Automatizada',cx4_d:'Integración con paqueterías, rastreo, devoluciones, cambios de talla. <em>Todo automatizado</em> sin operación manual.',
+    cx5_t:'Pagos, MSI y Financiamiento',cx5_d:'Múltiples pasarelas, meses sin intereses, BNPL. <em>Cada opción adicional</em> aumenta directamente la conversión.',
+    ti_ey:'04 — Inversión Estratégica',ti_h2:'Dos caminos.<br><em>Una dirección.</em>',
+    t1_badge:'Tier I — Presencia & Autoridad',t1_name:'Comunicación Completa',per:'/mes',
+    t1_tag:'Tu boutique presente, activa y convirtiendo en todas las plataformas — sin depender de que estés en cada publicación.',
+    t1_s1:'Estrategia & Contenido',
+    t1_i1:'Estrategia de contenido mensual personalizada para la boutique',t1_i2:'Creación de contenido para Instagram (feed + stories + reels)',
+    t1_i3:'Activación de los 167K en Facebook con reels y contenido orgánico',t1_i4:'TikTok activada: bio, links, primeros videos virales de moda',
+    t1_i5:'Landing pages para lanzamientos de colecciones y temporadas',t1_s2:'Conversión & Presencia Local',
+    t1_i6:'Formularios y filtros de leads para captura de clientes',t1_i7:'Google Maps: alta y optimización de ambas tiendas',
+    t1_i8:'UGC Reps: micro-influencers locales en tu estilo',t1_i9:'Humanización progresiva: la marca funciona sola paulatinamente',
+    t1_cta:'Quiero saber más',t1_note:'Servicios adicionales fuera del tier se cotizan por separado',
+    t2_badge:'Tier II — Motor Completo',t2_name:'Presencia + E-Commerce',
+    t2_tag:'Todo el Tier I más la construcción de tu infraestructura digital completa: un e-commerce robusto que vende mientras duermes.',
+    t2_s1:'Todo el Tier I incluido, más:',
+    t2_i1:'E-commerce web de alta performance: diseño editorial, UX de lujo, velocidad profesional',
+    t2_i2:'Sincronización en tiempo real entre las 3 tiendas físicas y el e-commerce',
+    t2_i3:'Catálogo digital completo: 500+ SKUs, tallas, variantes, colecciones estacionales',
+    t2_i4:'TikTok Shop integrado: venta directa desde videos con checkout nativo',
+    t2_i5:'UGC TikTok: red de creadores que mueven producto con comisiones automáticas',
+    t2_s2:'Infraestructura & Automatización',
+    t2_i6:'Integración logística completa: paqueterías, rastreo, devoluciones y cambios',
+    t2_i7:'Múltiples métodos de pago: tarjeta, OXXO, MSI, BNPL',
+    t2_i8:'Reviews, listas de deseos y notificaciones de disponibilidad',
+    t2_i9:'Humanización de marca avanzada: Bianca Aldama Boutique opera sola',
+    t2_cta:'Este es mi plan',t2_note:'Servicios adicionales fuera del tier se cotizan por separado',
+    ro_ey:'05 — Fases de Implementación',ro_h2:'Del acuerdo<br>al <em>primer resultado.</em>',
+    r1_l:'Mes 1–2',r1_t:'Cimientos',r1_s:'Diagnóstico profundo + Arquitectura',
+    r1_i1:'Auditoría completa de canales digitales',r1_i2:'Alta y optimización Google Maps (ambas tiendas)',
+    r1_i3:'Activación Facebook + primer reel estacional',r1_i4:'TikTok activada con primeros 4 videos',r1_i5:'Arquitectura e-commerce (Tier II)',
+    r2_l:'Mes 3–4',r2_t:'Tracción',r2_s:'Contenido en escala + E-commerce Beta',
+    r2_i1:'Sistema UGC activado en TikTok e IG',r2_i2:'Primera colección live en TikTok Shop',
+    r2_i3:'E-commerce beta con colección principal',r2_i4:'Landings de temporada activas',r2_i5:'Reportes semanales de métricas',
+    r3_l:'Mes 5–6',r3_t:'Escala',r3_s:'Motor completo operando',
+    r3_i1:'E-commerce full con inventario sincronizado',r3_i2:'UGC TikTok generando ventas automatizadas',
+    r3_i3:'Marca humanizada, funciona sin Bianca presente',r3_i4:'Análisis de expansión y siguientes metas',
+    cl_ey:'06 — Siguientes Pasos',cl_h2:'Bianca Aldama.<br>La <em>era digital</em><br>empieza hoy.',
+    cl_sub:'Tenemos todo lo necesario para llevar tu boutique al siguiente nivel. La pregunta no es si lo vas a hacer — es cuándo empezamos.',
+    cl_b1:'Agendar Llamada Estratégica',cl_b2:'Hablar con el equipo',
+    f_note:'Documento confidencial — Uso exclusivo interno © 2026',
+    ch_name:'Sofía — Asistente DV',ch_status:'En línea ahora',ch_ph:'Escribe tu respuesta...'
   },
   en:{
-    nav_right:'Strategic<br/>Investment',
-    hero_eyebrow:'Personal brand strategy & digital growth',
-    hero_title:'Bianca <em>Aldama</em>',
-    hero_sub:'73K followers who love your style \u2014 time for them to love your vision too.',
-    hero_pills:'<span class="hero-pill">73K Instagram</span><span class="hero-pill">167K Facebook</span><span class="hero-pill">3 Physical Stores</span>',
-    marquee_items:'Confidential — Consultora DV × Bianca Aldama|April 2026 — Personal Brand Strategy|Fashion & Lifestyle — Full Digital System|Private Document — Exclusive Client Use',
-    eyebrows:['The reality','The cost of inaction','Your investment','Transformation'],
-    sec_titles:['What you have vs.<br/>what the world sees','3 tiers,<br/>one direction','Where you are<br/>vs. where you end up'],
-    sec_leads:['Bianca Aldama has a brand with history, three stores, and 240K combined followers. But digitally, she\u2019s leaving millions on the table.','Each tier builds on the previous one. You decide where to start \u2014 the full system is the goal.'],
-    opp_big:'$50K+',opp_lbl:'MXN monthly your sleeping audience isn\u2019t generating',
-    opp_ctx:'You have the audience, the product, the personality. What\u2019s missing is the system that turns followers into buyers and buyers into returning fans. <span class="opp-hl">Every month without a strategy is a month your competition grows using the same tools you already have.</span>',
-    opp_stat_txts:['Facebook followers not activated with reels','Shoe store not existing on Google Maps','TikTok followers with no bio or strategy'],
-    tier_names:['Presence & Activation','Personal Brand + Sales','Full System'],
-    tier_units:['MXN / mo','MXN / mo','MXN / mo'],
-    tier_equivs:['The value of 3-4 outfits from your store','Less than 1% of estimated monthly revenue','A fraction of what one month with strategy generates'],
-    tier_badge:'Recommended',
-    tier_toggle_labels:['See details','See details','See details'],
-    ib1_text:'<span>240K combined followers. 3 physical stores. 12 years of brand.</span><br/>One digital strategy can triple what you already have.',
-    ib2_text:'<span>Your audience already exists. Your product already exists.</span><br/>What\u2019s missing is the system that connects and converts them.',
-    ba_hbef:'Today',ba_haft:'With Consultora DV',
-    ba_cells:['Facebook with 167K followers and 20 average reactions. Sleeping audience.','Active reels, organic reach x3, and a community that buys and recommends.','Shoe store not on Google Maps. Boutique with 5 reviews.','Both stores optimized, visible, and with a steady flow of new reviews.','TikTok abandoned with 3K followers and no bio or links.','TikTok activated with a content system and viral potential from zero.','Instagram with outfits but no narrative. Just a visual catalog.','Bianca Aldama personal brand with voice, pillars, and a system that sells.','Happy clients who don\u2019t post or recommend online.','Active UGC program: your clients are your best content and trust source.','Revenue 100% dependent on physical stores.','New streams: paid collabs, courses, affiliates, online sales.','WhatsApp and Instagram DMs with no protocol or follow-up.','AI 24/7 that responds, qualifies, and closes sales while you sleep.'],
-    cl_eyebrow:'The next step',
-    cl_quote:'You\u2019ve spent <span>12 years building a brand</span> people love. All that\u2019s missing is a <span>digital system</span> that carries that love to where your next client is \u2014 <span>on the screen.</span>',
-    cl_detail:'We adapt to your pace and your vision. You decide where to start. What doesn\u2019t change is that every day without a system, your competition grows using the same tools you already have.',
-    cta:'View investment levels',
-    footer:'Consultora DV \u2014 Dante Vega \u2014 Confidential document \u2014 April 2026',
-    chat_hname:'Bianca Boutique Assistant',chat_hstatus:'Active now',
-    chat_powered:'Powered by AI \u2014 Tier 3 Consultora DV',
-    chat_placeholder:'Type a message\u2026',
-    chat_disclaimer:'Demo AI \u2014 this is how your agent works 24/7',
+    nav_logo:'BA × DV',nav_conf:'Confidential Document',
+    h_ey:'Exclusive Strategic Proposal — 2026',
+    h_h1:'The boutique<br>that <em>Mexico</em><br>deserves to see.',
+    h_sub:"Bianca Aldama Boutique has everything a brand needs to dominate Mexico's fashion market. All it needs is the right architecture to activate it.",
+    hs1:'IG Followers',hs2:'Dormant FB Community',hs3:'Physical Stores',hs4:'Years in Market',scroll:'Scroll',
+    q_label:'01 — The Brand',
+    q_h2:'A fashion vision<br>that <em>already exists.</em>',
+    q_body:"Since 2014, Bianca Aldama Boutique has built something money can't buy overnight: a real community of returning, trusting customers that major brands can't easily replicate. Three physical stores in Zapopan, active online presence and a figure who models what she sells. The foundation is there. What's missing is the engine to scale it.",
+    q_c1:'Founded',q_c2:'Stores in Zapopan',q_c3:'Total community',
+    d_ey:'02 — Digital Diagnosis',
+    d_h2:"What the world sees.<br><em>And what it's missing.</em>",
+    d_s1:'Active ✓',d_d1:'Bianca models her own outfits. Real, organic community. Untapped monetization potential.',
+    d_s2:'Dormant ⚠',d_d2:'167K followers not activated. No reels. 20 avg reactions. An untouched goldmine.',
+    d_s3:'Abandoned ✗',d_d3:"No bio, no links, no active content. Fashion's highest organic-reach platform wasted.",
+    d_s4:'Incomplete ✗',d_d4:"Shoe store doesn't appear on Maps. Boutique has 5 reviews. Customers searching and not finding.",
+    d_s5:'Basic ⚠',d_d5:"biancaaldama.com active but without scale infrastructure. No multi-store sync, no TikTok Shop.",
+    d_ins:'You have <strong>240,000 people</strong> who already know you. The work is not building an audience from scratch — it is <strong>activating what already exists</strong> and turning it into real sales.',
+    a_ey:'03 — Real Complexity',
+    a_h2:'Not all websites<br>are<br><em>created equal.</em>',
+    a_body:"Building the Bianca Aldama Boutique e-commerce isn't the same as building just any website. It's a complete digital commercial operation: three physical points of sale syncing in real time, hundreds of SKUs with seasonal collections, TikTok Shop integration, multiple payment gateways, shipping logistics, size guides, return management... all of this must work perfectly from day one. That complexity is precisely what the investment reflects.",
+    a_quote:'"We don\'t sell websites. We build sales engines that work for you 24/7, even when the store is closed."',
+    a_rec_ey:'About your previous investment',a_rec_h:'Your previous experience was not your fault.',
+    a_rec_p:"Many agencies sell promises without the structure to deliver them. <strong>What they gave you wasn't up to the level of your business.</strong> We work differently: clear performance metrics from day one, documented phase delivery and zero surprises.",
+    cx1_t:'Real-Time Multi-Store Inventory',cx1_d:'3 physical stores + e-commerce synced instantly. If a piece sells at Plaza Coronado, it <em>automatically disappears</em> from the site and TikTok Shop.',
+    cx2_t:'Complex Seasonal Catalog',cx2_d:"Rotating collections, sizes, color variants, seasons. This isn't a 10-product catalog — it's <em>500+ SKUs</em> with constant editorial logic.",
+    cx3_t:'TikTok Shop + Integrated UGC',cx3_d:'Native TikTok Shop integration to sell from videos. <em>Creator network</em> moving product with automated commissions.',
+    cx4_t:'Automated Logistics & Post-Sale',cx4_d:'Carrier integration, real-time tracking, returns, size exchanges. <em>All automated</em> without manual operation.',
+    cx5_t:'Payments, Installments & Financing',cx5_d:'Multiple gateways, installments, BNPL. <em>Every additional payment option</em> directly increases conversion.',
+    ti_ey:'04 — Strategic Investment',ti_h2:'Two paths.<br><em>One direction.</em>',
+    t1_badge:'Tier I — Presence & Authority',t1_name:'Full Communication',per:'/month',
+    t1_tag:"Your boutique present, active and converting across all platforms — without depending on you in every post.",
+    t1_s1:'Strategy & Content',
+    t1_i1:'Custom monthly content strategy for the boutique',t1_i2:'Content creation for Instagram (feed + stories + reels)',
+    t1_i3:'Activation of 167K Facebook with reels and organic content',t1_i4:'TikTok activated: bio, links, first viral fashion videos',
+    t1_i5:'Landing pages for collection and seasonal launches',t1_s2:'Conversion & Local Presence',
+    t1_i6:'Lead capture forms and filters',t1_i7:'Google Maps: registration and optimization of both stores',
+    t1_i8:'UGC Reps: local micro-influencers in your style',t1_i9:'Progressive humanization: brand gradually runs on its own',
+    t1_cta:'I want to know more',t1_note:'Additional services outside the tier are quoted separately',
+    t2_badge:'Tier II — Full Engine',t2_name:'Presence + E-Commerce',
+    t2_tag:"Everything in Tier I plus the construction of your complete digital infrastructure: a robust e-commerce that sells while you sleep.",
+    t2_s1:'Everything in Tier I included, plus:',
+    t2_i1:'High-performance e-commerce: editorial design, luxury UX, professional speed',
+    t2_i2:'Real-time inventory sync between 3 physical stores and e-commerce',
+    t2_i3:'Full digital catalog: 500+ SKUs, sizes, variants, seasonal collections',
+    t2_i4:'TikTok Shop integrated: direct selling from videos with native checkout',
+    t2_i5:'TikTok UGC: creator network moving product with automatic commissions',
+    t2_s2:'Infrastructure & Automation',
+    t2_i6:'Full logistics integration: carriers, tracking, returns and exchanges',
+    t2_i7:'Multiple payment methods: card, OXXO, installments, BNPL',
+    t2_i8:'Reviews, wishlists and availability notifications',
+    t2_i9:'Advanced humanization: Bianca Aldama Boutique runs on its own',
+    t2_cta:'This is my plan',t2_note:'Additional services outside the tier are quoted separately',
+    ro_ey:'05 — Implementation Phases',ro_h2:'From agreement<br>to <em>first results.</em>',
+    r1_l:'Month 1–2',r1_t:'Foundation',r1_s:'Deep diagnosis + Architecture',
+    r1_i1:'Full digital channel audit',r1_i2:'Google Maps registration and optimization (both stores)',
+    r1_i3:'Facebook activation + first seasonal reel',r1_i4:'TikTok activated with first 4 videos',r1_i5:'E-commerce architecture (Tier II)',
+    r2_l:'Month 3–4',r2_t:'Traction',r2_s:'Content at scale + E-commerce Beta',
+    r2_i1:'UGC system activated on TikTok and IG',r2_i2:'First collection live on TikTok Shop',
+    r2_i3:'E-commerce beta with main collection',r2_i4:'Seasonal landing pages active',r2_i5:'Weekly metrics reports',
+    r3_l:'Month 5–6',r3_t:'Scale',r3_s:'Full engine operating',
+    r3_i1:'Full e-commerce with synced inventory',r3_i2:'TikTok UGC generating automated sales',
+    r3_i3:'Humanized brand running without Bianca',r3_i4:'Expansion analysis and next targets',
+    cl_ey:'06 — Next Steps',cl_h2:'Bianca Aldama.<br>The <em>digital era</em><br>starts today.',
+    cl_sub:"We have everything needed to take your boutique to the next level. The question isn't whether you're going to do it — it's when we start.",
+    cl_b1:'Schedule Strategy Call',cl_b2:'Talk to the team',
+    f_note:'Confidential document — Internal use only © 2026',
+    ch_name:'Sofia — DV Assistant',ch_status:'Online now',ch_ph:'Type your response...'
   }
 };
 
-function toggleLang(){applyLang(currentLang==='es'?'en':'es');}
-
-function applyLang(lang){
-  currentLang=lang;
-  const d=T[lang];
-  const $$=sel=>document.querySelectorAll(sel);
-  const set=(sel,html)=>{const e=$$(''+sel)[0];if(e)e.innerHTML=html;};
-  const setAll=(sel,arr)=>{$$(sel).forEach((e,i)=>{if(arr[i]!==undefined)e.innerHTML=arr[i];});};
-  set('#t-nav-right',d.nav_right);
-  set('.hero-eyebrow',d.hero_eyebrow);set('.hero-title',d.hero_title);set('.hero-sub',d.hero_sub);set('.hero-pills',d.hero_pills);
-  // Marquee rebuild
-  const track=document.querySelector('.marquee-track');
-  if(track){const items=d.marquee_items.split('|');let html='';[...items,...items].forEach(t=>{html+=`<span class="m-item">${t.replace(' — ',' <span class="m-sep">&mdash;</span> ')}</span>`;});track.innerHTML=html;}
-  setAll('.eyebrow',d.eyebrows);setAll('.sec-title',d.sec_titles);setAll('.sec-lead',d.sec_leads);
-  set('.opp-big',d.opp_big);set('.opp-lbl',d.opp_lbl);set('.opp-ctx',d.opp_ctx);
-  setAll('.opp-txt',d.opp_stat_txts);
-  setAll('.tier-name',d.tier_names);setAll('.tier-unit',d.tier_units);setAll('.tier-equiv',d.tier_equivs);
-  setAll('.tier-toggle span',d.tier_toggle_labels);
-  const badge=document.querySelector('.tier-badge');if(badge)badge.innerHTML=d.tier_badge;
-  // Image break texts
-  const ib1=document.querySelector('#ib1')?.closest('.img-break')?.querySelector('.ib-text p');if(ib1)ib1.innerHTML=d.ib1_text;
-  const ib2=document.querySelector('#ib2')?.closest('.img-break')?.querySelector('.ib-text p');if(ib2)ib2.innerHTML=d.ib2_text;
-  set('.ba-hcell.hbef',d.ba_hbef);set('.ba-hcell.haft',d.ba_haft);
-  setAll('.ba-cell',d.ba_cells);
-  set('.cl-eyebrow',d.cl_eyebrow);set('.cl-quote',d.cl_quote);set('.cl-detail',d.cl_detail);set('.cta',d.cta);
-  set('footer p',d.footer);
-  set('#chat-hname',d.chat_hname);set('#chat-hstatus',d.chat_hstatus);set('#chat-hpowered',d.chat_powered);
-  const ci=document.getElementById('chat-placeholder');if(ci)ci.textContent=d.chat_placeholder;
-  set('#chat-disclaimer',d.chat_disclaimer);
-  document.getElementById('lang-btn').textContent=lang==='es'?'EN':'ES';
-  $$('.tier.open').forEach(t=>{const b=t.querySelector('.tier-body');if(b)b.style.maxHeight=b.scrollHeight+'px';});
-  if(chatStarted){const c=document.getElementById('chat-msgs');c.innerHTML='';chatStarted=false;chatStarted=true;runChatScriptWith(lang==='en'?CHAT_SCRIPT_EN:CHAT_SCRIPT_ES);}
-}
-
-/* ── AI CHAT WIDGET ──────────────────────────────────── */
-const CHAT_SCRIPT_ES=[
-  {role:'agent',text:'¡Hola! Soy la asistente de Bianca Aldama Boutique. Estoy aquí para ayudarte a encontrar el outfit perfecto. ¿Qué ocasión tienes en mente?',delay:1000},
-  {role:'user', text:'Hola, busco algo para una boda de noche en Guadalajara',delay:3200},
-  {role:'agent',text:'¡Perfecto! GDL de noche pide algo especial. ¿Prefieres vestido largo, midi o te atrapan más los conjuntos elegantes?',delay:3000},
-  {role:'user', text:'Me gustan los vestidos midi o largos',delay:3400},
-  {role:'agent',text:'Tenemos una colección preciosa para boda — llegaron piezas nuevas esta semana. ¿Qué talla usas normalmente y tienes algún color que te guste o quieras evitar?',delay:3200},
-  {role:'user', text:'Talla S, prefiero tonos tierra o vino',delay:3500},
-  {role:'agent',text:'Esos tonos están increíbles esta temporada. Tenemos 3 piezas que te van a encantar — un vestido vino con escote en V, uno terracota drapeado y un conjunto midi champagne que es una joya.\n\n¿Te los muestro por aquí o prefieres venir a la boutique esta semana?',delay:3200},
-  {role:'user', text:'Qué bonito suena el vino con escote, ¿cuánto cuesta?',delay:3800},
-  {role:'agent',text:'El vestido vino está en $2,890 MXN y tiene disponibilidad en tu talla. Es de las piezas que más se han movido esta semana 👗\n\n¿Te agendo una cita para que te lo pruebes? Bianca suele estar en boutique martes y jueves — son los mejores días para la experiencia completa.',delay:3200},
-  {role:'user', text:'Sí me interesa, ¿qué días tienen disponibles?',delay:3800},
-  {role:'agent',text:'¡Perfecto! Esta semana tenemos espacio en:\n\n📅 Martes 22 de abril · 11:00 am\n📅 Jueves 24 de abril · 4:00 pm\n📅 Viernes 25 de abril · 12:00 pm\n\nEl jueves casi siempre está Bianca y puede asesorarte personalmente. ¿Cuál te conviene?\n\nAgenda aquí 👉 https://cal.biancaaldama.mx/cita',delay:3000},
-  {role:'user', text:'El jueves a las 4 me queda perfecto, ya lo agendé 🙌',delay:4200},
-  {role:'agent',text:'¡Listo! Te confirmamos por WhatsApp con todos los detalles. Nos vemos el jueves, va a ser un gusto atenderte 💕',delay:3000},
-];
-
-const CHAT_SCRIPT_EN=[
-  {role:'agent',text:'Hi! I\'m the Bianca Aldama Boutique assistant. I\'m here to help you find the perfect outfit. What occasion do you have in mind?',delay:1000},
-  {role:'user', text:'Hi, I\'m looking for something for an evening wedding in Guadalajara',delay:3200},
-  {role:'agent',text:'Perfect! A GDL evening wedding calls for something special. Do you prefer long dresses, midi, or are you more into elegant sets?',delay:3000},
-  {role:'user', text:'I love midi or maxi dresses',delay:3400},
-  {role:'agent',text:'We have a gorgeous collection for weddings — new pieces arrived this week. What\'s your usual size, and do you have a color preference or anything you\'d like to avoid?',delay:3200},
-  {role:'user', text:'Size S, I love earth tones or burgundy',delay:3500},
-  {role:'agent',text:'Those tones are stunning this season. We have 3 pieces you\'re going to love — a burgundy V-neck dress, a draped terracotta one, and a champagne midi set that\'s absolutely stunning.\n\nShall I show you photos here or would you like to come in to the boutique this week?',delay:3200},
-  {role:'user', text:'The burgundy V-neck sounds amazing, how much is it?',delay:3800},
-  {role:'agent',text:'The burgundy dress is $2,890 MXN and available in your size. It\'s one of our most popular pieces this week 👗\n\nShould I book you an appointment to try it on? Bianca is usually in the boutique Tuesdays and Thursdays — the best days for the full experience.',delay:3200},
-  {role:'user', text:'Yes, I\'m interested! What days are available?',delay:3800},
-  {role:'agent',text:'This week we have openings at:\n\n📅 Tuesday, April 22 · 11:00 am\n📅 Thursday, April 24 · 4:00 pm\n📅 Friday, April 25 · 12:00 pm\n\nThursday is usually when Bianca is in and can personally style you. Which works for you?\n\nBook here 👉 https://cal.biancaaldama.mx/appointment',delay:3000},
-  {role:'user', text:'Thursday at 4pm is perfect, just booked it 🙌',delay:4200},
-  {role:'agent',text:'Done! We\'ll confirm everything via WhatsApp. See you Thursday — can\'t wait to help you find your look 💕',delay:3000},
-];
-
-let chatOpen=false,chatStarted=false;
-
-function toggleChat(){
-  chatOpen=!chatOpen;
-  document.getElementById('ai-chat-window').classList.toggle('open',chatOpen);
-  if(chatOpen&&!chatStarted){chatStarted=true;setTimeout(()=>runChatScriptWith(currentLang==='en'?CHAT_SCRIPT_EN:CHAT_SCRIPT_ES),400);}
-}
-
-function runChatScriptWith(script){
-  const container=document.getElementById('chat-msgs');
-  let acc=0;
-  script.forEach((msg,i)=>{
-    acc+=msg.delay;
-    setTimeout(()=>{
-      if(msg.role==='agent'){
-        const typing=document.createElement('div');
-        typing.className='typing-indicator';typing.id='typing-'+i;
-        typing.innerHTML='<span></span><span></span><span></span>';
-        container.appendChild(typing);scrollChat();
-        setTimeout(()=>{const t=document.getElementById('typing-'+i);if(t)t.remove();appendMsg(msg.role,msg.text);scrollChat();},1100);
-      }else{appendMsg(msg.role,msg.text);scrollChat();}
-    },acc);
-    if(msg.role==='agent')acc+=1100;
+let lang='es';
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const k=el.getAttribute('data-t');
+    if(T[l][k]!==undefined) el.innerHTML=T[l][k];
   });
+  document.getElementById('ch-name').textContent=T[l].ch_name;
+  document.getElementById('ch-status').textContent=T[l].ch_status;
+  document.getElementById('chat-inp').placeholder=T[l].ch_ph;
+  resetChat(l);
 }
 
-function appendMsg(role,text){
-  const container=document.getElementById('chat-msgs');
-  const now=new Date();
-  const time=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-  const wrap=document.createElement('div');wrap.className='msg '+role;
-  const bubble=document.createElement('div');bubble.className='msg-bubble';
-  bubble.innerHTML=text.replace(/\n/g,'<br>');
-  const timeEl=document.createElement('div');timeEl.className='msg-time';timeEl.textContent=time;
-  wrap.appendChild(bubble);wrap.appendChild(timeEl);container.appendChild(wrap);
+// CHAT SCRIPTS
+const CS_ES=[
+  {f:'agent',t:'¡Hola! Soy Sofía del equipo de Consultora DV 🌹 ¿Ya estás revisando la propuesta?',d:1000},
+  {f:'user', t:'Sí, la estoy viendo ahora.',d:3500},
+  {f:'agent',t:'Excelente. ¿Tienes alguna pregunta sobre los tiers o sobre cómo funcionaría el proceso?',d:3500},
+  {f:'user', t:'¿Por qué hay tanta diferencia entre el Tier I y el Tier II?',d:3500},
+  {f:'agent',t:'Muy buena pregunta. El Tier I es comunicación digital — contenido, estrategia, activación de plataformas. Eso es manejable con un equipo bien coordinado.',d:4000},
+  {f:'agent',t:'El Tier II es otra dimensión completamente. Construir un e-commerce de moda con 3 tiendas físicas sincronizadas, 500+ productos que rotan por temporada, TikTok Shop, logística de envíos y múltiples pasarelas de pago... es básicamente levantar una tienda departamental en digital. La complejidad técnica es completamente distinta.',d:5500},
+  {f:'user', t:'Entiendo. Pero yo ya pagué mucho por una página que no me funcionó bien antes.',d:3500},
+  {f:'agent',t:'Lo que viviste es desafortunadamente muy común. Muchas agencias prometen sin tener la arquitectura para entregar. Por eso nosotros definimos métricas de éxito desde el día uno, trabajamos por fases documentadas y no hay sorpresas. Lo que construimos tiene que funcionar — no puede ser de otra manera.',d:5000},
+  {f:'agent',t:'¿Cuál de los dos tiers se acerca más a lo que necesitas ahora mismo?',d:3500},
+  {f:'user', t:'El Tier II me interesa. Pero quiero platicar con Dante antes de decidir.',d:3500},
+  {f:'agent',t:'Perfecto, eso tiene mucho sentido. La agenda de Dante está bastante comprometida este mes, pero todavía hay lugar en estos horarios:',d:3500},
+  {f:'agent',t:'📅 <strong>Martes 22 de Abril — 11:00 AM</strong><br>📅 <strong>Jueves 24 de Abril — 3:00 PM</strong><br>📅 <strong>Lunes 28 de Abril — 10:00 AM</strong><br><br>Mayo y junio ya tienen semanas comprometidas — te recomiendo reservar ahora.<br><br><a class="cal-link" href="https://calendar.app.google/XpXhKe2rSH7x7HUy7" target="_blank">📆 Agendar mi lugar</a>',d:4500},
+  {f:'user', t:'Me quedo con el jueves 24 a las 3 PM.',d:3500},
+  {f:'agent',t:'¡Listo! Jueves 24 de Abril, 3:00 PM — apartado para ti 🎉 Dante te va a contactar para confirmar los detalles. ¿Tienes alguna pregunta más antes de la reunión?',d:4000},
+];
+const CS_EN=[
+  {f:'agent',t:"Hi! I'm Sofia from the Consultora DV team 🌹 Are you reviewing the proposal?",d:1000},
+  {f:'user', t:"Yes, I'm looking at it now.",d:3500},
+  {f:'agent',t:'Great. Do you have any questions about the tiers or how the process would work?',d:3500},
+  {f:'user', t:'Why is there such a big difference between Tier I and Tier II?',d:3500},
+  {f:'agent',t:"Great question. Tier I is digital communication — content, strategy, platform activation. That's manageable with a well-coordinated team.",d:4000},
+  {f:'agent',t:"Tier II is a completely different dimension. Building a fashion e-commerce with 3 synced physical stores, 500+ seasonal SKUs, TikTok Shop, shipping logistics and multiple payment gateways... is basically building a department store digitally. The technical complexity is completely different.",d:5500},
+  {f:'user', t:"I understand. But I already paid a lot for a website that didn't work well before.",d:3500},
+  {f:'agent',t:"What you experienced is unfortunately very common. Many agencies promise without having the architecture to deliver. That's why we define success metrics from day one, work in documented phases and there are no surprises. What we build has to work — there's no other option.",d:5000},
+  {f:'agent',t:'Which of the two tiers is closest to what you need right now?',d:3500},
+  {f:'user', t:"Tier II interests me. But I want to talk to Dante before deciding.",d:3500},
+  {f:'agent',t:"Perfect, that makes a lot of sense. Dante's schedule is quite committed this month, but there are still spots at these times:",d:3500},
+  {f:'agent',t:'📅 <strong>Tuesday April 22 — 11:00 AM</strong><br>📅 <strong>Thursday April 24 — 3:00 PM</strong><br>📅 <strong>Monday April 28 — 10:00 AM</strong><br><br>May and June weeks are already committed — I recommend booking now.<br><br><a class="cal-link" href="https://calendar.app.google/XpXhKe2rSH7x7HUy7" target="_blank">📆 Book my spot</a>',d:4500},
+  {f:'user', t:"I'll take Thursday the 24th at 3 PM.",d:3500},
+  {f:'agent',t:"Done! Thursday April 24th, 3:00 PM — reserved for you 🎉 Dante will contact you to confirm the details. Any more questions before the meeting?",d:4000},
+];
+
+let script=[],step=0,chatOpen=false,busy=false;
+function resetChat(l){script=l==='es'?CS_ES:CS_EN;step=0;busy=false;const m=document.getElementById('chat-msgs');if(m)m.innerHTML='';}
+resetChat('es');
+
+function toggleChat(){chatOpen=!chatOpen;document.getElementById('cpanel').classList.toggle('open',chatOpen);if(chatOpen&&step===0&&!busy)runScript();}
+function openChat(){chatOpen=true;document.getElementById('cpanel').classList.add('open');if(step===0&&!busy)runScript();}
+function addMsg(f,h){const b=document.getElementById('chat-msgs');const d=document.createElement('div');d.className='msg '+f;d.innerHTML=h;b.appendChild(d);b.scrollTop=b.scrollHeight;}
+function addTyping(){const b=document.getElementById('chat-msgs');const d=document.createElement('div');d.className='msg typing';d.id='tind';d.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';b.appendChild(d);b.scrollTop=b.scrollHeight;}
+function rmTyping(){const t=document.getElementById('tind');if(t)t.remove();}
+function runScript(){
+  if(step>=script.length){busy=false;return;}
+  busy=true;const s=script[step++];
+  if(s.f==='agent'){addTyping();setTimeout(()=>{rmTyping();addMsg('agent',s.t);busy=false;runScript();},s.d);}
+  else{setTimeout(()=>{addMsg('user',s.t);busy=false;runScript();},s.d);}
 }
+function advChat(){if(!busy&&step<script.length)runScript();}
 
-function scrollChat(){const c=document.getElementById('chat-msgs');c.scrollTop=c.scrollHeight;}
+// CURSOR
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+function animCur(){cd.style.cssText=`left:${mx}px;top:${my}px;`;rx+=(mx-rx)*.14;ry+=(my-ry)*.14;cr.style.cssText=`left:${rx}px;top:${ry}px;`;requestAnimationFrame(animCur);}
+if(window.innerWidth>768)animCur();
 
-ScrollTrigger.create({
-  trigger:'.closing',start:'top 75%',once:true,
-  onEnter:()=>{if(!chatOpen&&!chatStarted){setTimeout(()=>{document.querySelector('.chat-ping').style.animation='ping .5s ease-in-out 4';},500);}}
+// NAV
+document.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+
+// PARTICLES
+const pcv=document.getElementById('pcv'),pctx=pcv.getContext('2d');
+function rsz(){pcv.width=innerWidth;pcv.height=innerHeight;}rsz();window.addEventListener('resize',rsz);
+const COLS=['196,112,95','212,168,168','224,200,190'];
+const pts=Array.from({length:55},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.8+.4,a:Math.random()*.45+.1,c:COLS[Math.floor(Math.random()*COLS.length)]}));
+function animPts(){pctx.clearRect(0,0,pcv.width,pcv.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>pcv.width)p.vx*=-1;if(p.y<0||p.y>pcv.height)p.vy*=-1;pctx.beginPath();pctx.arc(p.x,p.y,p.r,0,Math.PI*2);pctx.fillStyle=`rgba(${p.c},${p.a})`;pctx.fill();});requestAnimationFrame(animPts);}
+animPts();
+
+// HERO ENTRANCE
+window.addEventListener('load',()=>{
+  const img=document.querySelector('.hero-photo img');if(img)img.style.transform='scale(1)';
+  [['#h-ey',400,'translateY(0)'],['#h-h1',600,'translateY(0)'],['.h-rule',780,'scaleX(1)'],['#h-sub',920,'translateY(0)'],['.hero-stats',1080,'translateY(0)']].forEach(([sel,delay,tf])=>{
+    const el=document.querySelector(sel);if(!el)return;
+    setTimeout(()=>{el.style.transition='all .85s cubic-bezier(.16,1,.3,1)';el.style.opacity='1';el.style.transform=tf;},delay);
+  });
+});
+
+// GSAP SCROLL REVEALS
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.rv').forEach(el=>{
+  gsap.fromTo(el,{opacity:0,y:48},{opacity:1,y:0,duration:.95,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}});
 });
 </script>
 </body>
