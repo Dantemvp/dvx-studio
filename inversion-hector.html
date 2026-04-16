@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Inversión Estratégica — Hacienda Benazuza × Consultora DV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══ RESET & VARIABLES ═══ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold-light:#E8D08A;--gold-dark:#8B6914;
+  --black:#0A0A0A;--dark:#111;--dark2:#181818;--dark3:#1E1E1E;
+  --cream:#FAF6ED;--white:#FFF;
+  --red:#E74C3C;--green:#2ECC71;
+  --font-display:'Playfair Display',serif;
+  --font-body:'Inter',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font-body);background:var(--black);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;transition:all .4s var(--ease)}
+nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(12px);padding:12px 24px;border-bottom:1px solid rgba(201,168,76,.1)}
+.nav-logo{font-family:var(--font-display);font-size:.8rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--gold)}
+.nav-tag{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1920&q=80&auto=format&fit=crop');background-size:cover;background-position:center 30%;transform:scale(1.05)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.3) 40%,rgba(0,0,0,.7) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 28px;max-width:680px}
+.hero-eyebrow{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px}
+.hero-title{font-family:var(--font-display);font-size:clamp(2.4rem,8vw,4.5rem);font-weight:400;line-height:1.08;color:var(--white);margin-bottom:12px}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-family:var(--font-display);font-size:clamp(.9rem,2.5vw,1.3rem);font-weight:400;font-style:italic;color:rgba(255,255,255,.6);margin-bottom:44px}
+.hero-stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero-stat{font-size:.55rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:7px 16px;border:1px solid rgba(201,168,76,.35);color:var(--gold-light);background:rgba(201,168,76,.06)}
+.scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;text-align:center}
+.scroll-cue span{display:block;font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);margin:0 auto;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ═══ SECTIONS ═══ */
+.section-pad{padding:80px 24px}
+.sec-eyebrow{font-size:.55rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.sec-title{font-family:var(--font-display);font-size:clamp(1.6rem,5vw,2.6rem);font-weight:400;line-height:1.15;margin-bottom:16px}
+.sec-lead{font-size:.95rem;line-height:1.7;max-width:600px;color:rgba(255,255,255,.6)}
+.content-wrap{max-width:720px;margin:0 auto}
+
+/* ═══ GOLD STRIP ═══ */
+.gold-strip{background:var(--gold);padding:14px 24px;text-align:center}
+.gold-strip p{font-size:.6rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--black)}
+
+/* ═══ REALITY SECTION ═══ */
+.reality{background:var(--dark)}
+.reality-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:32px}
+.reality-card{padding:28px 24px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:2px;position:relative;overflow:hidden}
+.reality-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--red)}
+.reality-card.green::before{background:var(--green)}
+.reality-num{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:rgba(255,255,255,.04);position:absolute;right:16px;top:12px}
+.reality-label{font-size:.55rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.reality-card.green .reality-label{color:var(--green)}
+.reality-title{font-family:var(--font-display);font-size:1.15rem;font-weight:600;margin-bottom:8px;color:var(--white)}
+.reality-desc{font-size:.82rem;line-height:1.65;color:rgba(255,255,255,.5)}
+
+/* ═══ COST SECTION (Opportunity) ═══ */
+.opportunity{background:var(--black);position:relative}
+.opportunity::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1920&q=60&auto=format&fit=crop');background-size:cover;background-position:center;opacity:.06}
+.opp-number{font-family:var(--font-display);font-size:clamp(3rem,12vw,6rem);font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px}
+.opp-currency{font-size:.6rem;font-weight:600;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase}
+.opp-context{font-size:.88rem;line-height:1.7;color:rgba(255,255,255,.55);margin-top:16px;max-width:540px}
+.opp-highlight{color:var(--gold-light);font-weight:600}
+.opp-grid{display:grid;grid-template-columns:1fr;gap:28px;margin-top:48px}
+.opp-stat{text-align:center;padding:24px 16px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.03)}
+.opp-stat-val{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--gold)}
+.opp-stat-label{font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-top:4px;text-transform:uppercase}
+
+/* ═══ IMAGE BREAK ═══ */
+.img-break{position:relative;height:50vh;min-height:320px;overflow:hidden}
+.img-break img{width:100%;height:100%;object-fit:cover}
+.img-break-overlay{position:absolute;inset:0;background:linear-gradient(180deg,var(--black) 0%,transparent 20%,transparent 80%,var(--black) 100%)}
+.img-break-text{position:absolute;bottom:40px;left:24px;right:24px;z-index:2}
+.img-break-text p{font-family:var(--font-display);font-size:clamp(1.1rem,3.5vw,1.8rem);font-style:italic;color:var(--white);line-height:1.35}
+.img-break-text span{color:var(--gold-light)}
+
+/* ═══ TIERS ═══ */
+.tiers-section{background:var(--dark)}
+.tiers-container{max-width:960px;margin:0 auto}
+.tier-card{border:1px solid rgba(255,255,255,.06);margin-bottom:16px;overflow:hidden;transition:border-color .4s var(--ease);cursor:pointer;background:var(--dark2)}
+.tier-card:hover,.tier-card.active{border-color:rgba(201,168,76,.3)}
+.tier-card.recommended{border-color:rgba(201,168,76,.25)}
+.tier-badge{position:absolute;top:0;right:0;background:var(--gold);color:var(--black);font-size:.5rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px}
+.tier-header{padding:28px 24px;position:relative;display:flex;flex-direction:column;gap:8px}
+.tier-header-row{display:flex;justify-content:space-between;align-items:flex-start}
+.tier-name{font-size:.55rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.tier-headline{font-family:var(--font-display);font-size:1.4rem;font-weight:600;color:var(--white);line-height:1.2}
+.tier-price-row{display:flex;align-items:baseline;gap:6px;margin-top:4px}
+.tier-price{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--gold)}
+.tier-price-unit{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:.05em}
+.tier-equiv{font-size:.7rem;color:rgba(255,255,255,.3);font-style:italic;margin-top:2px}
+.tier-toggle{display:flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-top:8px}
+.tier-toggle-icon{width:20px;height:20px;border:1px solid rgba(201,168,76,.4);display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:transform .3s var(--ease)}
+.tier-card.active .tier-toggle-icon{transform:rotate(45deg)}
+
+/* TIER BODY (expandable) */
+.tier-body{max-height:0;overflow:hidden;transition:max-height .6s var(--ease)}
+.tier-body-inner{padding:0 24px 32px}
+.tier-divider{height:1px;background:rgba(201,168,76,.12);margin-bottom:24px}
+.tier-subtitle{font-size:.55rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.tier-list{list-style:none}
+.tier-list li{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.65);padding:6px 0 6px 20px;position:relative}
+.tier-list li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:1px;background:var(--gold)}
+.tier-pain{margin-top:20px}
+.tier-pain-title{font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.tier-pain-list{list-style:none}
+.tier-pain-list li{font-size:.78rem;color:rgba(255,255,255,.45);padding:4px 0 4px 16px;position:relative}
+.tier-pain-list li::before{content:'×';position:absolute;left:0;color:var(--red);font-weight:700}
+.tier-roi{margin-top:20px;padding:16px 20px;background:rgba(201,168,76,.04);border-left:2px solid var(--gold)}
+.tier-roi p{font-size:.82rem;line-height:1.6;color:rgba(255,255,255,.55)}
+.tier-roi strong{color:var(--gold-light);font-weight:600}
+
+/* ROADMAP inside tier */
+.tier-roadmap{margin-top:24px}
+.tier-roadmap-title{font-size:.55rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.rm-timeline{position:relative;padding-left:20px;border-left:1px solid rgba(201,168,76,.15)}
+.rm-node{position:relative;padding-bottom:20px}
+.rm-node:last-child{padding-bottom:0}
+.rm-dot{position:absolute;left:-24px;top:4px;width:7px;height:7px;border-radius:50%;background:var(--gold);border:2px solid var(--dark2)}
+.rm-week{font-size:.55rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.rm-action{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.5}
+
+/* ═══ BEFORE/AFTER ═══ */
+.transform-section{background:var(--black)}
+.transform-row{display:grid;grid-template-columns:1fr;gap:2px;margin-bottom:2px}
+.transform-cell{padding:20px;font-size:.78rem;line-height:1.5}
+.transform-cell.label{background:rgba(201,168,76,.08);color:var(--gold);font-weight:700;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center}
+.transform-cell.before{background:rgba(231,76,60,.04);color:rgba(231,76,60,.7);border-left:2px solid var(--red)}
+.transform-cell.after{background:rgba(46,204,113,.04);color:rgba(46,204,113,.7);border-left:2px solid var(--green)}
+.transform-header{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+.transform-header div{padding:14px 20px;font-size:.55rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;text-align:center}
+.transform-header .h-before{background:rgba(231,76,60,.12);color:var(--red)}
+.transform-header .h-after{background:rgba(46,204,113,.12);color:var(--green)}
+
+/* ═══ CLOSING CTA ═══ */
+.closing{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.closing-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920&q=60&auto=format&fit=crop');background-size:cover;background-position:center;opacity:.1}
+.closing-content{position:relative;z-index:2;text-align:center;padding:60px 28px;max-width:640px}
+.closing-quote{font-family:var(--font-display);font-size:clamp(1.3rem,4vw,2rem);font-style:italic;line-height:1.35;color:var(--white);margin-bottom:32px}
+.closing-quote span{color:var(--gold-light)}
+.closing-line{width:50px;height:1px;background:var(--gold);margin:0 auto 28px}
+.closing-detail{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:36px}
+.cta-btn{display:inline-block;padding:14px 40px;border:1px solid var(--gold);color:var(--gold);font-size:.6rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;transition:all .3s var(--ease)}
+.cta-btn:hover{background:var(--gold);color:var(--black)}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--dark);padding:20px 24px;text-align:center;border-top:1px solid rgba(255,255,255,.04)}
+footer p{font-size:.55rem;color:rgba(255,255,255,.2);letter-spacing:.1em}
+
+/* ═══ ANIMATIONS ═══ */
+.reveal{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.visible{opacity:1;transform:none}
+}
+
+/* ═══ DESKTOP ═══ */
+@media(min-width:768px){
+  .section-pad{padding:100px 60px}
+  .reality-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .opp-grid{grid-template-columns:repeat(3,1fr)}
+  .tiers-container{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+  .tier-card{margin-bottom:0}
+  .tier-body{max-height:none!important}
+  .tier-toggle{display:none}
+  .tier-body-inner{padding:0 24px 28px}
+  .transform-row{grid-template-columns:120px 1fr 1fr}
+  .transform-header{grid-template-columns:120px 1fr 1fr}
+  .transform-header .h-label{display:block}
+  .hero-content{max-width:780px}
+  .content-wrap{max-width:800px}
+}
+@media(min-width:1024px){
+  .section-pad{padding:120px 80px}
+}
+
+/* ═══ SMALL MOBILE ═══ */
+@media(max-width:390px){
+  .hero-stat{font-size:.48rem;padding:5px 10px}
+  .tier-headline{font-size:1.2rem}
+  .tier-price{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div>
+    <div class="nav-logo">Consultora DV</div>
+    <div class="nav-tag">Dante Vega</div>
+  </div>
+  <div class="nav-tag" style="text-align:right">Inversi&oacute;n<br/>Estrat&eacute;gica</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Proyecto de sistemas digitales y comunicaci&oacute;n</p>
+    <h1 class="hero-title">Hacienda <em>Benazuza</em></h1>
+    <p class="hero-sub">Tu producto es de lujo &mdash; tu comunicaci&oacute;n tiene que estar al mismo nivel.</p>
+    <div class="hero-stats">
+      <span class="hero-stat">54 Hect&aacute;reas</span>
+      <span class="hero-stat">1,800 Personas</span>
+      <span class="hero-stat">Agenda 2026&ndash;2027</span>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- GOLD STRIP -->
+<div class="gold-strip">
+  <p>Confidencial &mdash; Consultora DV &times; Hacienda Benazuza &mdash; Abril 2026</p>
+</div>
+
+<!-- REALITY -->
+<section class="reality section-pad">
+  <div class="content-wrap">
+    <p class="sec-eyebrow reveal">La realidad</p>
+    <h2 class="sec-title reveal" style="color:var(--white)">Lo que tienes vs.<br/>lo que el mundo ve</h2>
+    <p class="sec-lead reveal">Hacienda Benazuza es uno de los venues m&aacute;s completos de M&eacute;xico. Pero digitalmente, es invisible.</p>
+  </div>
+  <div class="reality-grid content-wrap" style="margin-top:36px">
+    <div class="reality-card reveal">
+      <span class="reality-num">01</span>
+      <p class="reality-label">Cr&iacute;tico</p>
+      <h3 class="reality-title">P&aacute;gina web inexistente</h3>
+      <p class="reality-desc">haciendabenazuza.com no funciona. El 30% de tus eventos son bodas destino internacionales &mdash; &aacute;rabes, hind&uacute;es, estadounidenses que hoy no tienen forma de conocer tu hacienda sin volar hasta Guadalajara.</p>
+    </div>
+    <div class="reality-card reveal">
+      <span class="reality-num">02</span>
+      <p class="reality-label">Urgente</p>
+      <h3 class="reality-title">Facebook comprometida</h3>
+      <p class="reality-desc">La cuenta est&aacute; vinculada a un perfil que no controlas. &Uacute;ltima publicaci&oacute;n: enero 2026. Recuperable en 48&ndash;72 hrs con el correo del Business Portfolio.</p>
+    </div>
+    <div class="reality-card reveal">
+      <span class="reality-num">03</span>
+      <p class="reality-label">Impacto diario</p>
+      <h3 class="reality-title">Atenci&oacute;n sin protocolo</h3>
+      <p class="reality-desc">Varios empleados contestan DMs sin gu&iacute;a. Para un venue de $170K&ndash;$175K por d&iacute;a de renta, la primera impresi&oacute;n digital define si firman contrato o se van.</p>
+    </div>
+    <div class="reality-card reveal">
+      <span class="reality-num">04</span>
+      <p class="reality-label">Brecha</p>
+      <h3 class="reality-title">Contenido b&aacute;sico sin estrategia</h3>
+      <p class="reality-desc">El producto es de lujo &mdash; la comunicaci&oacute;n tiene que estar al mismo nivel. Hoy hay una disonancia entre lo que ofreces presencialmente y lo que se ve en redes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE BREAK -->
+<div class="img-break">
+  <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1400&q=80&auto=format&fit=crop" alt="Hacienda luxury event" loading="lazy"/>
+  <div class="img-break-overlay"></div>
+  <div class="img-break-text">
+    <p><span>54 hect&aacute;reas. Lago propio. Sal&oacute;n de 1,100 m&sup2;.</span><br/>La fábrica de experiencias de lujo m&aacute;s grande de Jalisco &mdash; que a&uacute;n no lo comunica.</p>
+  </div>
+</div>
+
+<!-- OPPORTUNITY COST -->
+<section class="opportunity section-pad">
+  <div class="content-wrap" style="position:relative;z-index:2">
+    <p class="sec-eyebrow reveal">El costo de no actuar</p>
+    <div class="reveal">
+      <p class="opp-number">$500K&ndash;$1M</p>
+      <p class="opp-currency">MXN &mdash; Valor de un solo evento perdido</p>
+    </div>
+    <p class="opp-context reveal">Cada mes que pasa sin p&aacute;gina web, sin atenci&oacute;n profesional en DMs y sin presencia estrat&eacute;gica, Benazuza pierde oportunidades reales de eventos que se van a la competencia. <span class="opp-highlight">La inversi&oacute;n no se mide contra lo que cuesta &mdash; se mide contra lo que est&aacute;s dejando ir.</span></p>
+
+    <div class="opp-grid reveal">
+      <div class="opp-stat">
+        <div class="opp-stat-val">1,500+</div>
+        <div class="opp-stat-label">Rese&ntilde;as Google Maps sin optimizar</div>
+      </div>
+      <div class="opp-stat">
+        <div class="opp-stat-val">0%</div>
+        <div class="opp-stat-label">Conversi&oacute;n web actual</div>
+      </div>
+      <div class="opp-stat">
+        <div class="opp-stat-val">30%</div>
+        <div class="opp-stat-label">Eventos internacionales sin web biling&uuml;e</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="tiers-section section-pad" id="tiers">
+  <div class="content-wrap" style="margin-bottom:40px">
+    <p class="sec-eyebrow reveal">Tu inversi&oacute;n</p>
+    <h2 class="sec-title reveal" style="color:var(--white)">3 niveles,<br/>una sola direcci&oacute;n</h2>
+    <p class="sec-lead reveal">Cada nivel construye sobre el anterior. T&uacute; decides desde d&oacute;nde empezar &mdash; el sistema completo es el objetivo.</p>
+  </div>
+
+  <div class="tiers-container">
+
+    <!-- TIER 1 -->
+    <div class="tier-card reveal" onclick="toggleTier(this)">
+      <div class="tier-header">
+        <div class="tier-header-row">
+          <div>
+            <p class="tier-name">Tier 1</p>
+            <h3 class="tier-headline">Comunicaci&oacute;n</h3>
+          </div>
+        </div>
+        <div class="tier-price-row">
+          <span class="tier-price">$25,000</span>
+          <span class="tier-price-unit">MXN / mes</span>
+        </div>
+        <p class="tier-equiv">Equivale a 3.5 horas de renta de la hacienda</p>
+        <div class="tier-toggle">
+          <span class="tier-toggle-icon">+</span>
+          <span>Ver detalle</span>
+        </div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-body-inner">
+          <div class="tier-divider"></div>
+          <p class="tier-subtitle">Entregables</p>
+          <ul class="tier-list">
+            <li>Estrategia de posicionamiento en redes sociales</li>
+            <li>Producci&oacute;n de contenido — Instagram, TikTok, Facebook</li>
+            <li>Humanizaci&oacute;n de la marca (sin exponer vida personal)</li>
+            <li>Calendario editorial mensual</li>
+            <li>Recuperaci&oacute;n de Facebook (48–72 hrs)</li>
+            <li>Optimizaci&oacute;n Google Maps — fotos, rese&ntilde;as, SEO local</li>
+            <li>Script profesional de atenci&oacute;n a DMs</li>
+          </ul>
+          <div class="tier-pain">
+            <p class="tier-pain-title">Dolores que resuelve</p>
+            <ul class="tier-pain-list">
+              <li>Contenido sin estrategia</li>
+              <li>Facebook comprometida</li>
+              <li>Google Maps desperdiciado</li>
+              <li>DMs sin protocolo</li>
+            </ul>
+          </div>
+          <div class="tier-roi">
+            <p>Un solo DM bien contestado que cierre un evento de $350K <strong>paga 14 meses</strong> de este nivel.</p>
+          </div>
+          <div class="tier-roadmap">
+            <p class="tier-roadmap-title">Roadmap</p>
+            <div class="rm-timeline">
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;2</p><p class="rm-action">Recuperaci&oacute;n Facebook. Auditor&iacute;a completa de redes. Script de DMs. Optimizaci&oacute;n Google Maps.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 3&ndash;4</p><p class="rm-action">Primera tanda de contenido estrat&eacute;gico. Calendario editorial. Inicio protocolo de atenci&oacute;n.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2&ndash;3</p><p class="rm-action">Optimizaci&oacute;n basada en datos. Contenido de autoridad. SEO local posicionado.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="tier-card recommended reveal" onclick="toggleTier(this)">
+      <div class="tier-header">
+        <span class="tier-badge">Recomendado</span>
+        <div class="tier-header-row">
+          <div>
+            <p class="tier-name">Tier 2</p>
+            <h3 class="tier-headline">Comunicaci&oacute;n + Conversi&oacute;n</h3>
+          </div>
+        </div>
+        <div class="tier-price-row">
+          <span class="tier-price">$60,000</span>
+          <span class="tier-price-unit">MXN / mes</span>
+        </div>
+        <p class="tier-equiv">Equivale a 8 horas de renta de la hacienda</p>
+        <div class="tier-toggle">
+          <span class="tier-toggle-icon">+</span>
+          <span>Ver detalle</span>
+        </div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-body-inner">
+          <div class="tier-divider"></div>
+          <p class="tier-subtitle">Todo el Tier 1 m&aacute;s:</p>
+          <ul class="tier-list">
+            <li>P&aacute;gina web premium — espa&ntilde;ol e ingl&eacute;s</li>
+            <li>SEO en ingl&eacute;s desde d&iacute;a uno — &ldquo;destination wedding Guadalajara&rdquo;</li>
+            <li>Galer&iacute;a cinematogr&aacute;fica por espacio</li>
+            <li>Recorrido virtual 3D interactivo de las instalaciones</li>
+            <li>Calendario sincronizado de fechas disponibles</li>
+            <li>Formulario inteligente de calificaci&oacute;n de leads</li>
+            <li>Pasarela de pago Stripe — MXN y USD</li>
+            <li>Sistema de agendaci&oacute;n integrado</li>
+            <li>Cobranza a meses</li>
+          </ul>
+          <div class="tier-pain">
+            <p class="tier-pain-title">Dolores que resuelve</p>
+            <ul class="tier-pain-list">
+              <li>Web inexistente — 0% conversi&oacute;n online</li>
+              <li>Bodas destino perdidas por falta de presencia digital</li>
+              <li>Clientes internacionales sin forma de conocer el lugar</li>
+              <li>Sin sistema de cobros integrado</li>
+            </ul>
+          </div>
+          <div class="tier-roi">
+            <p>La web trabaja 24/7. Una sola boda destino cerrada por web ($500K&ndash;$1M) <strong>paga 8&ndash;16 meses</strong> de este nivel. El recorrido 3D elimina la necesidad de que vuelen solo para conocer el lugar.</p>
+          </div>
+          <div class="tier-roadmap">
+            <p class="tier-roadmap-title">Roadmap</p>
+            <div class="rm-timeline">
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;2</p><p class="rm-action">Todo el arranque de Tier 1 + arquitectura de la web. Sesi&oacute;n fotogr&aacute;fica/video de espacios.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 3&ndash;6</p><p class="rm-action">Desarrollo web premium. Integraci&oacute;n Stripe + calendario + formularios. SEO biling&uuml;e.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2&ndash;3</p><p class="rm-action">Lanzamiento web. Recorrido 3D integrado. Campa&ntilde;as de tr&aacute;fico a la web. Optimizaci&oacute;n continua.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 3&ndash;6</p><p class="rm-action">Plataformas de bodas (Bodas.com.mx, The Knot USA). Landing espec&iacute;fica para bodas destino en ingl&eacute;s.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="tier-card reveal" onclick="toggleTier(this)">
+      <div class="tier-header">
+        <div class="tier-header-row">
+          <div>
+            <p class="tier-name">Tier 3</p>
+            <h3 class="tier-headline">Sistema Integral</h3>
+          </div>
+        </div>
+        <div class="tier-price-row">
+          <span class="tier-price">$100,000</span>
+          <span class="tier-price-unit">MXN / mes</span>
+        </div>
+        <p class="tier-equiv">Equivale a medio d&iacute;a de renta de la hacienda</p>
+        <div class="tier-toggle">
+          <span class="tier-toggle-icon">+</span>
+          <span>Ver detalle</span>
+        </div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-body-inner">
+          <div class="tier-divider"></div>
+          <p class="tier-subtitle">Todo el Tier 1 + 2 m&aacute;s:</p>
+          <ul class="tier-list">
+            <li>Agente de IA en WhatsApp — atenci&oacute;n 24/7 que califica y agenda</li>
+            <li>Agente de IA en Instagram DMs — respuestas inteligentes y emocionales</li>
+            <li>CRM completo para organizaci&oacute;n de leads</li>
+            <li>Pipeline de etapas — prospecto a contrato</li>
+            <li>Dashboard de control y m&eacute;tricas</li>
+            <li>Automatizaci&oacute;n de seguimiento</li>
+            <li>Reportes mensuales de conversi&oacute;n</li>
+            <li>M&oacute;dulos adicionales seg&uacute;n necesidades operativas</li>
+          </ul>
+          <div class="tier-pain">
+            <p class="tier-pain-title">Dolores que resuelve</p>
+            <ul class="tier-pain-list">
+              <li>DMs sin respuesta a las 2am — leads perdidos</li>
+              <li>Leads sin seguimiento ni datos</li>
+              <li>Cero control sobre el pipeline de ventas</li>
+              <li>Dolores operativos por descubrir</li>
+            </ul>
+          </div>
+          <div class="tier-roi">
+            <p>Con agenda llena hasta 2027, el objetivo no es m&aacute;s leads &mdash; es <strong>mejores leads a mejor precio</strong>. Cada lead que hoy se pierde por un DM no contestado a medianoche, ahora se atiende instant&aacute;neamente.</p>
+          </div>
+          <div class="tier-roadmap">
+            <p class="tier-roadmap-title">Roadmap</p>
+            <div class="rm-timeline">
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;4</p><p class="rm-action">Todo Tier 1 + 2. Configuraci&oacute;n CRM. Definici&oacute;n de pipeline y etapas de venta.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2</p><p class="rm-action">Desarrollo e integraci&oacute;n agentes IA (WhatsApp + Instagram). Entrenamiento con datos reales.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 3</p><p class="rm-action">Lanzamiento agentes. Dashboard activo. Primeros reportes de conversi&oacute;n.</p></div>
+              <div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 4&ndash;6</p><p class="rm-action">Optimizaci&oacute;n continua. M&oacute;dulos adicionales seg&uacute;n dolores operativos reales. Escala.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tiers-container -->
+</section>
+
+<!-- IMAGE BREAK 2 -->
+<div class="img-break">
+  <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1400&q=80&auto=format&fit=crop" alt="Luxury venue reception" loading="lazy"/>
+  <div class="img-break-overlay"></div>
+  <div class="img-break-text">
+    <p><span>$170K&ndash;$175K por d&iacute;a de renta.</span><br/>Tu inversi&oacute;n mensual m&aacute;s alta equivale a medio d&iacute;a de renta. Un solo evento cerrado paga el a&ntilde;o completo.</p>
+  </div>
+</div>
+
+<!-- BEFORE/AFTER -->
+<section class="transform-section section-pad">
+  <div class="content-wrap" style="margin-bottom:32px">
+    <p class="sec-eyebrow reveal">Transformaci&oacute;n</p>
+    <h2 class="sec-title reveal" style="color:var(--white)">De d&oacute;nde est&aacute;s<br/>a d&oacute;nde llegas</h2>
+  </div>
+  <div class="content-wrap">
+    <div class="transform-header reveal">
+      <div class="h-before">Hoy</div>
+      <div class="h-after">Con Consultora DV</div>
+    </div>
+
+    <div class="transform-row reveal">
+      <div class="transform-cell before">Web no existe. 0% conversi&oacute;n online.</div>
+      <div class="transform-cell after">Sitio premium biling&uuml;e con Stripe, calendario, recorrido 3D. Convirtiendo 24/7.</div>
+    </div>
+    <div class="transform-row reveal">
+      <div class="transform-cell before">Facebook en manos ajenas. Audiencia perdida.</div>
+      <div class="transform-cell after">Recuperada en 72 hrs. Reactivada con contenido estrat&eacute;gico.</div>
+    </div>
+    <div class="transform-row reveal">
+      <div class="transform-cell before">Contenido b&aacute;sico sin estrategia ni direcci&oacute;n.</div>
+      <div class="transform-cell after">Producci&oacute;n premium con calendario editorial. Contenido al nivel del producto.</div>
+    </div>
+    <div class="transform-row reveal">
+      <div class="transform-cell before">1,500+ rese&ntilde;as Maps sin optimizar.</div>
+      <div class="transform-cell after">SEO local optimizado. Fotos actualizadas. Top en b&uacute;squedas locales e internacionales.</div>
+    </div>
+    <div class="transform-row reveal">
+      <div class="transform-cell before">DMs contestados sin protocolo.</div>
+      <div class="transform-cell after">Script profesional + IA 24/7 que califica y agenda autom&aacute;ticamente.</div>
+    </div>
+    <div class="transform-row reveal">
+      <div class="transform-cell before">Bodas destino: dependen de que vuelen al lugar.</div>
+      <div class="transform-cell after">Web en ingl&eacute;s + recorrido 3D + Stripe USD. Cierran desde su pa&iacute;s.</div>
+    </div>
+    <div class="transform-row reveal">
+      <div class="transform-cell before">Sin seguimiento a leads. Sin datos.</div>
+      <div class="transform-cell after">CRM con pipeline completo. Cada lead rastreado de DM a contrato firmado.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-bg"></div>
+  <div class="closing-content">
+    <p class="sec-eyebrow reveal">El siguiente paso</p>
+    <p class="closing-quote reveal">Tu hacienda cobra <span>$175K por d&iacute;a</span>. La inversi&oacute;n m&aacute;s alta equivale a <span>medio d&iacute;a de renta</span>. Un solo evento cerrado por tener web, por contestar bien un DM, o por aparecer en Google &mdash; <span>paga el a&ntilde;o completo.</span></p>
+    <div class="closing-line reveal"></div>
+    <p class="closing-detail reveal">Nos adaptamos a tu ritmo. T&uacute; decides desde d&oacute;nde empezar. Lo que no cambia es que cada d&iacute;a que pasa sin resolver esto, hay eventos que se est&aacute;n yendo a otro lado.</p>
+    <a href="#tiers" class="cta-btn reveal">Ver niveles de inversi&oacute;n</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Consultora DV &mdash; Dante Vega &mdash; Documento confidencial &mdash; Abril 2026</p>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Tier toggle (mobile)
+function toggleTier(card) {
+  if (window.innerWidth >= 768) return;
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.tier-card').forEach(c => {
+    c.classList.remove('active');
+    c.querySelector('.tier-body').style.maxHeight = '0';
+  });
+  if (!wasActive) {
+    card.classList.add('active');
+    const body = card.querySelector('.tier-body');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// Reveal on scroll
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+</script>
+</body>
+</html>
