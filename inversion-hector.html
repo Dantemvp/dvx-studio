@@ -1561,14 +1561,20 @@ gsap.from('#tour-preview .tour-ui', {
 /* ── AI CHAT WIDGET ──────────────────────────────────── */
 const CHAT_SCRIPT = [
   { role:'agent', text:'¡Hola! Soy el asistente de Hacienda Benazuza. Estoy aquí para ayudarte a encontrar la fecha perfecta para tu evento. ¿Qué tipo de celebración tienes en mente?', delay:800 },
-  { role:'user',  text:'Hola, quiero cotizar una boda para 2027', delay:2200 },
-  { role:'agent', text:'¡Qué emocionante! Con gusto te ayudo. ¿Tienes ya una fecha tentativa en mente o prefieres que revisemos disponibilidad juntos?', delay:1800 },
-  { role:'user',  text:'Algo en mayo o junio de 2027', delay:2000 },
-  { role:'agent', text:'Perfecto. Mayo y junio son temporada alta en Jalisco — clima ideal y luz golden hour. ¿Cuántos invitados estimas?', delay:1600 },
-  { role:'user',  text:'Entre 300 y 400 personas', delay:1900 },
-  { role:'agent', text:'Con ese aforo tienes acceso al Gran Salón (1,100 m²) más la terraza colonial. ¿Es una boda nacional o destino internacional?', delay:1700 },
-  { role:'user',  text:'Destino, venimos de Miami', delay:1800 },
-  { role:'agent', text:'Excelente. Para bodas destino preparamos un paquete especial en inglés con Stripe USD y recorrido virtual 3D para que puedas conocer cada espacio antes de volar.\n\n¿Te envío la propuesta al correo?', delay:2000 },
+  { role:'user',  text:'Hola, quiero cotizar una boda para 2027', delay:2400 },
+  { role:'agent', text:'¡Qué emocionante! Con gusto te ayudo. ¿Tienes ya una fecha tentativa o prefieres que revisemos la disponibilidad juntos?', delay:1800 },
+  { role:'user',  text:'Algo en mayo o junio de 2027', delay:2200 },
+  { role:'agent', text:'Mayo y junio son los meses más solicitados del año — clima perfecto, luz de tarde increíble y ambiente muy especial en la hacienda. ¿Cuántos invitados aproximadamente?', delay:1900 },
+  { role:'user',  text:'Entre 300 y 400 personas', delay:2000 },
+  { role:'agent', text:'Con ese número pueden usar el Gran Salón (1,100 m²) más la terraza colonial. Una combinación que pocas haciendas en México pueden ofrecer. ¿Vienen de México o es boda destino?', delay:2000 },
+  { role:'user',  text:'Destino, venimos desde Miami', delay:1900 },
+  { role:'agent', text:'Perfecto. Para bodas destino tenemos un paquete especial pensado para que puedan conocer cada espacio y tomar decisiones sin necesidad de volar primero.\n\n¿Te envío la propuesta con toda la información al correo?', delay:2200 },
+  { role:'user',  text:'Sí claro, mi correo es sarah@gmail.com', delay:2400 },
+  { role:'agent', text:'¡Listo, Sarah! Te acabo de enviar los paquetes en PDF con precios, espacios y disponibilidad. También te incluí el enlace al recorrido virtual 3D para que puedas explorar la hacienda desde Miami 🏡\n\nhttps://benazuza.mx/recorrido-3d', delay:2000 },
+  { role:'user',  text:'Qué bueno, una pregunta — ¿tienen wedding planner incluido?', delay:2600 },
+  { role:'agent', text:'¡Sí! Contamos con coordinadoras de evento propias, floristas aliados y proveedores certificados — todo bajo un solo techo. Benazuza es prácticamente un all-in-one.\n\nDicho eso, si ya tienen wedding planner de confianza también trabajamos de la mano con externos, sin problema.', delay:2200 },
+  { role:'user',  text:'Perfecto, suena increíble', delay:2000 },
+  { role:'agent', text:'Va a ser una boda que sus invitados van a recordar toda la vida ✨\n\nRevisá el PDF con calma y cuando quieran agendar una videollamada para ver detalles, aquí estamos. El equipo completo está listo para ustedes.', delay:1800 },
 ];
 
 let chatOpen = false;
