@@ -472,6 +472,18 @@ footer{
 }
 footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 
+/* ─── LANG BUTTON ────────────────────────────────────── */
+#lang-btn{
+  font-family:'Inter',sans-serif;
+  font-size:.48rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);background:transparent;
+  border:1px solid rgba(201,168,76,.35);
+  padding:7px 16px;cursor:pointer;
+  transition:background .3s,border-color .3s;
+  flex-shrink:0;
+}
+#lang-btn:hover{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.6)}
+
 /* ─── SCROLL ANIMATIONS (fallback visible) ────────────── */
 .gsap-up{opacity:1}
 .gsap-card{opacity:1}
@@ -795,7 +807,8 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
     <div class="nav-logo">Consultora DV</div>
     <div class="nav-sub">Dante Vega</div>
   </div>
-  <div class="nav-right">Inversi&oacute;n<br/>Estrat&eacute;gica</div>
+  <button id="lang-btn" onclick="toggleLang()">EN</button>
+  <div class="nav-right" id="t-nav-right">Inversi&oacute;n<br/>Estrat&eacute;gica</div>
 </nav>
 
 <!-- HERO -->
@@ -1558,8 +1571,285 @@ gsap.from('#tour-preview .tour-ui', {
 });
 
 
+/* ── LANGUAGE TOGGLE ─────────────────────────────────── */
+let currentLang = 'es';
+
+const TOUR_NAMES_DATA = {
+  es:[
+    ['Gran Sal\u00f3n','1,100 m\u00b2 \u2014 Capacidad 800 personas'],
+    ['Terraza Colonial','Arcos siglo XIX \u2014 Dorado de la tarde'],
+    ['Comedor del Lago','Vista panor\u00e1mica al lago natural'],
+    ['Ceremonia Exterior','Instalaci\u00f3n Crystal \u2014 400 personas'],
+    ['Pabell\u00f3n del Lago','Suite privada \u2014 Orilla del lago'],
+    ['Vista A\u00e9rea','54 hect\u00e1reas \u2014 Lago propio \u2014 Zapopan'],
+  ],
+  en:[
+    ['Grand Ballroom','1,100 m\u00b2 \u2014 Capacity 800 guests'],
+    ['Colonial Terrace','19th-century arches \u2014 Golden hour'],
+    ['Lakeside Dining','Panoramic view of the natural lake'],
+    ['Outdoor Ceremony','Crystal installation \u2014 400 guests'],
+    ['Lake Pavilion','Private suite \u2014 Lakeside'],
+    ['Aerial View','54 hectares \u2014 Private lake \u2014 Zapopan'],
+  ]
+};
+
+const SIDEBAR_NAMES = {
+  es:[
+    ['Gran Sal\u00f3n','1,100 m\u00b2 \u00b7 800 personas'],
+    ['Terraza Colonial','Arcos y jard\u00edn'],
+    ['Comedor del Lago','Vista panor\u00e1mica'],
+    ['Ceremonia Exterior','Instalaci\u00f3n crystal'],
+    ['Pabell\u00f3n del Lago','Suite privada'],
+    ['Vista A\u00e9rea','54 hect\u00e1reas \u00b7 lago'],
+  ],
+  en:[
+    ['Grand Ballroom','1,100 m\u00b2 \u00b7 800 guests'],
+    ['Colonial Terrace','Arches & garden'],
+    ['Lakeside Dining','Panoramic view'],
+    ['Outdoor Ceremony','Crystal installation'],
+    ['Lake Pavilion','Private suite'],
+    ['Aerial View','54 hectares \u00b7 lake'],
+  ]
+};
+
+const T = {
+  es:{
+    nav_right:'Inversi\u00f3n<br/>Estrat\u00e9gica',
+    hero_eyebrow:'Proyecto de sistemas digitales y comunicaci\u00f3n',
+    hero_title:'Hacienda <em>Benazuza</em>',
+    hero_sub:'Tu producto es de lujo \u2014 tu comunicaci\u00f3n tiene que estar al mismo nivel.',
+    hero_pills:'<span class="hero-pill">54\u00a0Hect\u00e1reas</span><span class="hero-pill">1,800\u00a0Personas</span><span class="hero-pill">Agenda 2026\u20132027</span>',
+    scroll_label:'Scroll',
+    marquee:`<span class="m-item">Confidencial <span class="m-sep">&mdash;</span> Consultora DV &times; Hacienda Benazuza</span><span class="m-item">Abril 2026 <span class="m-sep">&mdash;</span> Estrategia Digital Premium</span><span class="m-item">Inversi&oacute;n Estrat&eacute;gica <span class="m-sep">&mdash;</span> Sistema Integral</span><span class="m-item">Documento Privado <span class="m-sep">&mdash;</span> Uso Exclusivo del Cliente</span><span class="m-item">Confidencial <span class="m-sep">&mdash;</span> Consultora DV &times; Hacienda Benazuza</span><span class="m-item">Abril 2026 <span class="m-sep">&mdash;</span> Estrategia Digital Premium</span><span class="m-item">Inversi&oacute;n Estrat&eacute;gica <span class="m-sep">&mdash;</span> Sistema Integral</span><span class="m-item">Documento Privado <span class="m-sep">&mdash;</span> Uso Exclusivo del Cliente</span>`,
+    gal_labels:['Gran Sal\u00f3n \u2014 1,100 m\u00b2','Comedor Vista al Lago','Terraza y Arcos Coloniales','Ceremonias al Aire Libre','Vista A\u00e9rea \u2014 54 Hect\u00e1reas','Pabell\u00f3n en el Lago','Sal\u00f3n Bello \u2014 Techo Ondulado','Piano Bar & Entretenimiento','Fachada Colonial','Detalles de Lujo'],
+    eyebrows:['La realidad','El costo de no actuar','Tu inversi\u00f3n','Transformaci\u00f3n'],
+    sec_titles:['Lo que tienes vs.<br/>lo que el mundo ve','3 niveles,<br/>una sola direcci\u00f3n','De d\u00f3nde est\u00e1s<br/>a d\u00f3nde llegas'],
+    sec_leads:['Hacienda Benazuza es uno de los venues m\u00e1s completos de M\u00e9xico. Pero digitalmente, es invisible.','Cada nivel construye sobre el anterior. T\u00fa decides desde d\u00f3nde empezar \u2014 el sistema completo es el objetivo.'],
+    r_cards:[
+      `<div class="r-line"></div><span class="r-num">01</span><p class="r-tag">Cr\u00edtico</p><h3 class="r-title">P\u00e1gina web inexistente</h3><p class="r-desc">haciendabenazuza.com no funciona. El 30% de tus eventos son bodas destino internacionales \u2014 \u00e1rabes, hind\u00faes, estadounidenses que hoy no tienen forma de conocer tu hacienda sin volar hasta Guadalajara.</p>`,
+      `<div class="r-line"></div><span class="r-num">02</span><p class="r-tag">Urgente</p><h3 class="r-title">Facebook comprometida</h3><p class="r-desc">La cuenta est\u00e1 vinculada a un perfil que no controlas. \u00daltima publicaci\u00f3n: enero 2026. Recuperable en 48\u201372 hrs con el correo del Business Portfolio.</p>`,
+      `<div class="r-line"></div><span class="r-num">03</span><p class="r-tag">Impacto diario</p><h3 class="r-title">Atenci\u00f3n sin protocolo</h3><p class="r-desc">Varios empleados contestan DMs sin gu\u00eda. Para un venue de $170K\u2013$175K por d\u00eda de renta, la primera impresi\u00f3n digital define si firman contrato o se van.</p>`,
+      `<div class="r-line"></div><span class="r-num">04</span><p class="r-tag">Brecha</p><h3 class="r-title">Contenido b\u00e1sico sin estrategia</h3><p class="r-desc">El producto es de lujo \u2014 la comunicaci\u00f3n tiene que estar al mismo nivel. Hoy hay una disonancia entre lo que ofreces presencialmente y lo que se ve en redes.</p>`,
+    ],
+    ib1_text:'<span>54 hect\u00e1reas. Lago propio. Sal\u00f3n de 1,100\u00a0m\u00b2.</span><br/>La f\u00e1brica de experiencias de lujo m\u00e1s grande de Jalisco \u2014 que a\u00fan no lo comunica.',
+    opp_lbl:'MXN \u2014 Valor de un solo evento perdido',
+    opp_ctx:'Cada mes que pasa sin p\u00e1gina web, sin atenci\u00f3n profesional en DMs y sin presencia estrat\u00e9gica, Benazuza pierde oportunidades reales que se van a la competencia. <span class="opp-hl">La inversi\u00f3n no se mide contra lo que cuesta \u2014 se mide contra lo que est\u00e1s dejando ir.</span>',
+    opp_stat_txts:['Rese\u00f1as Google Maps sin optimizar','Conversi\u00f3n web actual','Eventos internacionales sin web biling\u00fce'],
+    tier_names:['Comunicaci\u00f3n','Comunicaci\u00f3n + Conversi\u00f3n','Sistema Integral'],
+    tier_units:['MXN / mes','MXN / mes','MXN / mes'],
+    tier_equivs:['Equivale a 3.5 horas de renta de la hacienda','Equivale a 8 horas de renta de la hacienda','Equivale a medio d\u00eda de renta de la hacienda'],
+    tier_toggle_labels:['Ver detalle','Ver detalle','Ver detalle'],
+    tier_badge:'Recomendado',
+    tier_inners:[
+      `<div class="t-divider"></div><p class="t-sub">Entregables</p><ul class="t-list"><li>Estrategia de posicionamiento en redes sociales</li><li>Producci&oacute;n de contenido &mdash; Instagram, TikTok, Facebook</li><li>Humanizaci&oacute;n de la marca (sin exponer vida personal)</li><li>Calendario editorial mensual</li><li>Recuperaci&oacute;n de Facebook (48&ndash;72 hrs)</li><li>Optimizaci&oacute;n Google Maps &mdash; fotos, rese&ntilde;as, SEO local</li><li>Script profesional de atenci&oacute;n a DMs</li></ul><div class="t-pain"><p class="t-pain-title">Dolores que resuelve</p><ul class="t-pain-list"><li>Contenido sin estrategia</li><li>Facebook comprometida</li><li>Google Maps desperdiciado</li><li>DMs sin protocolo</li></ul></div><div class="t-roi"><p>Un solo DM bien contestado que cierre un evento de $350K <strong>paga 14 meses</strong> de este nivel.</p></div><div class="t-roadmap"><p class="t-rm-title">Roadmap</p><div class="rm-line"><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;2</p><p class="rm-act">Recuperaci&oacute;n Facebook. Auditor&iacute;a completa de redes. Script de DMs. Optimizaci&oacute;n Google Maps.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 3&ndash;4</p><p class="rm-act">Primera tanda de contenido estrat&eacute;gico. Calendario editorial. Inicio protocolo de atenci&oacute;n.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2&ndash;3</p><p class="rm-act">Optimizaci&oacute;n basada en datos. Contenido de autoridad. SEO local posicionado.</p></div></div></div>`,
+      `<div class="t-divider"></div><p class="t-sub">Todo el Tier 1 m&aacute;s:</p><ul class="t-list"><li>P&aacute;gina web premium &mdash; espa&ntilde;ol e ingl&eacute;s</li><li>SEO en ingl&eacute;s desde d&iacute;a uno &mdash; &ldquo;destination wedding Guadalajara&rdquo;</li><li>Galer&iacute;a cinematogr&aacute;fica por espacio</li><li>Recorrido virtual 3D interactivo de las instalaciones</li><li>Calendario sincronizado de fechas disponibles</li><li>Formulario inteligente de calificaci&oacute;n de leads</li><li>Pasarela de pago Stripe &mdash; MXN y USD</li><li>Sistema de agendaci&oacute;n integrado</li><li>Cobranza a meses</li></ul><div class="t-pain"><p class="t-pain-title">Dolores que resuelve</p><ul class="t-pain-list"><li>Web inexistente &mdash; 0% conversi&oacute;n online</li><li>Bodas destino perdidas por falta de presencia digital</li><li>Clientes internacionales sin forma de conocer el lugar</li><li>Sin sistema de cobros integrado</li></ul></div><div class="t-roi"><p>Una sola boda destino cerrada por web ($500K&ndash;$1M) <strong>paga 8&ndash;16 meses</strong> de este nivel. El recorrido 3D elimina la necesidad de que vuelen solo para conocer el lugar.</p></div><div class="t-roadmap"><p class="t-rm-title">Roadmap</p><div class="rm-line"><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;2</p><p class="rm-act">Todo el arranque de Tier 1 + arquitectura de la web. Sesi&oacute;n fotogr&aacute;fica/video de espacios.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 3&ndash;6</p><p class="rm-act">Desarrollo web premium. Integraci&oacute;n Stripe + calendario + formularios. SEO biling&uuml;e.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2&ndash;3</p><p class="rm-act">Lanzamiento web. Recorrido 3D integrado. Campa&ntilde;as de tr&aacute;fico. Optimizaci&oacute;n continua.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 3&ndash;6</p><p class="rm-act">Plataformas de bodas (Bodas.com.mx, The Knot USA). Landing bodas destino en ingl&eacute;s.</p></div></div></div>`,
+      `<div class="t-divider"></div><p class="t-sub">Todo el Tier 1 + 2 m&aacute;s:</p><ul class="t-list"><li>Agente de IA en WhatsApp &mdash; atenci&oacute;n 24/7 que califica y agenda</li><li>Agente de IA en Instagram DMs &mdash; respuestas inteligentes y emocionales</li><li>CRM completo para organizaci&oacute;n de leads</li><li>Pipeline de etapas &mdash; prospecto a contrato</li><li>Dashboard de control y m&eacute;tricas</li><li>Automatizaci&oacute;n de seguimiento</li><li>Reportes mensuales de conversi&oacute;n</li><li>M&oacute;dulos adicionales seg&uacute;n necesidades operativas</li></ul><div class="t-pain"><p class="t-pain-title">Dolores que resuelve</p><ul class="t-pain-list"><li>DMs sin respuesta a las 2am &mdash; leads perdidos</li><li>Leads sin seguimiento ni datos</li><li>Cero control sobre el pipeline de ventas</li><li>Dolores operativos por descubrir</li></ul></div><div class="t-roi"><p>Con agenda llena hasta 2027, el objetivo no es m&aacute;s leads &mdash; es <strong>mejores leads a mejor precio</strong>. Cada lead perdido por un DM no contestado a medianoche, ahora se atiende instant&aacute;neamente.</p></div><div class="t-roadmap"><p class="t-rm-title">Roadmap</p><div class="rm-line"><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Semana 1&ndash;4</p><p class="rm-act">Todo Tier 1 + 2. Configuraci&oacute;n CRM. Definici&oacute;n de pipeline y etapas de venta.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 2</p><p class="rm-act">Desarrollo e integraci&oacute;n agentes IA (WhatsApp + Instagram). Entrenamiento con datos reales.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 3</p><p class="rm-act">Lanzamiento agentes. Dashboard activo. Primeros reportes de conversi&oacute;n.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Mes 4&ndash;6</p><p class="rm-act">Optimizaci&oacute;n continua. M&oacute;dulos adicionales. Escala.</p></div></div></div>`,
+    ],
+    ib2_text:'<span>$170K\u2013$175K por d\u00eda de renta.</span><br/>Tu inversi\u00f3n mensual m\u00e1s alta equivale a medio d\u00eda. Un solo evento cerrado paga el a\u00f1o completo.',
+    ba_eyebrow:'Transformaci\u00f3n',
+    ba_title:'De d\u00f3nde est\u00e1s<br/>a d\u00f3nde llegas',
+    ba_hbef:'Hoy',ba_haft:'Con Consultora DV',
+    ba_cells:['Web no existe. 0% conversi\u00f3n online.','Sitio premium biling\u00fce con Stripe, calendario, recorrido 3D. Convirtiendo 24/7.','Facebook en manos ajenas. Audiencia perdida.','Recuperada en 72 hrs. Reactivada con contenido estrat\u00e9gico.','Contenido b\u00e1sico sin estrategia ni direcci\u00f3n.','Producci\u00f3n premium con calendario editorial al nivel del producto.','1,500+ rese\u00f1as Maps sin optimizar.','SEO local optimizado. Top en b\u00fasquedas locales e internacionales.','DMs contestados sin protocolo.','Script profesional + IA 24/7 que califica y agenda autom\u00e1ticamente.','Bodas destino dependen de que vuelen al lugar.','Web en ingl\u00e9s + recorrido 3D + Stripe USD. Cierran desde su pa\u00eds.','Sin seguimiento a leads. Sin datos.','CRM con pipeline completo. Cada lead rastreado de DM a contrato firmado.'],
+    cl_eyebrow:'El siguiente paso',
+    cl_quote:'Tu hacienda cobra <span>$175K por d\u00eda</span>. La inversi\u00f3n m\u00e1s alta equivale a <span>medio d\u00eda de renta</span>. Un solo evento cerrado por tener web, por contestar bien un DM, o por aparecer en Google \u2014 <span>paga el a\u00f1o completo.</span>',
+    cl_detail:'Nos adaptamos a tu ritmo. T\u00fa decides desde d\u00f3nde empezar. Lo que no cambia es que cada d\u00eda que pasa sin resolver esto, hay eventos que se est\u00e1n yendo a otro lado.',
+    cta:'Ver niveles de inversi\u00f3n',
+    tour_badge:'Tier 2 \u2014 Preview Exclusivo',
+    tour_title:'Recorrido Virtual <em>3D</em>',
+    tour_sub:'Los clientes internacionales cierran bodas sin volar a Guadalajara. Exploran cada espacio desde su computadora o celular.',
+    tour_sidebar_head:'Espacios',
+    tour_note:'Esta es una simulaci\u00f3n. El recorrido real incluye fotos 360\u00b0 y navegaci\u00f3n entre espacios en tiempo real.',
+    chat_hname:'Asistente Benazuza',
+    chat_hstatus:'Activo ahora',
+    chat_powered:'Impulsado por IA \u2014 Tier 3 Consultora DV',
+    chat_placeholder:'Escribe un mensaje\u2026',
+    chat_disclaimer:'IA demostrativa \u2014 as\u00ed trabaja tu agente 24/7',
+    footer:'Consultora DV \u2014 Dante Vega \u2014 Documento confidencial \u2014 Abril 2026',
+  },
+  en:{
+    nav_right:'Strategic<br/>Investment',
+    hero_eyebrow:'Digital systems & communication strategy',
+    hero_title:'Hacienda <em>Benazuza</em>',
+    hero_sub:'Your product is luxury \u2014 your communication needs to match.',
+    hero_pills:'<span class="hero-pill">54\u00a0Hectares</span><span class="hero-pill">1,800\u00a0Guests</span><span class="hero-pill">Booked 2026\u20132027</span>',
+    scroll_label:'Scroll',
+    marquee:`<span class="m-item">Confidential <span class="m-sep">&mdash;</span> Consultora DV &times; Hacienda Benazuza</span><span class="m-item">April 2026 <span class="m-sep">&mdash;</span> Premium Digital Strategy</span><span class="m-item">Strategic Investment <span class="m-sep">&mdash;</span> Integral System</span><span class="m-item">Private Document <span class="m-sep">&mdash;</span> Exclusive Client Use</span><span class="m-item">Confidential <span class="m-sep">&mdash;</span> Consultora DV &times; Hacienda Benazuza</span><span class="m-item">April 2026 <span class="m-sep">&mdash;</span> Premium Digital Strategy</span><span class="m-item">Strategic Investment <span class="m-sep">&mdash;</span> Integral System</span><span class="m-item">Private Document <span class="m-sep">&mdash;</span> Exclusive Client Use</span>`,
+    gal_labels:['Grand Ballroom \u2014 1,100 m\u00b2','Lakeside Dining','Colonial Terrace & Arches','Outdoor Ceremonies','Aerial View \u2014 54 Hectares','Lake Pavilion','Elegant Ballroom \u2014 Wavy Ceiling','Piano Bar & Entertainment','Colonial Fa\u00e7ade','Luxury Details'],
+    eyebrows:['The reality','The cost of inaction','Your investment','Transformation'],
+    sec_titles:['What you have vs.<br/>what the world sees','3 tiers,<br/>one direction','Where you are<br/>vs. where you end up'],
+    sec_leads:['Hacienda Benazuza is one of Mexico\u2019s most complete venues. But digitally, it\u2019s invisible.','Each tier builds on the previous one. You decide where to start \u2014 the full system is the goal.'],
+    r_cards:[
+      `<div class="r-line"></div><span class="r-num">01</span><p class="r-tag">Critical</p><h3 class="r-title">No website</h3><p class="r-desc">haciendabenazuza.com doesn\u2019t work. 30% of your events are destination weddings \u2014 Arab, Indian, American couples who today have no way to discover your hacienda without flying to Guadalajara.</p>`,
+      `<div class="r-line"></div><span class="r-num">02</span><p class="r-tag">Urgent</p><h3 class="r-title">Compromised Facebook</h3><p class="r-desc">The account is tied to a profile you don\u2019t control. Last post: January 2026. Recoverable in 48\u201372 hrs with the Business Portfolio email.</p>`,
+      `<div class="r-line"></div><span class="r-num">03</span><p class="r-tag">Daily impact</p><h3 class="r-title">Attention without protocol</h3><p class="r-desc">Several employees answer DMs without guidance. For a venue charging $170K\u2013$175K per day, the first digital impression determines whether they sign or walk.</p>`,
+      `<div class="r-line"></div><span class="r-num">04</span><p class="r-tag">Gap</p><h3 class="r-title">Basic content, no strategy</h3><p class="r-desc">The product is luxury \u2014 the communication needs to match. There\u2019s a disconnect between what you deliver in person and what the world sees online.</p>`,
+    ],
+    ib1_text:'<span>54 hectares. Private lake. 1,100\u00a0m\u00b2 ballroom.</span><br/>The largest luxury experience factory in Jalisco \u2014 that still hasn\u2019t told the world.',
+    opp_lbl:'MXN \u2014 Value of a single lost event',
+    opp_ctx:'Every month without a website, without professional DM management, and without strategic presence, Benazuza loses real opportunities to the competition. <span class="opp-hl">The investment isn\u2019t measured against what it costs \u2014 it\u2019s measured against what you\u2019re letting go.</span>',
+    opp_stat_txts:['Google Maps reviews left unoptimized','Current web conversion','International events with no bilingual website'],
+    tier_names:['Communication','Communication + Conversion','Full System'],
+    tier_units:['MXN / mo','MXN / mo','MXN / mo'],
+    tier_equivs:['Equals 3.5 hours of venue rental','Equals 8 hours of venue rental','Equals half a day of venue rental'],
+    tier_toggle_labels:['See details','See details','See details'],
+    tier_badge:'Recommended',
+    tier_inners:[
+      `<div class="t-divider"></div><p class="t-sub">Deliverables</p><ul class="t-list"><li>Social media positioning strategy</li><li>Content production \u2014 Instagram, TikTok, Facebook</li><li>Brand humanization (without exposing personal life)</li><li>Monthly editorial calendar</li><li>Facebook account recovery (48\u201372 hrs)</li><li>Google Maps optimization \u2014 photos, reviews, local SEO</li><li>Professional DM response script</li></ul><div class="t-pain"><p class="t-pain-title">Pain points resolved</p><ul class="t-pain-list"><li>Content without strategy</li><li>Compromised Facebook</li><li>Wasted Google Maps presence</li><li>Unprotected DMs</li></ul></div><div class="t-roi"><p>One well-handled DM that closes a $350K event <strong>pays 14 months</strong> of this tier.</p></div><div class="t-roadmap"><p class="t-rm-title">Roadmap</p><div class="rm-line"><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Week 1\u20132</p><p class="rm-act">Facebook recovery. Full social audit. DM script. Google Maps optimization.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Week 3\u20134</p><p class="rm-act">First strategic content batch. Editorial calendar. Attention protocol launch.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Month 2\u20133</p><p class="rm-act">Data-driven optimization. Authority content. Local SEO ranking.</p></div></div></div>`,
+      `<div class="t-divider"></div><p class="t-sub">Everything in Tier 1, plus:</p><ul class="t-list"><li>Premium website \u2014 Spanish and English</li><li>English SEO from day one \u2014 \u201cdestination wedding Guadalajara\u201d</li><li>Cinematic gallery by space</li><li>Interactive 3D virtual tour of the venue</li><li>Synced availability calendar</li><li>Smart lead qualification form</li><li>Stripe payment gateway \u2014 MXN and USD</li><li>Integrated scheduling system</li><li>Installment payment options</li></ul><div class="t-pain"><p class="t-pain-title">Pain points resolved</p><ul class="t-pain-list"><li>No website \u2014 0% online conversion</li><li>Destination weddings lost for lack of digital presence</li><li>International clients with no way to discover the venue</li><li>No integrated payment system</li></ul></div><div class="t-roi"><p>One destination wedding closed through the web ($500K\u2013$1M) <strong>pays 8\u201316 months</strong> of this tier. The 3D tour eliminates the need to fly just to see the venue.</p></div><div class="t-roadmap"><p class="t-rm-title">Roadmap</p><div class="rm-line"><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Week 1\u20132</p><p class="rm-act">All of Tier 1 launch + web architecture. Photography/video session of spaces.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Week 3\u20136</p><p class="rm-act">Premium web development. Stripe + calendar + forms integration. Bilingual SEO.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Month 2\u20133</p><p class="rm-act">Website launch. 3D tour integrated. Traffic campaigns. Continuous optimization.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Month 3\u20136</p><p class="rm-act">Wedding platforms (Bodas.com.mx, The Knot USA). English destination wedding landing.</p></div></div></div>`,
+      `<div class="t-divider"></div><p class="t-sub">Everything in Tier 1 + 2, plus:</p><ul class="t-list"><li>WhatsApp AI agent \u2014 24/7 qualification and booking</li><li>Instagram DM AI agent \u2014 intelligent, emotional responses</li><li>Full CRM for lead management</li><li>Pipeline stages \u2014 prospect to signed contract</li><li>Control dashboard and metrics</li><li>Follow-up automation</li><li>Monthly conversion reports</li><li>Additional modules based on operational needs</li></ul><div class="t-pain"><p class="t-pain-title">Pain points resolved</p><ul class="t-pain-list"><li>DMs unanswered at 2am \u2014 lost leads</li><li>Leads without follow-up or data</li><li>Zero control over the sales pipeline</li><li>Operational pain points yet to be discovered</li></ul></div><div class="t-roi"><p>With a booked calendar through 2027, the goal isn\u2019t more leads \u2014 it\u2019s <strong>better leads at better prices</strong>. Every lead lost to a midnight DM is now handled instantly.</p></div><div class="t-roadmap"><p class="t-rm-title">Roadmap</p><div class="rm-line"><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Week 1\u20134</p><p class="rm-act">All of Tier 1 + 2. CRM setup. Pipeline definition and sales stages.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Month 2</p><p class="rm-act">AI agent development and integration (WhatsApp + Instagram). Training with real data.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Month 3</p><p class="rm-act">Agent launch. Active dashboard. First conversion reports.</p></div><div class="rm-node"><div class="rm-dot"></div><p class="rm-week">Month 4\u20136</p><p class="rm-act">Continuous optimization. Additional modules. Scale.</p></div></div></div>`,
+    ],
+    ib2_text:'<span>$170K\u2013$175K per day of venue rental.</span><br/>Your highest monthly investment equals half a day. One closed event pays the entire year.',
+    ba_eyebrow:'Transformation',
+    ba_title:'Where you are<br/>vs. where you end up',
+    ba_hbef:'Today',ba_haft:'With Consultora DV',
+    ba_cells:['No website. 0% online conversion.','Premium bilingual site with Stripe, calendar, 3D tour. Converting 24/7.','Facebook in others\u2019 hands. Lost audience.','Recovered in 72 hrs. Reactivated with strategic content.','Basic content with no strategy or direction.','Premium production with editorial calendar at the level of the product.','1,500+ Maps reviews, unoptimized.','Optimized local SEO. Top in local and international searches.','DMs answered without protocol.','Professional script + AI 24/7 that qualifies and books automatically.','Destination weddings depend on flying to the venue.','English website + 3D tour + Stripe USD. They close from their home country.','No lead follow-up. No data.','Full CRM with pipeline. Every lead tracked from DM to signed contract.'],
+    cl_eyebrow:'The next step',
+    cl_quote:'Your hacienda charges <span>$175K per day</span>. The highest investment equals <span>half a day\u2019s rental</span>. One event closed by having a website, by handling a DM well, or by showing up on Google \u2014 <span>pays the entire year.</span>',
+    cl_detail:'We adapt to your pace. You decide where to start. What doesn\u2019t change is that every day that passes without fixing this, events are going somewhere else.',
+    cta:'View investment levels',
+    tour_badge:'Tier 2 \u2014 Exclusive Preview',
+    tour_title:'Virtual <em>3D</em> Tour',
+    tour_sub:'International clients close destination weddings without flying to Guadalajara. They explore every space from their computer or phone.',
+    tour_sidebar_head:'Spaces',
+    tour_note:'This is a simulation. The real tour includes 360\u00b0 photos and real-time navigation between spaces.',
+    chat_hname:'Benazuza Assistant',
+    chat_hstatus:'Active now',
+    chat_powered:'Powered by AI \u2014 Tier 3 Consultora DV',
+    chat_placeholder:'Type a message\u2026',
+    chat_disclaimer:'Demo AI \u2014 this is how your agent works 24/7',
+    footer:'Consultora DV \u2014 Dante Vega \u2014 Confidential document \u2014 April 2026',
+  }
+};
+
+const CHAT_SCRIPT_EN = [
+  { role:'agent', text:'Hello! I\u2019m the Hacienda Benazuza assistant. I\u2019m here to help you find the perfect date for your event. What type of celebration do you have in mind?', delay:1000 },
+  { role:'user',  text:'Hi, I\u2019d like to get a quote for a wedding in 2027', delay:3200 },
+  { role:'agent', text:'How exciting! I\u2019d love to help. Do you have a tentative date in mind, or would you like to check availability together?', delay:3000 },
+  { role:'user',  text:'Something in May or June 2027', delay:3400 },
+  { role:'agent', text:'May and June are our most requested months \u2014 perfect weather, stunning golden-hour light, and a very special atmosphere at the hacienda. How many guests are you expecting?', delay:3200 },
+  { role:'user',  text:'Between 300 and 400 guests', delay:3500 },
+  { role:'agent', text:'With that number you\u2019d have access to the Grand Ballroom (1,100 m\u00b2) plus the colonial terrace. A combination very few venues in Mexico can offer. Will guests be flying in from abroad?', delay:3200 },
+  { role:'user',  text:'Yes, destination wedding \u2014 we\u2019re coming from Miami', delay:3400 },
+  { role:'agent', text:'We have a special destination wedding package designed so you can get to know every space and make decisions before you even need to fly.\n\nShould I send the full proposal to your email?', delay:3000 },
+  { role:'user',  text:'Yes please, it\u2019s sarah@gmail.com', delay:3500 },
+  { role:'agent', text:'Done, Sarah! I just sent you the PDF packages with pricing, spaces and availability. I also included the link to the 3D virtual tour so you can explore the hacienda from Miami \ud83c\udfe1\n\nhttps://benazuza.mx/virtual-tour', delay:3200 },
+  { role:'user',  text:'Great! Quick question \u2014 do you have wedding planners on site?', delay:3800 },
+  { role:'agent', text:'Yes! We have in-house event coordinators, partner florists, and certified vendors \u2014 all under one roof. Benazuza is essentially an all-in-one experience.\n\nThat said, if you already have a planner you trust, we work seamlessly with outside planners too.', delay:3200 },
+  { role:'user',  text:'Perfect, that sounds amazing', delay:3500 },
+  { role:'agent', text:'It\u2019s going to be a wedding your guests will remember forever \u2728\n\nOne thing worth mentioning: May and June 2027 are filling up fast \u2014 the best Saturdays go quickly. If you want to lock in your date before it\u2019s gone, a quick call this week would be the perfect next step.\n\nI can see the team has availability:\n\ud83d\udcc5 Tuesday, April 22 \u00b7 11:00 am\n\ud83d\udcc5 Thursday, April 24 \u00b7 3:00 pm\n\ud83d\udcc5 Friday, April 25 \u00b7 10:00 am\n\nBook directly here \ud83d\udc49 https://cal.benazuza.mx/consultation', delay:3000 },
+  { role:'user',  text:'Thursday at 3pm works perfectly \u2014 just booked it \ud83d\ude4c', delay:4200 },
+  { role:'agent', text:'Perfect! We\u2019ll be there, Sarah. You\u2019ll get a confirmation email with the video call link.\n\nYou\u2019re going to fall in love with Benazuza \ud83e\udd42', delay:3000 },
+];
+
+function toggleLang(){
+  applyLang(currentLang === 'es' ? 'en' : 'es');
+}
+
+function applyLang(lang){
+  currentLang = lang;
+  const d = T[lang];
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+  const set = (sel,html) => { const e=$$(sel)[0]; if(e) e.innerHTML=html; };
+  const setIdx = (sel,arr) => { $$(sel).forEach((e,i)=>{ if(arr[i]!==undefined) e.innerHTML=arr[i]; }); };
+
+  // Nav & hero
+  set('#t-nav-right', d.nav_right);
+  set('.hero-eyebrow', d.hero_eyebrow);
+  set('.hero-title', d.hero_title);
+  set('.hero-sub', d.hero_sub);
+  set('.hero-pills', d.hero_pills);
+  set('.scroll-label', d.scroll_label);
+  // Marquee
+  set('.marquee-track', d.marquee);
+  // Gallery labels
+  setIdx('.gal-label', d.gal_labels);
+  // Section eyebrows, titles, leads
+  setIdx('.eyebrow', d.eyebrows);
+  setIdx('.sec-title', d.sec_titles);
+  setIdx('.sec-lead', d.sec_leads);
+  // Reality cards
+  setIdx('.r-card', d.r_cards);
+  // Image breaks
+  const ib1text = $('#ib1')?.closest('.img-break')?.querySelector('.ib-text p');
+  if(ib1text) ib1text.innerHTML = d.ib1_text;
+  const ib2text = $('#ib2')?.closest('.img-break')?.querySelector('.ib-text p');
+  if(ib2text) ib2text.innerHTML = d.ib2_text;
+  // Opportunity
+  set('.opp-lbl', d.opp_lbl);
+  set('.opp-ctx', d.opp_ctx);
+  setIdx('.opp-txt', d.opp_stat_txts);
+  // Tiers
+  setIdx('.tier-name', d.tier_names);
+  setIdx('.tier-unit', d.tier_units);
+  setIdx('.tier-equiv', d.tier_equivs);
+  setIdx('.tier-toggle span', d.tier_toggle_labels);
+  const badge = $('.tier-badge'); if(badge) badge.innerHTML = d.tier_badge;
+  setIdx('.tier-inner', d.tier_inners);
+  // Before/after
+  set('.ba-section .eyebrow', d.ba_eyebrow);
+  set('.ba-section .sec-title', d.ba_title);
+  set('.ba-hcell.hbef', d.ba_hbef);
+  set('.ba-hcell.haft', d.ba_haft);
+  setIdx('.ba-cell', d.ba_cells);
+  // Closing
+  set('.cl-eyebrow', d.cl_eyebrow);
+  set('.cl-quote', d.cl_quote);
+  set('.cl-detail', d.cl_detail);
+  set('.cta', d.cta);
+  // Tour section
+  set('.tour-badge', d.tour_badge);
+  set('.tour-title', d.tour_title);
+  set('.tour-sub', d.tour_sub);
+  set('.tour-sidebar-head', d.tour_sidebar_head);
+  set('.tour-cta-text', d.tour_note);
+  // Tour sidebar space names
+  const sidebarNames = SIDEBAR_NAMES[lang];
+  $$('.tour-space-name').forEach((el,i) => {
+    if(sidebarNames[i]) el.innerHTML = sidebarNames[i][0]+'<small>'+sidebarNames[i][1]+'</small>';
+  });
+  // Tour viewer — update TOUR_SPACES in-place + refresh current view
+  const tourNamesNow = TOUR_NAMES_DATA[lang];
+  TOUR_SPACES.forEach((sp,i) => {
+    sp.name = tourNamesNow[i][0];
+    sp.meta = tourNamesNow[i][1];
+  });
+  const curSp = TOUR_SPACES[tourIdx];
+  set('#tour-room-name', curSp.name);
+  set('#tour-room-meta', curSp.meta);
+  // Chat header
+  set('.chat-hname', d.chat_hname);
+  set('.chat-hstatus', d.chat_hstatus);
+  set('.chat-hpowered', d.chat_powered);
+  const ci = $('.chat-input-demo'); if(ci) ci.textContent = d.chat_placeholder;
+  set('.chat-disclaimer', d.chat_disclaimer);
+  // Reset chat if already started
+  if(chatStarted){ resetChat(lang); }
+  // Footer
+  set('footer p', d.footer);
+  // Lang button label
+  $('#lang-btn').textContent = lang === 'es' ? 'EN' : 'ES';
+  // Recalculate open tier height on mobile
+  $$('.tier.open').forEach(t => {
+    const b = t.querySelector('.tier-body');
+    if(b) b.style.maxHeight = b.scrollHeight+'px';
+  });
+  // Re-init hstatus dot (it uses ::before pseudo, text triggers repaint)
+  set('.chat-hstatus', lang==='en'?'Active now':'Activo ahora');
+}
+
+function resetChat(lang){
+  const container = document.getElementById('chat-msgs');
+  container.innerHTML = '';
+  chatStarted = false;
+  chatStarted = true;
+  const script = lang==='en' ? CHAT_SCRIPT_EN : CHAT_SCRIPT_ES;
+  // Run the chat script using the correct array
+  runChatScriptWith(script);
+}
+
 /* ── AI CHAT WIDGET ──────────────────────────────────── */
-const CHAT_SCRIPT = [
+const CHAT_SCRIPT_ES = [
   { role:'agent', text:'¡Hola! Soy el asistente de Hacienda Benazuza. Estoy aquí para ayudarte a encontrar la fecha perfecta para tu evento. ¿Qué tipo de celebración tienes en mente?', delay:1000 },
   { role:'user',  text:'Hola, quiero cotizar una boda para 2027', delay:3200 },
   { role:'agent', text:'¡Qué emocionante! Con gusto te ayudo. ¿Tienes ya una fecha tentativa o prefieres que revisemos la disponibilidad juntos?', delay:3000 },
@@ -1592,9 +1882,13 @@ function toggleChat(){
 }
 
 function runChatScript(){
+  runChatScriptWith(currentLang === 'en' ? CHAT_SCRIPT_EN : CHAT_SCRIPT_ES);
+}
+
+function runChatScriptWith(script){
   const container = document.getElementById('chat-msgs');
   let acc = 0;
-  CHAT_SCRIPT.forEach((msg, i) => {
+  script.forEach((msg, i) => {
     acc += msg.delay;
     setTimeout(() => {
       // Show typing indicator for agent messages
