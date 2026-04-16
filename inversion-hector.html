@@ -90,7 +90,7 @@ nav.scrolled{
 .hero-bg{
   position:absolute;inset:0;z-index:0;
   /* Grand ballroom / luxury venue */
-  background-image:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920&q=90&auto=format&fit=crop');
+  background-image:url('img/salon-rojo.jpg');
   background-size:cover;background-position:center;
   transform:scale(1.08);will-change:transform;
 }
@@ -480,6 +480,307 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 .gsap-row{opacity:1}
 .gsap-close{opacity:1}
 
+/* ─── 3D VIRTUAL TOUR ─────────────────────────────────── */
+.tour-section{
+  background:#0D0D0D;padding:80px 0;overflow:hidden;
+  border-top:1px solid rgba(201,168,76,.08);
+  border-bottom:1px solid rgba(201,168,76,.08);
+}
+.tour-header{text-align:center;padding:0 24px;margin-bottom:52px}
+.tour-badge{
+  display:inline-block;
+  font-size:.44rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  color:#0A0A0A;background:var(--gold);padding:5px 16px;margin-bottom:20px;
+}
+.tour-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,5vw,3rem);font-weight:400;color:#FFF;margin-bottom:12px;
+}
+.tour-title em{font-style:italic;color:var(--gold-l)}
+.tour-sub{font-size:.82rem;color:rgba(255,255,255,.38);max-width:500px;margin:0 auto}
+
+.tour-ui{
+  display:grid;grid-template-columns:1fr;
+  max-width:1100px;margin:0 auto;padding:0 20px;gap:0;
+}
+@media(min-width:768px){
+  .tour-ui{grid-template-columns:260px 1fr;gap:0}
+}
+
+/* Space list sidebar */
+.tour-sidebar{
+  background:#111;border:1px solid rgba(201,168,76,.1);
+  border-right:none;
+}
+.tour-sidebar-head{
+  padding:16px 20px;border-bottom:1px solid rgba(201,168,76,.08);
+  font-size:.46rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(201,168,76,.6);
+}
+.tour-space{
+  padding:16px 20px;cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  display:flex;align-items:center;gap:14px;
+  transition:background .3s,border-left .3s;
+  border-left:3px solid transparent;
+  position:relative;
+}
+.tour-space:hover{background:rgba(201,168,76,.04)}
+.tour-space.active{
+  background:rgba(201,168,76,.07);
+  border-left-color:var(--gold);
+}
+.tour-space-icon{
+  width:44px;height:44px;flex-shrink:0;overflow:hidden;border-radius:2px;
+  background:#1a1a1a;
+}
+.tour-space-icon img{width:100%;height:100%;object-fit:cover}
+.tour-space-name{font-size:.72rem;font-weight:500;color:rgba(255,255,255,.7);line-height:1.3}
+.tour-space-name small{display:block;font-size:.58rem;color:rgba(255,255,255,.28);margin-top:2px}
+.tour-space-check{
+  margin-left:auto;width:16px;height:16px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;color:var(--gold);opacity:0;transition:opacity .3s;
+}
+.tour-space.visited .tour-space-check{opacity:1}
+
+/* Main viewer */
+.tour-viewer{
+  position:relative;height:400px;overflow:hidden;
+  background:#0a0a0a;border:1px solid rgba(201,168,76,.1);
+}
+@media(min-width:768px){.tour-viewer{height:520px}}
+
+.tour-scene{
+  position:absolute;inset:0;
+  transition:transform .7s cubic-bezier(.2,0,.1,1),opacity .5s ease;
+  transform:scale(1.04);opacity:1;
+}
+.tour-scene.leaving{
+  transform:scale(1.12);opacity:0;
+}
+.tour-scene.entering{
+  transform:scale(1.0);opacity:1;
+}
+.tour-scene img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.tour-vignette{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    180deg,rgba(10,10,10,.6) 0%,transparent 30%,transparent 65%,rgba(10,10,10,.85) 100%
+  );
+  pointer-events:none;z-index:2;
+}
+
+/* Tour hotspots */
+.tour-hotspot{
+  position:absolute;z-index:4;cursor:pointer;
+  transform:translate(-50%,-50%);
+}
+.hs-ring{
+  width:32px;height:32px;border-radius:50%;
+  border:1.5px solid rgba(201,168,76,.7);
+  display:flex;align-items:center;justify-content:center;
+  animation:hsPulse 2.4s ease-in-out infinite;
+  background:rgba(10,10,10,.4);backdrop-filter:blur(4px);
+}
+.hs-dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+@keyframes hsPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}
+  50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}
+}
+.hs-label{
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:rgba(10,10,10,.88);border:1px solid rgba(201,168,76,.25);
+  padding:4px 10px;white-space:nowrap;
+  font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-l);
+  pointer-events:none;opacity:0;transition:opacity .2s;
+}
+.tour-hotspot:hover .hs-label{opacity:1}
+
+/* Tour bottom bar */
+.tour-bar{
+  position:absolute;bottom:0;left:0;right:0;z-index:5;
+  padding:16px 20px;
+  background:linear-gradient(transparent,rgba(10,10,10,.92));
+  display:flex;align-items:flex-end;justify-content:space-between;
+}
+.tour-room-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,3vw,1.5rem);font-weight:400;color:#FFF;
+  text-shadow:0 2px 12px rgba(0,0,0,.8);
+}
+.tour-room-meta{
+  font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(201,168,76,.7);margin-top:4px;
+}
+.tour-nav-btns{display:flex;gap:8px}
+.tour-btn{
+  width:36px;height:36px;border:1px solid rgba(201,168,76,.3);
+  background:rgba(10,10,10,.6);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-size:1rem;cursor:pointer;
+  transition:background .3s,border-color .3s;
+}
+.tour-btn:hover{background:rgba(201,168,76,.15);border-color:var(--gold)}
+
+/* Tour progress dots */
+.tour-dots{
+  display:flex;gap:6px;justify-content:center;margin-top:20px;flex-wrap:wrap;
+  padding:0 20px;
+}
+.tour-dot{
+  width:28px;height:3px;background:rgba(255,255,255,.12);
+  cursor:pointer;transition:background .3s;
+}
+.tour-dot.active{background:var(--gold)}
+.tour-dot.visited{background:rgba(201,168,76,.35)}
+
+/* Tour CTA area */
+.tour-cta-row{
+  display:flex;gap:16px;justify-content:center;align-items:center;
+  flex-wrap:wrap;padding:28px 24px 0;
+}
+.tour-cta-text{
+  font-size:.78rem;color:rgba(255,255,255,.35);font-style:italic;text-align:center;
+}
+
+/* ─── AI CHAT WIDGET ──────────────────────────────────── */
+#ai-chat-btn{
+  position:fixed;bottom:28px;right:28px;z-index:9990;
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-d),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 24px rgba(201,168,76,.4);
+  transition:transform .3s var(--ease),box-shadow .3s;
+  border:none;
+}
+#ai-chat-btn:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(201,168,76,.55)}
+#ai-chat-btn svg{width:26px;height:26px;fill:#0A0A0A}
+.chat-ping{
+  position:absolute;top:2px;right:2px;width:14px;height:14px;
+  border-radius:50%;background:var(--green);
+  border:2px solid #0A0A0A;
+}
+.chat-ping::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:var(--green);animation:ping 1.8s ease-in-out infinite;
+}
+@keyframes ping{
+  0%{transform:scale(1);opacity:.8}
+  80%,100%{transform:scale(2.2);opacity:0}
+}
+
+#ai-chat-window{
+  position:fixed;bottom:100px;right:28px;z-index:9989;
+  width:340px;max-width:calc(100vw - 48px);
+  background:#111;
+  border:1px solid rgba(201,168,76,.18);
+  box-shadow:0 16px 64px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.04);
+  display:flex;flex-direction:column;
+  transform:translateY(20px) scale(.96);opacity:0;
+  pointer-events:none;
+  transition:transform .35s var(--ease),opacity .3s ease;
+  max-height:520px;
+}
+#ai-chat-window.open{
+  transform:translateY(0) scale(1);opacity:1;pointer-events:auto;
+}
+
+.chat-header{
+  padding:14px 16px;
+  background:linear-gradient(90deg,rgba(10,10,10,.9),rgba(20,16,8,.9));
+  border-bottom:1px solid rgba(201,168,76,.12);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.chat-avatar{
+  width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:1.5px solid rgba(201,168,76,.4);
+}
+.chat-avatar img{width:100%;height:100%;object-fit:cover}
+.chat-hinfo{flex:1}
+.chat-hname{font-size:.72rem;font-weight:600;color:#FFF;letter-spacing:.03em}
+.chat-hstatus{
+  font-size:.52rem;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:2px;
+}
+.chat-hstatus::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;
+}
+.chat-hpowered{font-size:.44rem;color:rgba(255,255,255,.2);margin-top:1px}
+.chat-close{
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.3);cursor:pointer;font-size:1.1rem;
+  transition:color .2s;flex-shrink:0;border:none;background:transparent;
+}
+.chat-close:hover{color:rgba(255,255,255,.7)}
+
+.chat-messages{
+  flex:1;overflow-y:auto;padding:16px 14px;
+  display:flex;flex-direction:column;gap:10px;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent;
+  min-height:260px;
+}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-track{background:transparent}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+
+.msg{display:flex;flex-direction:column;gap:2px;max-width:85%}
+.msg.agent{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.msg-bubble{
+  padding:9px 13px;font-size:.72rem;line-height:1.55;
+  border-radius:2px;
+}
+.msg.agent .msg-bubble{
+  background:rgba(255,255,255,.055);color:rgba(255,255,255,.82);
+  border-left:2px solid rgba(201,168,76,.35);
+}
+.msg.user .msg-bubble{
+  background:rgba(201,168,76,.14);color:rgba(255,255,255,.85);
+  border:1px solid rgba(201,168,76,.2);
+}
+.msg-time{font-size:.44rem;color:rgba(255,255,255,.22);padding:0 4px}
+.msg.user .msg-time{text-align:right}
+
+.typing-indicator{
+  display:flex;align-items:center;gap:4px;padding:10px 13px;
+  background:rgba(255,255,255,.055);border-left:2px solid rgba(201,168,76,.35);
+  align-self:flex-start;
+}
+.typing-indicator span{
+  width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,.5);
+  animation:typingDot 1.2s ease-in-out infinite;
+}
+.typing-indicator span:nth-child(2){animation-delay:.2s}
+.typing-indicator span:nth-child(3){animation-delay:.4s}
+@keyframes typingDot{
+  0%,60%,100%{transform:translateY(0);opacity:.4}
+  30%{transform:translateY(-5px);opacity:1}
+}
+
+.chat-footer{
+  padding:10px 14px;border-top:1px solid rgba(255,255,255,.05);
+  display:flex;gap:8px;align-items:center;flex-shrink:0;
+}
+.chat-input-demo{
+  flex:1;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  padding:9px 12px;font-size:.68rem;color:rgba(255,255,255,.25);
+  font-family:'Inter',sans-serif;border-radius:2px;pointer-events:none;
+}
+.chat-send-btn{
+  width:34px;height:34px;background:linear-gradient(135deg,var(--gold-d),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;border:none;border-radius:2px;
+}
+.chat-send-btn svg{width:14px;height:14px;fill:#0A0A0A}
+.chat-disclaimer{
+  font-size:.42rem;color:rgba(255,255,255,.15);text-align:center;
+  padding:6px 14px 10px;flex-shrink:0;
+}
+
 </style>
 </head>
 <body>
@@ -536,24 +837,44 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 <div class="gallery-strip">
   <div class="gallery-track" id="gal">
     <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&q=85&auto=format&fit=crop" alt="Gran Sal&oacute;n" loading="eager"/>
+      <img src="img/salon-rojo.jpg" alt="Gran Sal&oacute;n" loading="eager"/>
       <div class="gal-label">Gran Sal&oacute;n &mdash; 1,100 m&sup2;</div>
     </div>
     <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=85&auto=format&fit=crop" alt="Recepci&oacute;n" loading="lazy"/>
-      <div class="gal-label">Recepci&oacute;n de Lujo</div>
+      <img src="img/lago-comedor.jpg" alt="Comedor Vista Lago" loading="lazy"/>
+      <div class="gal-label">Comedor Vista al Lago</div>
     </div>
     <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=800&q=85&auto=format&fit=crop" alt="Jardines" loading="lazy"/>
-      <div class="gal-label">Jardines y Terraza</div>
+      <img src="img/terraza-arcos.jpg" alt="Terraza Arcos" loading="lazy"/>
+      <div class="gal-label">Terraza y Arcos Coloniales</div>
     </div>
     <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&q=85&auto=format&fit=crop" alt="Boda destino" loading="lazy"/>
-      <div class="gal-label">Bodas Destino Internacionales</div>
+      <img src="img/ceremonia-exterior.jpg" alt="Ceremonia exterior" loading="lazy"/>
+      <div class="gal-label">Ceremonias al Aire Libre</div>
     </div>
     <div class="gal-item">
-      <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=85&auto=format&fit=crop" alt="Exterior" loading="lazy"/>
-      <div class="gal-label">54 Hect&aacute;reas &mdash; Lago Propio</div>
+      <img src="img/vista-aerea.jpg" alt="Vista a&eacute;rea" loading="lazy"/>
+      <div class="gal-label">Vista A&eacute;rea &mdash; 54 Hect&aacute;reas</div>
+    </div>
+    <div class="gal-item">
+      <img src="img/pabellon-lago.jpg" alt="Pabell&oacute;n" loading="lazy"/>
+      <div class="gal-label">Pabell&oacute;n en el Lago</div>
+    </div>
+    <div class="gal-item">
+      <img src="img/salon-techo-ondulado.jpg" alt="Sal&oacute;n techo" loading="lazy"/>
+      <div class="gal-label">Sal&oacute;n Bello — Techo Ondulado</div>
+    </div>
+    <div class="gal-item">
+      <img src="img/piano-salon.jpg" alt="Piano sal&oacute;n" loading="lazy"/>
+      <div class="gal-label">Piano Bar &amp; Entretenimiento</div>
+    </div>
+    <div class="gal-item">
+      <img src="img/exterior-hacienda.jpg" alt="Exterior Hacienda" loading="lazy"/>
+      <div class="gal-label">Fachada Colonial</div>
+    </div>
+    <div class="gal-item">
+      <img src="img/lugar-monograma.jpg" alt="Detalle lujo" loading="lazy"/>
+      <div class="gal-label">Detalles de Lujo</div>
     </div>
   </div>
 </div>
@@ -595,7 +916,7 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 
 <!-- IMAGE BREAK 1 -->
 <div class="img-break">
-  <div class="ib-bg" id="ib1" style="background-image:url('https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1920&q=80&auto=format&fit=crop')"></div>
+  <div class="ib-bg" id="ib1" style="background-image:url('img/lago-comedor.jpg')"></div>
   <div class="ib-overlay"></div>
   <div class="ib-text gsap-up">
     <p><span>54 hect&aacute;reas. Lago propio. Sal&oacute;n de 1,100&nbsp;m&sup2;.</span><br/>La f&aacute;brica de experiencias de lujo m&aacute;s grande de Jalisco &mdash; que a&uacute;n no lo comunica.</p>
@@ -780,9 +1101,95 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
   </div>
 </section>
 
+<!-- 3D VIRTUAL TOUR PREVIEW -->
+<section class="tour-section" id="tour-preview">
+  <div class="tour-header">
+    <div class="tour-badge">Tier 2 — Preview Exclusivo</div>
+    <h2 class="tour-title">Recorrido Virtual <em>3D</em></h2>
+    <p class="tour-sub">Los clientes internacionales cierran bodas sin volar a Guadalajara. Exploran cada espacio desde su computadora o celular.</p>
+  </div>
+
+  <div class="tour-ui">
+    <!-- Sidebar: space list -->
+    <div class="tour-sidebar">
+      <div class="tour-sidebar-head">Espacios</div>
+      <div class="tour-space active visited" data-idx="0" onclick="tourGo(0)">
+        <div class="tour-space-icon"><img src="img/salon-rojo.jpg" alt=""/></div>
+        <div class="tour-space-name">Gran Sal&oacute;n<small>1,100 m² · 800 personas</small></div>
+        <div class="tour-space-check">✓</div>
+      </div>
+      <div class="tour-space" data-idx="1" onclick="tourGo(1)">
+        <div class="tour-space-icon"><img src="img/terraza-arcos.jpg" alt=""/></div>
+        <div class="tour-space-name">Terraza Colonial<small>Arcos y jardín</small></div>
+        <div class="tour-space-check">✓</div>
+      </div>
+      <div class="tour-space" data-idx="2" onclick="tourGo(2)">
+        <div class="tour-space-icon"><img src="img/lago-comedor.jpg" alt=""/></div>
+        <div class="tour-space-name">Comedor del Lago<small>Vista panorámica</small></div>
+        <div class="tour-space-check">✓</div>
+      </div>
+      <div class="tour-space" data-idx="3" onclick="tourGo(3)">
+        <div class="tour-space-icon"><img src="img/ceremonia-exterior.jpg" alt=""/></div>
+        <div class="tour-space-name">Ceremonia Exterior<small>Instalaci&oacute;n crystal</small></div>
+        <div class="tour-space-check">✓</div>
+      </div>
+      <div class="tour-space" data-idx="4" onclick="tourGo(4)">
+        <div class="tour-space-icon"><img src="img/pabellon-lago.jpg" alt=""/></div>
+        <div class="tour-space-name">Pabell&oacute;n del Lago<small>Suite privada</small></div>
+        <div class="tour-space-check">✓</div>
+      </div>
+      <div class="tour-space" data-idx="5" onclick="tourGo(5)">
+        <div class="tour-space-icon"><img src="img/vista-aerea.jpg" alt=""/></div>
+        <div class="tour-space-name">Vista A&eacute;rea<small>54 hect&aacute;reas · lago</small></div>
+        <div class="tour-space-check">✓</div>
+      </div>
+    </div>
+
+    <!-- Viewer -->
+    <div class="tour-viewer" id="tour-viewer">
+      <div class="tour-scene" id="tour-scene">
+        <img src="img/salon-rojo.jpg" alt="Gran Salón" id="tour-img"/>
+      </div>
+      <div class="tour-vignette"></div>
+
+      <!-- Hotspots (positioned per scene) -->
+      <div class="tour-hotspot" id="hs1" style="left:38%;top:48%">
+        <div class="hs-ring"><div class="hs-dot"></div></div>
+        <div class="hs-label">Acceso al jardín</div>
+      </div>
+      <div class="tour-hotspot" id="hs2" style="left:68%;top:55%">
+        <div class="hs-ring"><div class="hs-dot"></div></div>
+        <div class="hs-label">Área VIP</div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="tour-bar">
+        <div>
+          <div class="tour-room-name" id="tour-room-name">Gran Sal&oacute;n</div>
+          <div class="tour-room-meta" id="tour-room-meta">1,100 m² &mdash; Capacidad 800 personas</div>
+        </div>
+        <div class="tour-nav-btns">
+          <div class="tour-btn" onclick="tourPrev()" title="Anterior">&#8592;</div>
+          <div class="tour-btn" onclick="tourNext()" title="Siguiente">&#8594;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress dots -->
+  <div class="tour-dots" id="tour-dots"></div>
+
+  <!-- Tour CTA -->
+  <div class="tour-cta-row">
+    <p class="tour-cta-text">
+      Esta es una simulaci&oacute;n. El recorrido real incluye fotos 360° y navegaci&oacute;n entre espacios en tiempo real.
+    </p>
+  </div>
+</section>
+
 <!-- IMAGE BREAK 2 -->
 <div class="img-break">
-  <div class="ib-bg" id="ib2" style="background-image:url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&q=80&auto=format&fit=crop')"></div>
+  <div class="ib-bg" id="ib2" style="background-image:url('img/vista-aerea.jpg')"></div>
   <div class="ib-overlay"></div>
   <div class="ib-text gsap-up">
     <p><span>$170K&ndash;$175K por d&iacute;a de renta.</span><br/>Tu inversi&oacute;n mensual m&aacute;s alta equivale a medio d&iacute;a. Un solo evento cerrado paga el a&ntilde;o completo.</p>
@@ -809,7 +1216,7 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 
 <!-- CLOSING -->
 <section class="closing">
-  <div class="cl-bg" id="cl-bg" style="background-image:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920&q=70&auto=format&fit=crop')"></div>
+  <div class="cl-bg" id="cl-bg" style="background-image:url('img/salon-techo-ondulado.jpg')"></div>
   <div class="cl-glow"></div>
   <div class="cl-content gsap-close">
     <p class="cl-eyebrow">El siguiente paso</p>
@@ -823,6 +1230,36 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 <footer>
   <p>Consultora DV &mdash; Dante Vega &mdash; Documento confidencial &mdash; Abril 2026</p>
 </footer>
+
+<!-- AI CHAT WIDGET -->
+<button id="ai-chat-btn" onclick="toggleChat()" aria-label="Asistente Benazuza">
+  <div class="chat-ping"></div>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H6l-2 2V4h16v10z"/>
+  </svg>
+</button>
+
+<div id="ai-chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">
+      <img src="img/terraza-arcos.jpg" alt="Benazuza AI"/>
+    </div>
+    <div class="chat-hinfo">
+      <div class="chat-hname">Asistente Benazuza</div>
+      <div class="chat-hstatus">Activo ahora</div>
+      <div class="chat-hpowered">Impulsado por IA &mdash; Tier 3 Consultora DV</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&#x2715;</button>
+  </div>
+  <div class="chat-messages" id="chat-msgs"></div>
+  <div class="chat-footer">
+    <div class="chat-input-demo">Escribe un mensaje&hellip;</div>
+    <div class="chat-send-btn">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </div>
+  </div>
+  <div class="chat-disclaimer">IA demostrativa &mdash; as&iacute; trabaja tu agente 24/7</div>
+</div>
 
 <!-- GSAP only for SCROLL animations -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1006,6 +1443,218 @@ function openTier(card) {
     b.style.maxHeight = b.scrollHeight + 'px';
   }
 }
+
+/* ── 3D VIRTUAL TOUR ─────────────────────────────────── */
+const TOUR_SPACES = [
+  { name:'Gran Sal&oacute;n',       meta:'1,100 m² &mdash; Capacidad 800 personas', img:'img/salon-rojo.jpg',
+    hs:[{x:'38%',y:'48%',label:'Acceso al jardín'},{x:'68%',y:'55%',label:'Área VIP'}] },
+  { name:'Terraza Colonial',         meta:'Arcos siglo XIX &mdash; Dorado de la tarde', img:'img/terraza-arcos.jpg',
+    hs:[{x:'55%',y:'60%',label:'Jardín exterior'},{x:'30%',y:'42%',label:'Acceso salón'}] },
+  { name:'Comedor del Lago',         meta:'Vista panorámica al lago natural', img:'img/lago-comedor.jpg',
+    hs:[{x:'70%',y:'50%',label:'Terraza flotante'},{x:'25%',y:'65%',label:'Muelle privado'}] },
+  { name:'Ceremonia Exterior',       meta:'Instalación Crystal &mdash; 400 personas', img:'img/ceremonia-exterior.jpg',
+    hs:[{x:'50%',y:'40%',label:'Altar principal'},{x:'78%',y:'58%',label:'Área de invitados'}] },
+  { name:'Pabell&oacute;n del Lago', meta:'Suite privada &mdash; Orilla del lago', img:'img/pabellon-lago.jpg',
+    hs:[{x:'42%',y:'55%',label:'Acceso privado'},{x:'62%',y:'38%',label:'Vista al agua'}] },
+  { name:'Vista A&eacute;rea',       meta:'54 hectáreas &mdash; Lago propio &mdash; Zapopan', img:'img/vista-aerea.jpg',
+    hs:[{x:'48%',y:'52%',label:'Lago central'},{x:'72%',y:'44%',label:'Acceso principal'}] },
+];
+
+let tourIdx = 0;
+let tourTransitioning = false;
+
+// Build progress dots
+(function buildDots(){
+  const wrap = document.getElementById('tour-dots');
+  TOUR_SPACES.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'tour-dot' + (i === 0 ? ' active visited' : '');
+    d.onclick = () => tourGo(i);
+    wrap.appendChild(d);
+  });
+})();
+
+function tourGo(idx){
+  if (tourTransitioning || idx === tourIdx) return;
+  tourTransitioning = true;
+
+  const scene = document.getElementById('tour-scene');
+  scene.classList.add('leaving');
+
+  setTimeout(() => {
+    tourIdx = idx;
+    const sp = TOUR_SPACES[idx];
+
+    // Swap image
+    document.getElementById('tour-img').src = sp.img;
+    document.getElementById('tour-room-name').innerHTML = sp.name;
+    document.getElementById('tour-room-meta').innerHTML = sp.meta;
+
+    // Update hotspots
+    const hsList = document.querySelectorAll('.tour-hotspot');
+    hsList.forEach((hs, i) => {
+      if (sp.hs[i]) {
+        hs.style.left = sp.hs[i].x;
+        hs.style.top  = sp.hs[i].y;
+        hs.querySelector('.hs-label').textContent = sp.hs[i].label;
+        hs.style.display = 'block';
+      } else {
+        hs.style.display = 'none';
+      }
+    });
+
+    // Enter animation
+    scene.classList.remove('leaving');
+    scene.classList.add('entering');
+    setTimeout(() => {
+      scene.classList.remove('entering');
+      tourTransitioning = false;
+    }, 700);
+
+    // Update sidebar
+    document.querySelectorAll('.tour-space').forEach((el, i) => {
+      el.classList.toggle('active', i === idx);
+      if (i === idx) el.classList.add('visited');
+    });
+
+    // Update dots
+    document.querySelectorAll('.tour-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+      if (i <= idx) d.classList.add('visited');
+    });
+
+  }, 320);
+}
+
+function tourNext(){ tourGo((tourIdx + 1) % TOUR_SPACES.length); }
+function tourPrev(){ tourGo((tourIdx - 1 + TOUR_SPACES.length) % TOUR_SPACES.length); }
+
+// Auto-advance every 5s on scroll into view
+let tourAutoInterval = null;
+ScrollTrigger.create({
+  trigger: '#tour-preview',
+  start: 'top 70%',
+  onEnter: () => {
+    if (!tourAutoInterval) {
+      tourAutoInterval = setInterval(() => {
+        if (!document.hidden) tourNext();
+      }, 5000);
+    }
+  },
+  onLeaveBack: () => {
+    clearInterval(tourAutoInterval);
+    tourAutoInterval = null;
+  }
+});
+
+// Tour parallax not needed (section uses grid), but animate header in
+gsap.from('#tour-preview .tour-header', {
+  y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+  scrollTrigger: { trigger: '#tour-preview', start: 'top 82%' }
+});
+gsap.from('#tour-preview .tour-ui', {
+  y: 50, opacity: 0, duration: 1.1, ease: 'power3.out',
+  scrollTrigger: { trigger: '#tour-preview .tour-ui', start: 'top 88%' }
+});
+
+
+/* ── AI CHAT WIDGET ──────────────────────────────────── */
+const CHAT_SCRIPT = [
+  { role:'agent', text:'¡Hola! Soy el asistente de Hacienda Benazuza. Estoy aquí para ayudarte a encontrar la fecha perfecta para tu evento. ¿Qué tipo de celebración tienes en mente?', delay:800 },
+  { role:'user',  text:'Hola, quiero cotizar una boda para 2027', delay:2200 },
+  { role:'agent', text:'¡Qué emocionante! Con gusto te ayudo. ¿Tienes ya una fecha tentativa en mente o prefieres que revisemos disponibilidad juntos?', delay:1800 },
+  { role:'user',  text:'Algo en mayo o junio de 2027', delay:2000 },
+  { role:'agent', text:'Perfecto. Mayo y junio son temporada alta en Jalisco — clima ideal y luz golden hour. ¿Cuántos invitados estimas?', delay:1600 },
+  { role:'user',  text:'Entre 300 y 400 personas', delay:1900 },
+  { role:'agent', text:'Con ese aforo tienes acceso al Gran Salón (1,100 m²) más la terraza colonial. ¿Es una boda nacional o destino internacional?', delay:1700 },
+  { role:'user',  text:'Destino, venimos de Miami', delay:1800 },
+  { role:'agent', text:'Excelente. Para bodas destino preparamos un paquete especial en inglés con Stripe USD y recorrido virtual 3D para que puedas conocer cada espacio antes de volar.\n\n¿Te envío la propuesta al correo?', delay:2000 },
+];
+
+let chatOpen = false;
+let chatStarted = false;
+
+function toggleChat(){
+  chatOpen = !chatOpen;
+  document.getElementById('ai-chat-window').classList.toggle('open', chatOpen);
+  if (chatOpen && !chatStarted) {
+    chatStarted = true;
+    setTimeout(runChatScript, 400);
+  }
+}
+
+function runChatScript(){
+  const container = document.getElementById('chat-msgs');
+  let acc = 0;
+  CHAT_SCRIPT.forEach((msg, i) => {
+    acc += msg.delay;
+    setTimeout(() => {
+      // Show typing indicator for agent messages
+      if (msg.role === 'agent') {
+        const typing = document.createElement('div');
+        typing.className = 'typing-indicator';
+        typing.id = 'typing-' + i;
+        typing.innerHTML = '<span></span><span></span><span></span>';
+        container.appendChild(typing);
+        scrollChat();
+
+        setTimeout(() => {
+          const t = document.getElementById('typing-' + i);
+          if (t) t.remove();
+          appendMsg(msg.role, msg.text);
+          scrollChat();
+        }, 1100);
+      } else {
+        appendMsg(msg.role, msg.text);
+        scrollChat();
+      }
+    }, acc);
+    // Extra buffer for typing animation
+    if (msg.role === 'agent') acc += 1100;
+  });
+}
+
+function appendMsg(role, text){
+  const container = document.getElementById('chat-msgs');
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + role;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  // Replace newlines with <br>
+  bubble.innerHTML = text.replace(/\n/g,'<br>');
+
+  const timeEl = document.createElement('div');
+  timeEl.className = 'msg-time';
+  timeEl.textContent = time;
+
+  wrap.appendChild(bubble);
+  wrap.appendChild(timeEl);
+  container.appendChild(wrap);
+}
+
+function scrollChat(){
+  const c = document.getElementById('chat-msgs');
+  c.scrollTop = c.scrollHeight;
+}
+
+// Auto-open chat after user scrolls into Tier 3
+ScrollTrigger.create({
+  trigger: '.closing',
+  start: 'top 75%',
+  once: true,
+  onEnter: () => {
+    if (!chatOpen && !chatStarted) {
+      setTimeout(() => {
+        // Show notification ping then auto-open
+        document.querySelector('.chat-ping').style.animation = 'ping .5s ease-in-out 4';
+      }, 500);
+    }
+  }
+});
 </script>
 </body>
 </html>
