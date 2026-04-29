@@ -84,7 +84,17 @@ nav.scrolled{
 }
 .hero-overlay{
   position:absolute;inset:0;z-index:2;
-  background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(201,168,76,.06) 0%,transparent 70%);
+  background:linear-gradient(
+    180deg,
+    rgba(10,10,10,.75) 0%,
+    rgba(10,10,10,.55) 35%,
+    rgba(10,10,10,.60) 65%,
+    rgba(10,10,10,.90) 100%
+  );
+}
+.hero-overlay-center{
+  position:absolute;inset:0;z-index:2;
+  background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(0,0,0,.45) 0%,transparent 75%);
 }
 .hero-content{
   position:relative;z-index:3;
@@ -399,8 +409,8 @@ footer{
 <!-- ═══════════════════════════════════════════════════ HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
   <div class="hero-overlay"></div>
+  <div class="hero-overlay-center"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">
       <span></span>Hacienda Benazuza × Consultora DV<span></span>
