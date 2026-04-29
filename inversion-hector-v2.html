@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Infraestructura Digital — Hacienda Benazuza × Consultora DV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+
+/* ─── RESET ─────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',sans-serif;
+  background:#0A0A0A;color:#FFF;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root{
+  --gold:#C9A84C;--gold-l:#E8D08A;--gold-d:#8B6914;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── PROGRESS BAR ───────────────────────────────────── */
+#bar{
+  position:fixed;top:0;left:0;width:0%;height:2px;z-index:9999;
+  background:linear-gradient(90deg,var(--gold-d),var(--gold),var(--gold-l));
+  box-shadow:0 0 10px rgba(201,168,76,.5);pointer-events:none;
+}
+
+/* ─── CURSOR ─────────────────────────────────────────── */
+#cdot,#cring{
+  position:fixed;top:0;left:0;z-index:9998;
+  pointer-events:none;transform:translate(-50%,-50%);
+}
+#cdot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+#cring{width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,168,76,.5)}
+@media(max-width:1023px){#cdot,#cring{display:none}body{cursor:auto}}
+@media(min-width:1024px){body{cursor:none}}
+
+/* ─── NAV ────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:all .45s var(--ease);
+}
+nav.scrolled{
+  background:rgba(10,10,10,.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:13px 28px;border-bottom:1px solid rgba(201,168,76,.08);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:.8rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);
+}
+.nav-sub{font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
+.nav-right{text-align:right;font-size:.46rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);line-height:1.7}
+
+/* ─── HERO ───────────────────────────────────────────── */
+.hero{
+  position:relative;height:100vh;min-height:620px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background-image:url('img/exterior-hacienda.jpg');
+  background-size:cover;background-position:center;
+  transform:scale(1.04);will-change:transform;
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:1;
+  background-image:
+    linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(201,168,76,.06) 0%,transparent 70%);
+}
+.hero-content{
+  position:relative;z-index:3;
+  text-align:center;padding:0 28px;max-width:760px;
+}
+.hero-eyebrow{
+  font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:28px;opacity:0;
+  animation:fadeUp .8s .2s var(--ease) forwards;
+}
+.hero-eyebrow span{display:inline-block;width:40px;height:1px;background:var(--gold);vertical-align:middle;margin:0 12px}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,6vw,4.2rem);
+  font-weight:400;line-height:1.15;
+  color:#fff;margin-bottom:16px;
+  opacity:0;animation:fadeUp .9s .4s var(--ease) forwards;
+}
+.hero-title em{font-style:italic;color:var(--gold-l)}
+.hero-sub{
+  font-size:clamp(.9rem,2vw,1.05rem);font-weight:300;
+  color:rgba(255,255,255,.5);line-height:1.7;
+  max-width:520px;margin:0 auto 40px;
+  opacity:0;animation:fadeUp .9s .6s var(--ease) forwards;
+}
+.hero-divider{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  opacity:0;animation:fadeUp .9s .8s var(--ease) forwards;
+}
+.hero-divider span{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.hero-divider i{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3);font-style:normal}
+.hero-divider span:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+.hero-stats{
+  display:flex;justify-content:center;gap:48px;margin-top:40px;
+  opacity:0;animation:fadeUp .9s 1s var(--ease) forwards;
+}
+.hero-stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:600;color:var(--gold);display:block;
+}
+.hero-stat-lbl{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ─── SECTIONS ───────────────────────────────────────── */
+section{padding:100px 28px}
+.container{max-width:960px;margin:0 auto}
+
+.section-label{
+  font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,2.8rem);font-weight:400;
+  line-height:1.2;margin-bottom:24px;
+}
+.section-title em{font-style:italic;color:var(--gold-l)}
+.section-body{
+  font-size:1rem;font-weight:300;line-height:1.8;
+  color:rgba(255,255,255,.6);max-width:680px;
+}
+.divider-line{
+  width:60px;height:2px;
+  background:linear-gradient(90deg,var(--gold-d),var(--gold));
+  margin:32px 0;
+}
+
+/* ─── DIAGNOSIS GRID ──────────────────────────────────── */
+.diag-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:56px}
+@media(max-width:640px){.diag-grid{grid-template-columns:1fr}}
+.diag-card{
+  background:#111;padding:40px 36px;
+  position:relative;overflow:hidden;
+}
+.diag-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold-d),var(--gold),transparent);
+}
+.diag-num{
+  font-family:'Playfair Display',serif;
+  font-size:3.5rem;font-weight:600;
+  color:rgba(201,168,76,.08);
+  position:absolute;top:20px;right:24px;line-height:1;
+}
+.diag-icon{font-size:1.5rem;margin-bottom:16px}
+.diag-title{font-size:.9rem;font-weight:600;letter-spacing:.05em;margin-bottom:10px}
+.diag-body{font-size:.85rem;font-weight:300;color:rgba(255,255,255,.45);line-height:1.6}
+.diag-tag{
+  display:inline-block;margin-top:14px;
+  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:4px 10px;border:1px solid rgba(232,69,60,.3);
+  color:#E8453C;
+}
+
+/* ─── PHILOSOPHY BLOCK ───────────────────────────────── */
+.philosophy{background:#0E0E0E}
+.phil-quote{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,3vw,2rem);font-style:italic;
+  line-height:1.5;color:rgba(255,255,255,.85);
+  border-left:3px solid var(--gold);
+  padding-left:32px;margin:48px 0;max-width:700px;
+}
+.phil-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px}
+@media(max-width:768px){.phil-cards{grid-template-columns:1fr}}
+.phil-card{
+  background:#141414;padding:36px 28px;text-align:center;
+}
+.phil-card-icon{
+  font-size:1.8rem;margin-bottom:16px;display:block;
+}
+.phil-card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;margin-bottom:10px;color:#fff;
+}
+.phil-card-body{font-size:.82rem;font-weight:300;color:rgba(255,255,255,.4);line-height:1.6}
+
+/* ─── CONSTRUCCION / SETUP ───────────────────────────── */
+.setup-block{
+  background:linear-gradient(135deg,#0f0f0f,#161208);
+  border:1px solid rgba(201,168,76,.12);
+  padding:60px;margin:56px 0;
+  position:relative;overflow:hidden;
+}
+.setup-block::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold-d),var(--gold),var(--gold-l),var(--gold));
+}
+.setup-badge{
+  display:inline-block;
+  font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
+  color:var(--gold);padding:6px 14px;margin-bottom:24px;
+}
+.setup-price{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,7vw,5rem);font-weight:600;
+  color:var(--gold);line-height:1;margin:16px 0;
+}
+.setup-price-sub{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px}
+.setup-desc{font-size:1rem;font-weight:300;color:rgba(255,255,255,.55);line-height:1.75;max-width:580px;margin-bottom:40px}
+.setup-timeline{
+  display:flex;gap:0;border:1px solid rgba(201,168,76,.1);margin-top:24px;
+}
+@media(max-width:600px){.setup-timeline{flex-direction:column}}
+.timeline-step{flex:1;padding:24px 20px;border-right:1px solid rgba(201,168,76,.1)}
+.timeline-step:last-child{border-right:none}
+.timeline-step-num{font-size:.6rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.timeline-step-title{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.timeline-step-body{font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.5}
+
+/* ─── DELIVERABLES ────────────────────────────────────── */
+.deliverables{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px}
+@media(max-width:600px){.deliverables{grid-template-columns:1fr}}
+.deliv-item{
+  background:#111;padding:28px 28px 24px;
+  display:flex;gap:16px;align-items:flex-start;
+}
+.deliv-check{
+  width:20px;height:20px;border:1px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+  font-size:.6rem;color:var(--gold);
+}
+.deliv-name{font-size:.85rem;font-weight:500;margin-bottom:4px}
+.deliv-desc{font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.5}
+
+/* ─── PAYMENT ────────────────────────────────────────── */
+.payment-split{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px}
+@media(max-width:600px){.payment-split{grid-template-columns:1fr}}
+.payment-card{background:#111;padding:40px 36px;text-align:center}
+.payment-card.highlight{
+  background:linear-gradient(135deg,#161208,#1a1500);
+  border:1px solid rgba(201,168,76,.2);
+}
+.payment-moment{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.payment-pct{
+  font-family:'Playfair Display',serif;
+  font-size:3.5rem;font-weight:600;color:#fff;line-height:1;
+}
+.payment-amount{font-size:.9rem;color:rgba(255,255,255,.4);margin-top:8px;margin-bottom:12px}
+.payment-when{font-size:.78rem;font-weight:300;color:rgba(255,255,255,.35);line-height:1.5}
+
+/* ─── OPERACION RETAINER ─────────────────────────────── */
+.retainer-block{
+  border:1px solid rgba(255,255,255,.06);
+  padding:52px;margin:56px 0;
+  position:relative;
+}
+.retainer-optional{
+  position:absolute;top:-12px;left:40px;
+  font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;
+  background:#0A0A0A;padding:0 12px;
+  color:rgba(255,255,255,.3);
+}
+.retainer-price{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,5vw,3.8rem);font-weight:600;
+  color:rgba(255,255,255,.85);
+}
+.retainer-price span{font-size:1rem;color:rgba(255,255,255,.3);font-weight:300}
+.retainer-note{
+  font-size:.8rem;color:rgba(255,255,255,.3);margin-top:8px;
+  font-style:italic;
+}
+.retainer-includes{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px}
+@media(max-width:600px){.retainer-includes{grid-template-columns:1fr}}
+.ret-item{display:flex;align-items:flex-start;gap:10px}
+.ret-bullet{
+  width:4px;height:4px;background:var(--gold);
+  border-radius:50%;flex-shrink:0;margin-top:7px;
+}
+.ret-text{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.5}
+
+/* ─── ROI ────────────────────────────────────────────── */
+.roi-section{background:#0E0E0E}
+.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px}
+@media(max-width:640px){.roi-grid{grid-template-columns:1fr}}
+.roi-card{background:#111;padding:36px 28px;text-align:center}
+.roi-value{
+  font-family:'Playfair Display',serif;
+  font-size:1.9rem;font-weight:600;color:var(--gold);display:block;margin-bottom:8px;
+}
+.roi-label{font-size:.72rem;font-weight:300;color:rgba(255,255,255,.4);line-height:1.5}
+.roi-math{
+  background:#161208;border:1px solid rgba(201,168,76,.1);
+  padding:40px;margin-top:40px;
+}
+.roi-math-title{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.roi-equation{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,2.5vw,1.4rem);color:rgba(255,255,255,.7);
+  line-height:2;
+}
+.roi-equation strong{color:#fff}
+.roi-equation .highlight{color:var(--gold-l);font-weight:600}
+
+/* ─── POSICIONAMIENTO / CLOSE ────────────────────────── */
+.close-section{
+  text-align:center;padding:120px 28px;
+  position:relative;overflow:hidden;
+}
+.close-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(201,168,76,.05) 0%,transparent 70%);
+}
+.close-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,4vw,3rem);font-weight:400;
+  line-height:1.3;margin-bottom:24px;position:relative;
+}
+.close-title em{font-style:italic;color:var(--gold-l)}
+.close-body{
+  font-size:.95rem;font-weight:300;color:rgba(255,255,255,.45);
+  max-width:540px;margin:0 auto 48px;line-height:1.8;position:relative;
+}
+.close-cta{
+  display:inline-block;
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  border:1px solid rgba(201,168,76,.4);color:var(--gold);
+  padding:14px 36px;transition:all .35s var(--ease);position:relative;
+}
+.close-cta:hover{background:rgba(201,168,76,.08);border-color:var(--gold)}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{
+  padding:32px 28px;border-top:1px solid rgba(255,255,255,.04);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-brand{font-family:'Playfair Display',serif;font-size:.75rem;color:var(--gold);letter-spacing:.2em}
+.footer-note{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.15)}
+
+/* ─── UTILS ──────────────────────────────────────────── */
+.gold{color:var(--gold)}
+.gold-l{color:var(--gold-l)}
+.dim{color:rgba(255,255,255,.4)}
+.mb-0{margin-bottom:0}
+
+/* ─── REVEAL ANIMATIONS ──────────────────────────────── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="bar"></div>
+
+<!-- Custom cursor -->
+<div id="cdot"></div>
+<div id="cring"></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <div>
+    <div class="nav-logo">Consultora DV</div>
+    <div class="nav-sub">Arquitectura Digital</div>
+  </div>
+  <div class="nav-right">
+    Hacienda Benazuza<br>
+    Zapopan, Jalisco · 2026
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span></span>Hacienda Benazuza × Consultora DV<span></span>
+    </div>
+    <h1 class="hero-title">
+      54 hectáreas de infraestructura física.<br>
+      <em>Cero infraestructura digital.</em>
+    </h1>
+    <p class="hero-sub">
+      Esta hacienda ya existe. El producto ya existe. Lo que no existe es la arquitectura digital que le corresponde a un venue de este nivel.
+    </p>
+    <div class="hero-divider">
+      <span></span>
+      <i>Lo construimos</i>
+      <span></span>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <span class="hero-stat-num">$175K</span>
+        <span class="hero-stat-lbl">MXN por evento</span>
+      </div>
+      <div>
+        <span class="hero-stat-num">1,500+</span>
+        <span class="hero-stat-lbl">reseñas sin gestionar</span>
+      </div>
+      <div>
+        <span class="hero-stat-num">0</span>
+        <span class="hero-stat-lbl">sitio web funcional</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ DIAGNOSIS -->
+<section>
+  <div class="container">
+    <p class="section-label reveal">El diagnóstico</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      Cuatro brechas que cuestan<br><em>eventos reales.</em>
+    </h2>
+    <p class="section-body reveal reveal-delay-2">
+      Un venue de esta magnitud que no tiene presencia digital no es humilde — está perdiendo dinero. Cada boda internacional que no puede encontrarte en Google, cada cliente que manda DM y espera días, cada evento perdido por no tener formulario de contacto. Todo eso tiene precio.
+    </p>
+    <div class="divider-line reveal"></div>
+
+    <div class="diag-grid">
+      <div class="diag-card reveal">
+        <div class="diag-num">01</div>
+        <div class="diag-icon">🌐</div>
+        <div class="diag-title">Sin sitio web funcional</div>
+        <div class="diag-body">haciendabenazuza.com no existe. Un cliente internacional que te busca en Google no llega a ningún lado. El primer filtro de confianza está caído.</div>
+        <span class="diag-tag">Pérdida directa de leads</span>
+      </div>
+      <div class="diag-card reveal reveal-delay-1">
+        <div class="diag-num">02</div>
+        <div class="diag-icon">🔒</div>
+        <div class="diag-title">Facebook comprometida</div>
+        <div class="diag-body">La cuenta principal ligada a una ex-administradora. El canal con más historia del negocio está fuera de control. Riesgo latente sin fecha de resolución.</div>
+        <span class="diag-tag">Riesgo de reputación</span>
+      </div>
+      <div class="diag-card reveal reveal-delay-2">
+        <div class="diag-num">03</div>
+        <div class="diag-icon">💬</div>
+        <div class="diag-title">DMs sin protocolo</div>
+        <div class="diag-body">Clientes que preguntan tarifas, disponibilidad y paquetes. Sin sistema de respuesta, sin CRM, sin pipeline. Leads que llegan y se van sin convertir.</div>
+        <span class="diag-tag">Conversión en cero</span>
+      </div>
+      <div class="diag-card reveal reveal-delay-3">
+        <div class="diag-num">04</div>
+        <div class="diag-icon">📸</div>
+        <div class="diag-title">Contenido que no refleja el nivel</div>
+        <div class="diag-body">Una hacienda que cobra $175,000 por evento publicando contenido de Canva. La brecha entre producto y comunicación es visible — y aleja al cliente correcto.</div>
+        <span class="diag-tag">Posicionamiento disminuido</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FILOSOFÍA -->
+<section class="philosophy">
+  <div class="container">
+    <p class="section-label reveal">La perspectiva</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      No vendemos un servicio mensual.<br><em>Construimos infraestructura.</em>
+    </h2>
+
+    <blockquote class="phil-quote reveal reveal-delay-2">
+      "Tienes que mover pallets por una bodega. Necesitas un montacargas. Nosotros construimos el montacargas — y te damos el manual completo para operarlo."
+    </blockquote>
+
+    <p class="section-body reveal">
+      La diferencia es importante. Un servicio mensual te crea dependencia indefinida. Una infraestructura construida correctamente es un activo permanente de tu empresa — como la hacienda misma. Una vez construido, cualquier operador competente puede manejarlo. O lo hacemos nosotros. Es tu decisión.
+    </p>
+
+    <div class="phil-cards">
+      <div class="phil-card reveal">
+        <span class="phil-card-icon">🏗️</span>
+        <div class="phil-card-title">Construcción</div>
+        <div class="phil-card-body">Desarrollamos el sistema completo: web, CRM, contenido, automatizaciones, identidad. Un activo que queda en tu empresa.</div>
+      </div>
+      <div class="phil-card reveal reveal-delay-1">
+        <span class="phil-card-icon">📋</span>
+        <div class="phil-card-title">Manual de operación</div>
+        <div class="phil-card-body">Cada sistema entregado viene con documentación y protocolo. Tu equipo o cualquier profesional puede operarlo.</div>
+      </div>
+      <div class="phil-card reveal reveal-delay-2">
+        <span class="phil-card-icon">🔑</span>
+        <div class="phil-card-title">Tú decides quién opera</div>
+        <div class="phil-card-body">Podemos operarlo nosotros en retainer mensual. O lo hace tu equipo interno. El sistema funciona igual en ambos casos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ SETUP / CONSTRUCCIÓN -->
+<section>
+  <div class="container">
+    <p class="section-label reveal">Fase 1</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      La construcción.<br><em>El activo que queda.</em>
+    </h2>
+    <p class="section-body reveal reveal-delay-2">
+      Todo el sistema digital que Hacienda Benazuza necesita para operar al nivel de su producto. Diseñado, construido y entregado en un tiempo definido.
+    </p>
+
+    <div class="setup-block reveal">
+      <div class="setup-badge">Inversión única de construcción · Todo incluido 360°</div>
+      <div class="setup-price">$500,000</div>
+      <div class="setup-price-sub">MXN · Pago único · Cubre infraestructura + marketing + comunicación + pauta (gestión)</div>
+      <p class="setup-desc">
+        Esta inversión cubre todo: infraestructura tecnológica, identidad de marca, estrategia y producción de contenido, comunicación digital y gestión de pauta. El único costo adicional que no está incluido es el presupuesto directo de anuncios — ese lo define la hacienda según su estrategia.
+      </p>
+
+      <div class="setup-timeline">
+        <div class="timeline-step">
+          <div class="timeline-step-num">Mes 1-2</div>
+          <div class="timeline-step-title">Cimientos</div>
+          <div class="timeline-step-body">Branding, sitio web en producción, recuperación de Facebook, Google Maps optimizado</div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-num">Mes 3-4</div>
+          <div class="timeline-step-title">Sistemas</div>
+          <div class="timeline-step-body">CRM activo, pipeline de leads, sistema de reservas con Stripe, automatizaciones de seguimiento</div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-num">Mes 5</div>
+          <div class="timeline-step-title">Entrega</div>
+          <div class="timeline-step-body">Sistema completo operativo, manual de operación, capacitación al equipo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Entregables -->
+    <p class="section-label reveal" style="margin-top:56px">Lo que se construye</p>
+    <div class="deliverables">
+      <div class="deliv-item reveal">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">Sitio web premium bilingüe</div>
+          <div class="deliv-desc">Español + inglés. Formulario filtro, galería de eventos, calendario de disponibilidad integrado.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal reveal-delay-1">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">Sistema de reservas + Stripe</div>
+          <div class="deliv-desc">Pagos de apartar fecha, solicitudes de cotización con filtro de capacidad y presupuesto.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal reveal-delay-2">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">CRM + pipeline de eventos</div>
+          <div class="deliv-desc">Seguimiento de cada lead: bodas, corporativos, destino. Etapas, notas, historial.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">Identidad visual de marca</div>
+          <div class="deliv-desc">Guía de marca completa, plantillas para redes, lineamientos de fotografía y video.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal reveal-delay-1">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">AI Agents para WhatsApp e Instagram</div>
+          <div class="deliv-desc">Respuestas automatizadas, calificación de leads y primera respuesta en menos de 5 minutos.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal reveal-delay-2">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">Recuperación de Facebook</div>
+          <div class="deliv-desc">Proceso de desvinculación del acceso comprometido y transferencia de administración.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">Google Maps optimizado</div>
+          <div class="deliv-desc">Google Business Profile completo, fotos de alta calidad, categorías, reseñas gestionadas.</div>
+        </div>
+      </div>
+      <div class="deliv-item reveal reveal-delay-1">
+        <div class="deliv-check">✦</div>
+        <div>
+          <div class="deliv-name">Tour virtual 3D</div>
+          <div class="deliv-desc">Recorrido interactivo del salón principal y áreas exteriores para clientes de destino que no pueden visitar en persona.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Options -->
+    <p class="section-label reveal" style="margin-top:56px">Opciones de pago</p>
+    <div class="payment-split">
+      <div class="payment-card highlight reveal">
+        <div class="payment-moment">Pago único · Recomendado</div>
+        <div class="payment-pct" style="font-size:2.6rem">$500,000</div>
+        <div class="payment-amount">MXN · Pago total</div>
+        <div class="payment-when">50% al firmar ($250,000) · 50% al entregar ($250,000). Arranque inmediato en la primera semana.</div>
+      </div>
+      <div class="payment-card reveal reveal-delay-1">
+        <div class="payment-moment">Financiado · 6 meses</div>
+        <div class="payment-pct" style="font-size:2.6rem">$95,000</div>
+        <div class="payment-amount">MXN / mes · Total $570,000</div>
+        <div class="payment-when">Pagos mensuales durante el período de construcción. La diferencia de $70,000 corresponde al costo del plazo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ OPERACIÓN -->
+<section style="background:#0E0E0E">
+  <div class="container">
+    <p class="section-label reveal">Fase 2 — Opcional</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      La operación.<br><em>Si la quieren con nosotros.</em>
+    </h2>
+    <p class="section-body reveal reveal-delay-2">
+      Una vez construido el sistema y entregado el manual de operación, la hacienda puede operarlo internamente o activar cualquiera de los dos retainers con Consultora DV. Son independientes — pueden contratar uno, los dos, o ninguno.
+    </p>
+
+    <!-- Iguala Marketing -->
+    <div class="retainer-block reveal" style="margin-top:48px">
+      <div class="retainer-optional">Iguala A · Marketing y Comunicación</div>
+      <div class="retainer-price">$25,000 <span>MXN / mes</span></div>
+      <div class="retainer-note">Estrategia de contenido, comunicación digital y gestión de pauta · Cancelable con 30 días de aviso</div>
+
+      <div class="retainer-includes">
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Producción mensual de contenido: fotos + reels de eventos reales</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Gestión de redes sociales, publicaciones y comunidad</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Estrategia y copies para campañas de comunicación</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Gestión de pauta (presupuesto de anuncios no incluido — lo define la hacienda)</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Reporte mensual de métricas, alcance y conversión</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Estrategia de posicionamiento para bodas destino internacionales</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mantenimiento Tech -->
+    <div class="retainer-block reveal" style="margin-top:24px">
+      <div class="retainer-optional">Iguala B · Mantenimiento Tecnológico</div>
+      <div class="retainer-price">$45,000 <span>MXN / mes</span></div>
+      <div class="retainer-note">Operación de toda la infraestructura tecnológica construida · Cancelable con 30 días de aviso</div>
+
+      <div class="retainer-includes">
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Mantenimiento y actualizaciones del sitio web</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Operación de automatizaciones y flujos de seguimiento</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Gestión de AI Agents (WhatsApp e Instagram) — respuestas y calibración</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Administración del CRM y pipeline de leads</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Soporte técnico ante cualquier incidencia en los sistemas</div>
+        </div>
+        <div class="ret-item">
+          <div class="ret-bullet"></div>
+          <div class="ret-text">Actualizaciones de Google Business Profile y reseñas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen iguales -->
+    <div style="margin-top:32px;padding:28px 32px;background:#141414;border-left:3px solid rgba(201,168,76,.3);" class="reveal">
+      <p style="font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Resumen de iguales mensuales opcionales</p>
+      <p style="font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.9">
+        Iguala A — Marketing y Comunicación: <strong style="color:#fff">$25,000 MXN/mes</strong><br>
+        Iguala B — Mantenimiento Tecnológico: <strong style="color:#fff">$45,000 MXN/mes</strong><br>
+        Ambas iguales activas: <strong style="color:var(--gold-l)">$70,000 MXN/mes</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ GROWTH PARTNERS -->
+<section>
+  <div class="container">
+    <p class="section-label reveal">Más allá de la implementación</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      No somos proveedores.<br><em>Somos Growth Partners.</em>
+    </h2>
+    <p class="section-body reveal reveal-delay-2">
+      Construir la infraestructura es el punto de partida. Lo que diferencia a Consultora DV es que asumimos un rol activo en el crecimiento del negocio — no solo lo implementamos y nos vamos.
+    </p>
+
+    <div class="divider-line reveal"></div>
+
+    <!-- Partner cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:48px" class="reveal">
+      <div style="background:#111;padding:36px 28px;position:relative;overflow:hidden">
+        <div style="font-size:2.5rem;font-family:'Playfair Display',serif;font-weight:600;color:rgba(201,168,76,.07);position:absolute;top:16px;right:20px;line-height:1">01</div>
+        <div style="font-size:1.4rem;margin-bottom:14px">🧭</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px;color:#fff">Consultoría Estratégica</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6">Analizamos oportunidades de crecimiento, nuevos mercados y decisiones de negocio — no solo ejecutamos lo que se pide.</div>
+      </div>
+      <div style="background:#111;padding:36px 28px;position:relative;overflow:hidden">
+        <div style="font-size:2.5rem;font-family:'Playfair Display',serif;font-weight:600;color:rgba(201,168,76,.07);position:absolute;top:16px;right:20px;line-height:1">02</div>
+        <div style="font-size:1.4rem;margin-bottom:14px">📈</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px;color:#fff">Estrategia de Escalamiento</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6">Hacienda Benazuza tiene potencial para bodas destino internacionales, eventos corporativos masivos y alianzas con luxury travel. Lo activamos juntos.</div>
+      </div>
+      <div style="background:#111;padding:36px 28px;position:relative;overflow:hidden">
+        <div style="font-size:2.5rem;font-family:'Playfair Display',serif;font-weight:600;color:rgba(201,168,76,.07);position:absolute;top:16px;right:20px;line-height:1">03</div>
+        <div style="font-size:1.4rem;margin-bottom:14px">🤝</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px;color:#fff">Accionamos Contigo</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6">Tu éxito es el nuestro. Revisamos métricas, identificamos fricciones y proponemos ajustes — sin esperar a que nos pregunten.</div>
+      </div>
+    </div>
+
+    <!-- Partner quote block -->
+    <div style="margin-top:32px;background:linear-gradient(135deg,#0f0f0f,#161208);border:1px solid rgba(201,168,76,.15);padding:48px;position:relative;overflow:hidden" class="reveal">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-d),var(--gold),transparent)"></div>
+      <p style="font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.5vw,1.4rem);font-style:italic;color:rgba(255,255,255,.8);line-height:1.7;max-width:640px">
+        "Una hacienda de este nivel no necesita un proveedor de servicios digitales. Necesita alguien que entienda el negocio, vea sus ángulos ciegos y ayude a construir el siguiente capítulo."
+      </p>
+      <p style="margin-top:20px;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)">Consultora DV · Growth Partners</p>
+    </div>
+
+    <!-- Lo que implica ser GP -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px" class="reveal">
+      <div style="background:#0f0f0f;border-left:2px solid rgba(201,168,76,.2);padding:28px 32px">
+        <p style="font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Esto incluye</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);margin-top:3px">◆</span><span style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.5">Sesiones periódicas de estrategia — no solo reportes de métricas</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);margin-top:3px">◆</span><span style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.5">Propuestas de nuevas oportunidades de mercado (turismo de lujo, destinos internacionales)</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);margin-top:3px">◆</span><span style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.5">Identificación de fricciones en el proceso de venta y atención</span></div>
+        </div>
+      </div>
+      <div style="background:#0f0f0f;border-left:2px solid rgba(201,168,76,.2);padding:28px 32px">
+        <p style="font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Esto no es</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:rgba(255,255,255,.2);margin-top:3px">✕</span><span style="font-size:.82rem;color:rgba(255,255,255,.3);line-height:1.5">Una agencia que espera instrucciones</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:rgba(255,255,255,.2);margin-top:3px">✕</span><span style="font-size:.82rem;color:rgba(255,255,255,.3);line-height:1.5">Un proveedor más en tu lista de gastos</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:rgba(255,255,255,.2);margin-top:3px">✕</span><span style="font-size:.82rem;color:rgba(255,255,255,.3);line-height:1.5">Alguien que solo reporta lo que ya pasó</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Imagen break -->
+<div style="position:relative;height:50vh;min-height:300px;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:url('img/salon-rojo.jpg');background-size:cover;background-position:center;transform:scale(1.05)"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.7) 0%,rgba(10,10,10,.4) 50%,rgba(10,10,10,.8) 100%)"></div>
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 28px">
+    <div>
+      <p style="font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Hacienda Benazuza</p>
+      <p style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.4rem);color:#fff;font-style:italic">El venue ya es extraordinario.<br>La infraestructura digital lo tiene que comunicar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ ROI -->
+<section class="roi-section">
+  <div class="container">
+    <p class="section-label reveal">El retorno</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      Números que hacen<br><em>obvia la decisión.</em>
+    </h2>
+
+    <div class="roi-grid">
+      <div class="roi-card reveal">
+        <span class="roi-value">$175K</span>
+        <div class="roi-label">Ingreso por evento en promedio.<br>Un solo evento perdido es significativo.</div>
+      </div>
+      <div class="roi-card reveal reveal-delay-1">
+        <span class="roi-value">3</span>
+        <div class="roi-label">Eventos son suficientes para recuperar la inversión completa de construcción.</div>
+      </div>
+      <div class="roi-card reveal reveal-delay-2">
+        <span class="roi-value">∞</span>
+        <div class="roi-label">El activo digital queda. Genera leads para 2027, 2028 y todos los años que siguen.</div>
+      </div>
+    </div>
+
+    <div class="roi-math reveal">
+      <div class="roi-math-title">La matemática es simple</div>
+      <div class="roi-equation">
+        Un cliente internacional que no puede encontrarte en Google <strong>no reserva</strong>.<br>
+        Un lead que manda DM y espera 3 días <strong>se va con otro venue</strong>.<br>
+        Un evento perdido = <strong>$175,000 MXN</strong> que no entran.<br><br>
+        La construcción de este sistema vale <span class="highlight">$500,000</span> — el costo de <strong>3 eventos perdidos</strong>.<br>
+        Hacienda Benazuza tiene agenda hasta 2027. La pregunta es cuántos se están escapando hoy.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ CLOSE -->
+<section class="close-section">
+  <div class="container">
+    <h2 class="close-title reveal">
+      El sistema ya existe en diseño.<br>
+      <em>Falta construirlo aquí.</em>
+    </h2>
+    <p class="close-body reveal reveal-delay-1">
+      No hay presión. Si deciden construirlo con nosotros, arrancamos la primera semana. Si prefieren esperar o ir con alguien más, el diagnóstico y la estrategia que compartimos hoy quedan para que los use quien lo construya.
+    </p>
+    <div class="reveal reveal-delay-2" style="margin-top:16px">
+      <p style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2)">
+        Consultora DV · contacto@dantemvp.com · +52 668 234 3672
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div>
+    <div class="footer-brand">Consultora DV</div>
+  </div>
+  <div class="footer-note">Documento confidencial · Hacienda Benazuza · 2026</div>
+</footer>
+
+<script>
+// Progress bar
+const bar = document.getElementById('bar');
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = p + '%';
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Custom cursor
+const dot = document.getElementById('cdot');
+const ring = document.getElementById('cring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor(){
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
