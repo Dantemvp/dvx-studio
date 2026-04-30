@@ -1202,27 +1202,93 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
     </p>
   </div>
 
-  <!-- YouTube embed placeholder -->
-  <div class="wrap" style="margin-top:52px;max-width:860px">
-    <p class="eyebrow gsap-up" style="text-align:center;margin-bottom:16px">Preview en video</p>
-    <div class="gsap-up" style="position:relative;width:100%;padding-bottom:56.25%;background:rgba(0,0,0,0.5);border:1px solid rgba(212,175,55,0.3);border-radius:8px;overflow:hidden">
-      <!-- REEMPLAZAR src con URL real de YouTube embed -->
-      <iframe
-        id="yt-embed"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
-        src="https://www.youtube.com/embed/VIDEO_ID_AQUI"
-        title="Hacienda Benazuza — Preview"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      <!-- Placeholder visible hasta que se agregue el video real -->
-      <div id="yt-placeholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,8,5,0.85);color:rgba(255,255,255,0.5)">
-        <svg viewBox="0 0 68 48" width="68" height="48" style="opacity:0.4;margin-bottom:16px"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#fff" opacity="0.6"/><path d="M45 24 27 14v20" fill="#000"/></svg>
-        <p style="font-size:0.85rem;letter-spacing:0.06em">Video de la hacienda pr&oacute;ximamente</p>
-        <p style="font-size:0.75rem;opacity:0.5;margin-top:6px">Reemplazar VIDEO_ID_AQUI con el ID real de YouTube</p>
+  <!-- EMBED GALLERY -->
+  <div class="wrap" style="margin-top:64px;max-width:900px">
+    <p class="eyebrow gsap-up" style="text-align:center;margin-bottom:8px">Ejemplos de lo que construimos</p>
+    <p class="gsap-up" style="text-align:center;color:rgba(255,255,255,0.45);font-size:0.85rem;margin-bottom:28px">As&iacute; se ver&iacute;a Hacienda Benazuza con infraestructura digital al nivel de su producto</p>
+
+    <!-- Tabs -->
+    <div class="gsap-up" style="display:flex;gap:0;border:1px solid rgba(212,175,55,0.25);border-radius:6px;overflow:hidden;margin-bottom:0">
+      <button onclick="switchEmbed(0,this)" id="etab-0"
+        style="flex:1;padding:12px 8px;background:rgba(212,175,55,0.12);border:none;color:var(--gold);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-right:1px solid rgba(212,175,55,0.2);font-family:inherit;transition:background 0.2s">
+        ▶ Short<br/><span style="opacity:0.6;font-size:0.68rem">Contenido Vertical</span>
+      </button>
+      <button onclick="switchEmbed(1,this)" id="etab-1"
+        style="flex:1;padding:12px 8px;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-right:1px solid rgba(212,175,55,0.2);font-family:inherit;transition:background 0.2s">
+        ▶ Video Tour<br/><span style="opacity:0.6;font-size:0.68rem">Recorrido Aéreo</span>
+      </button>
+      <button onclick="switchEmbed(2,this)" id="etab-2"
+        style="flex:1;padding:12px 8px;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:background 0.2s">
+        ⬡ 3D Tour<br/><span style="opacity:0.6;font-size:0.68rem">Matterport</span>
+      </button>
+    </div>
+
+    <!-- Embed frames -->
+    <div style="position:relative;border:1px solid rgba(212,175,55,0.25);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;background:#000">
+
+      <!-- Embed 0: YouTube Short (vertical) -->
+      <div id="eframe-0" style="display:block">
+        <div style="display:flex;justify-content:center;background:#000;padding:20px 0">
+          <div style="position:relative;width:340px;max-width:100%;aspect-ratio:9/16">
+            <iframe
+              style="position:absolute;inset:0;width:100%;height:100%;border:0"
+              src="https://www.youtube.com/embed/2BIfG9WOmbo"
+              title="Short — Contenido Vertical"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid rgba(212,175,55,0.15)">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.45)">Formato Shorts / Reels — as&iacute; se produce el contenido vertical que domina Instagram y TikTok para venues de lujo.</p>
+        </div>
       </div>
+
+      <!-- Embed 1: YouTube video (horizontal) -->
+      <div id="eframe-1" style="display:none">
+        <div style="position:relative;width:100%;padding-bottom:56.25%">
+          <iframe
+            style="position:absolute;inset:0;width:100%;height:100%;border:0"
+            src="https://www.youtube.com/embed/XjQ9BANoN5k"
+            title="Video Tour — Recorrido Aéreo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid rgba(212,175,55,0.15)">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.45)">Video tour cinematogr&aacute;fico — el formato que convence a parejas internacionales de cerrar su boda sin volar a Guadalajara.</p>
+        </div>
+      </div>
+
+      <!-- Embed 2: Matterport 3D -->
+      <div id="eframe-2" style="display:none">
+        <div style="position:relative;width:100%;padding-bottom:62%">
+          <iframe
+            style="position:absolute;inset:0;width:100%;height:100%;border:0"
+            src="https://my.matterport.com/show/?m=sCZk1SCkM2a"
+            title="Recorrido 3D — Matterport"
+            allow="xr-spatial-tracking; gyroscope; accelerometer"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid rgba(212,175,55,0.15)">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.45)">Recorrido Matterport &mdash; tecnolog&iacute;a 3D interactiva. El cliente explora cada cent&iacute;metro de la hacienda desde cualquier parte del mundo. Esto elimina la visita presencial para cerrar una boda destino.</p>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <script>
+  function switchEmbed(idx, btn) {
+    [0,1,2].forEach(i => {
+      document.getElementById('eframe-'+i).style.display = i===idx ? 'block' : 'none';
+      var t = document.getElementById('etab-'+i);
+      t.style.background = i===idx ? 'rgba(212,175,55,0.12)' : 'transparent';
+      t.style.color = i===idx ? 'var(--gold)' : 'rgba(255,255,255,0.5)';
+    });
+  }
+  </script>
 </section>
 
 <!-- IMAGE BREAK 2 -->
