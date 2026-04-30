@@ -1207,23 +1207,39 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
     <p class="eyebrow gsap-up" style="text-align:center;margin-bottom:8px">Ejemplos de lo que construimos</p>
     <p class="gsap-up" style="text-align:center;color:rgba(255,255,255,0.45);font-size:0.85rem;margin-bottom:28px">As&iacute; se ver&iacute;a Hacienda Benazuza con infraestructura digital al nivel de su producto</p>
 
-    <!-- Tabs -->
+    <!-- Tabs — Matterport primero -->
     <div class="gsap-up" style="display:flex;gap:0;border:1px solid rgba(212,175,55,0.25);border-radius:6px;overflow:hidden;margin-bottom:0">
       <button onclick="switchEmbed(0,this)" id="etab-0"
-        style="flex:1;padding:14px 8px;background:rgba(212,175,55,0.12);border:none;color:var(--gold);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-right:1px solid rgba(212,175,55,0.2);font-family:inherit;transition:background 0.2s">
-        ▶ Short<br/><span style="opacity:0.6;font-size:0.68rem">Contenido Vertical</span>
+        style="flex:1;padding:14px 8px;background:rgba(212,175,55,0.12);border:none;color:var(--gold);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-right:1px solid rgba(212,175,55,0.2);font-family:inherit;transition:all 0.2s">
+        ⬡ 3D Tour<br/><span style="opacity:0.6;font-size:0.68rem">Matterport</span>
       </button>
       <button onclick="switchEmbed(1,this)" id="etab-1"
-        style="flex:1;padding:14px 8px;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:background 0.2s">
-        ⬡ 3D Tour<br/><span style="opacity:0.6;font-size:0.68rem">Matterport</span>
+        style="flex:1;padding:14px 8px;background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all 0.2s">
+        ▶ Short<br/><span style="opacity:0.6;font-size:0.68rem">Contenido Vertical</span>
       </button>
     </div>
 
     <!-- Embed frames -->
-    <div style="border:1px solid rgba(212,175,55,0.25);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;background:#000">
+    <div id="embed-gallery-frames" style="border:1px solid rgba(212,175,55,0.25);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;background:#000">
 
-      <!-- Embed 0: YouTube Short (vertical) -->
+      <!-- Embed 0: Matterport 3D (primero) -->
       <div id="eframe-0" style="display:block">
+        <div style="position:relative;width:100%;padding-bottom:62%">
+          <iframe
+            style="position:absolute;inset:0;width:100%;height:100%;border:0"
+            src="https://my.matterport.com/show/?m=sCZk1SCkM2a"
+            title="Recorrido 3D — Matterport"
+            allow="xr-spatial-tracking; gyroscope; accelerometer"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid rgba(212,175,55,0.15)">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.45)">Recorrido Matterport &mdash; tecnolog&iacute;a 3D interactiva. El cliente explora cada cent&iacute;metro de la hacienda desde cualquier parte del mundo. Elimina la visita presencial para cerrar una boda destino.</p>
+        </div>
+      </div>
+
+      <!-- Embed 1: YouTube Short (vertical) -->
+      <div id="eframe-1" style="display:none">
         <div style="display:flex;justify-content:center;background:#000;padding:20px 0">
           <div style="position:relative;width:340px;max-width:90%;aspect-ratio:9/16">
             <iframe
@@ -1240,27 +1256,11 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
         </div>
       </div>
 
-      <!-- Embed 1: Matterport 3D -->
-      <div id="eframe-1" style="display:none">
-        <div style="position:relative;width:100%;padding-bottom:62%">
-          <iframe
-            style="position:absolute;inset:0;width:100%;height:100%;border:0"
-            src="https://my.matterport.com/show/?m=sCZk1SCkM2a"
-            title="Recorrido 3D — Matterport"
-            allow="xr-spatial-tracking; gyroscope; accelerometer"
-            allowfullscreen>
-          </iframe>
-        </div>
-        <div style="padding:14px 20px;border-top:1px solid rgba(212,175,55,0.15)">
-          <p style="font-size:0.78rem;color:rgba(255,255,255,0.45)">Recorrido Matterport &mdash; tecnolog&iacute;a 3D interactiva. El cliente explora cada cent&iacute;metro de la hacienda desde cualquier parte del mundo. Elimina la visita presencial para cerrar una boda destino.</p>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <script>
-  function switchEmbed(idx, btn) {
+  function switchEmbed(idx) {
     [0,1].forEach(i => {
       document.getElementById('eframe-'+i).style.display = i===idx ? 'block' : 'none';
       var t = document.getElementById('etab-'+i);
@@ -1268,7 +1268,62 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
       t.style.color = i===idx ? 'var(--gold)' : 'rgba(255,255,255,0.5)';
     });
   }
+
+  /* Notificación chat al llegar a la galería de embeds */
+  (function(){
+    var fired = false;
+    var target = document.getElementById('embed-gallery-frames');
+    if(!target) return;
+    var obs = new IntersectionObserver(function(entries){
+      if(fired) return;
+      if(entries[0].isIntersecting){
+        fired = true;
+        obs.disconnect();
+        setTimeout(function(){
+          /* Burbuja de notificación sobre el botón del chat */
+          var btn = document.getElementById('ai-chat-btn');
+          if(!btn) return;
+          /* Badge con número */
+          var badge = document.createElement('div');
+          badge.id = 'chat-notif-badge';
+          badge.textContent = '1';
+          badge.style.cssText = 'position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red,#c0392b);color:#fff;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;animation:badge-pop 0.4s cubic-bezier(.175,.885,.32,1.275) both;z-index:10;pointer-events:none';
+          btn.style.position = 'relative';
+          btn.appendChild(badge);
+          /* Burbuja de mensaje flotante */
+          var bubble = document.createElement('div');
+          bubble.id = 'chat-notif-bubble';
+          bubble.innerHTML = '<strong style="color:var(--gold)">Asistente Benazuza</strong><br/>¿Te gustaría ver cómo quedaría este recorrido con la hacienda real? 🏛️';
+          bubble.style.cssText = 'position:fixed;bottom:90px;right:24px;background:#1a1610;border:1px solid rgba(212,175,55,0.4);border-radius:12px 12px 2px 12px;padding:14px 18px;max-width:260px;font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.5;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9998;animation:bubble-in 0.4s cubic-bezier(.175,.885,.32,1.275) both;cursor:pointer';
+          bubble.onclick = function(){ bubble.remove(); toggleChat(); };
+          document.body.appendChild(bubble);
+          /* Auto-dismiss a los 8 seg si no lo tocó */
+          setTimeout(function(){
+            if(document.getElementById('chat-notif-bubble'))
+              bubble.style.animation = 'bubble-out 0.3s ease forwards';
+            setTimeout(function(){ bubble.remove(); }, 300);
+          }, 8000);
+        }, 800);
+      }
+    }, { threshold: 0.3 });
+    obs.observe(target);
+  })();
   </script>
+
+  <style>
+  @keyframes badge-pop {
+    0%   { transform:scale(0); opacity:0 }
+    100% { transform:scale(1); opacity:1 }
+  }
+  @keyframes bubble-in {
+    0%   { transform:translateY(20px) scale(0.9); opacity:0 }
+    100% { transform:translateY(0)    scale(1);   opacity:1 }
+  }
+  @keyframes bubble-out {
+    0%   { transform:translateY(0)    scale(1);   opacity:1 }
+    100% { transform:translateY(10px) scale(0.9); opacity:0 }
+  }
+  </style>
 </section>
 
 <!-- IMAGE BREAK 2 -->
