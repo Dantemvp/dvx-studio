@@ -661,7 +661,7 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 
 /* ─── AI CHAT WIDGET ──────────────────────────────────── */
 #ai-chat-btn{
-  position:fixed;bottom:28px;right:28px;z-index:9990;
+  position:fixed;bottom:28px;right:20px;z-index:9990;
   width:58px;height:58px;border-radius:50%;
   background:linear-gradient(135deg,var(--gold-d),var(--gold));
   display:flex;align-items:center;justify-content:center;
@@ -671,6 +671,10 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 }
 #ai-chat-btn:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(201,168,76,.55)}
 #ai-chat-btn svg{width:26px;height:26px;fill:#0A0A0A}
+@media(max-width:600px){
+  #ai-chat-btn{bottom:20px;right:16px;width:52px;height:52px}
+  #ai-chat-btn svg{width:22px;height:22px}
+}
 .chat-ping{
   position:absolute;top:2px;right:2px;width:14px;height:14px;
   border-radius:50%;background:var(--green);
@@ -686,8 +690,8 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 }
 
 #ai-chat-window{
-  position:fixed;bottom:100px;right:28px;z-index:9989;
-  width:340px;max-width:calc(100vw - 48px);
+  position:fixed;bottom:100px;right:20px;z-index:9989;
+  width:340px;max-width:calc(100vw - 40px);
   background:#111;
   border:1px solid rgba(201,168,76,.18);
   box-shadow:0 16px 64px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.04);
@@ -699,6 +703,17 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
 }
 #ai-chat-window.open{
   transform:translateY(0) scale(1);opacity:1;pointer-events:auto;
+}
+@media(max-width:600px){
+  #ai-chat-window{
+    right:0;left:0;bottom:0;
+    width:100%;max-width:100%;
+    border-radius:16px 16px 0 0;
+    border-left:none;border-right:none;border-bottom:none;
+    max-height:75vh;
+    transform:translateY(100%);
+  }
+  #ai-chat-window.open{transform:translateY(0)}
 }
 
 .chat-header{
@@ -1290,11 +1305,17 @@ footer p{font-size:.47rem;color:rgba(255,255,255,.14);letter-spacing:.1em}
           badge.style.cssText = 'position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red,#c0392b);color:#fff;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;animation:badge-pop 0.4s cubic-bezier(.175,.885,.32,1.275) both;z-index:10;pointer-events:none';
           btn.style.position = 'relative';
           btn.appendChild(badge);
-          /* Burbuja de mensaje flotante */
+          /* Burbuja de mensaje flotante — responsive */
+          var isMobile = window.innerWidth <= 600;
           var bubble = document.createElement('div');
           bubble.id = 'chat-notif-bubble';
           bubble.innerHTML = '<strong style="color:var(--gold)">Asistente Benazuza</strong><br/>¿Te gustaría ver cómo quedaría este recorrido con la hacienda real? 🏛️';
-          bubble.style.cssText = 'position:fixed;bottom:90px;right:24px;background:#1a1610;border:1px solid rgba(212,175,55,0.4);border-radius:12px 12px 2px 12px;padding:14px 18px;max-width:260px;font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.5;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9998;animation:bubble-in 0.4s cubic-bezier(.175,.885,.32,1.275) both;cursor:pointer';
+          var bubbleBase = 'position:fixed;background:#1a1610;border:1px solid rgba(212,175,55,0.4);padding:14px 18px;font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.5;box-shadow:0 8px 32px rgba(0,0,0,0.6);z-index:9998;animation:bubble-in 0.4s cubic-bezier(.175,.885,.32,1.275) both;cursor:pointer;';
+          if(isMobile){
+            bubble.style.cssText = bubbleBase + 'bottom:84px;left:12px;right:12px;max-width:calc(100vw - 24px);border-radius:12px;text-align:left;';
+          } else {
+            bubble.style.cssText = bubbleBase + 'bottom:98px;right:20px;max-width:260px;border-radius:12px 12px 2px 12px;';
+          }
           bubble.onclick = function(){ bubble.remove(); toggleChat(); };
           document.body.appendChild(bubble);
           /* Auto-dismiss a los 8 seg si no lo tocó */
